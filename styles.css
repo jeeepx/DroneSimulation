@@ -1,6 +1,9 @@
-canvas{
+/* canvas{
     border:2px solid black;
-}
+} */
 body{
     margin:0;
+}
+.stick-container {
+align-items: center;
 }
