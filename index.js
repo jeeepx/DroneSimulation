@@ -11,7 +11,7 @@ var c1 = canvas1.getContext('2d');
 const navBar = document.getElementById('navbar');
 var nav = navBar.getBoundingClientRect()
 var navBarHeight = nav.height;
-canvas3.width = window.innerWidth*0.5;
+canvas3.width = window.innerWidth * 0.5;
 canvas3.height = window.innerHeight - navBarHeight;
 canvas2.width = window.innerWidth * 0.5;
 canvas2.height = window.innerHeight - navBarHeight;
@@ -30,7 +30,7 @@ if (window.innerWidth < 768) {
 //resizing canvas associated function
 function reposition() {
     infoArray = calculateOrigin(); //finding center
-    c.clearRect(0, 0, canvas2.width,  canvas2.height);
+    c.clearRect(0, 0, canvas2.width, canvas2.height);
     //draw box and lines
     drawStatic();
     let postionArray = calculateBodyPosition();
@@ -84,8 +84,8 @@ function repositionJoy() {
 }
 
 window.addEventListener('resize', function () {
-        canvas3.width = window.innerWidth * 0.5;
-            canvas3.height = window.innerHeight - navBarHeight;
+    canvas3.width = window.innerWidth * 0.5;
+    canvas3.height = window.innerHeight - navBarHeight;
     canvas2.width = window.innerWidth * 0.5;
     canvas2.height = window.innerHeight - navBarHeight;
     canvas1.width = window.innerWidth * 0.5;
@@ -126,6 +126,7 @@ canvas3.addEventListener('mouseup', function (event) {
 });
 
 canvas3.addEventListener('touchstart', function (event) {
+    touched = true;
     joyLeft.startDrawing(event);
     joyRight.startDrawing(event);
     //console.log('listend down');
@@ -139,6 +140,7 @@ canvas3.addEventListener('touchmove', function (event) {
 canvas3.addEventListener('touchend', function (event) {
     joyLeft.stopDrawing(event);
     joyRight.stopDrawing(event);
+    touched=false;
     //console.log('listend');
 });
 
@@ -292,18 +294,18 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
 
     }
     this.calculateCanvasPosition = function (event) {
-        if (touched){
+        if (touched) {
             this.clickedX = event.touches[0].clientX;
-        console.log('x1: fixed if tou remove cal' + this.clickedX);
+            console.log('x1: fixed if tou remove cal' + this.clickedX);
 
-        this.clickedY = event.touches[0].clientY;
-        console.log('y1: fixed if tou' + this.clickedY);
-        }else{
+            this.clickedY = event.touches[0].clientY;
+            console.log('y1: fixed if tou' + this.clickedY);
+        } else {
             this.clickedX = event.clientX;
-        //console.log('x1: fixed if mouse' + this.clickedX);
+            //console.log('x1: fixed if mouse' + this.clickedX);
 
-        this.clickedY = event.clientY;
-        //console.log('y1: fixed if mouse' + this.clickedY);
+            this.clickedY = event.clientY;
+            //console.log('y1: fixed if mouse' + this.clickedY);
         }
         const rect = canvas2.getBoundingClientRect()
         this.newCirX = this.clickedX - rect.left;

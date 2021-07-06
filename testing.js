@@ -137,6 +137,7 @@ canvas3.addEventListener('touchmove', function (event) {
 canvas3.addEventListener('touchend', function (event) {
     joyLeft.stopDrawing(event);
     joyRight.stopDrawing(event);
+    
     //console.log('listend');
 });
 
