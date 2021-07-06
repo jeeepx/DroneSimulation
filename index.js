@@ -288,10 +288,10 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
     }
     this.calculateCanvasPosition = function (event) {
         this.clickedX = event.clientX||event.touches[0].clientX;
-        console.log('x1:' + this.clickedX);
+        console.log('x1: fixed' + this.clickedX);
 
         this.clickedY = event.clientY||event.touches[0].clientY;
-        console.log('y1:' + this.clickedY);
+        console.log('y1: fixed' + this.clickedY);
         const rect = canvas2.getBoundingClientRect()
         this.newCirX = this.clickedX - rect.left;
         this.newCirY = this.clickedY - rect.top;
