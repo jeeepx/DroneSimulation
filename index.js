@@ -116,9 +116,15 @@ canvas2.addEventListener('mouseup', function (event) {
 
 canvas2.addEventListener('touchstart', function (event) {
     touched = true;
-    joyLeft.startDrawing(event);
-    joyRight.startDrawing(event);
-    console.log('listend touchstart');
+    if(event.touches.length>1){
+        console.log('two fingers touch start');
+    }
+    else{
+        joyLeft.startDrawing(event);
+        joyRight.startDrawing(event);
+        console.log('one finger touchstart'); 
+    }
+    
 });
 canvas2.addEventListener('touchmove', function (event) {
 
