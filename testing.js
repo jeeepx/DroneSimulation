@@ -82,12 +82,16 @@ function repositionJoy() {
 }
 
 window.addEventListener('resize', function () {
+        canvas3.width = window.innerWidth * 0.5;
+            canvas3.height = window.innerHeight - navBarHeight;
     canvas2.width = window.innerWidth * 0.5;
     canvas2.height = window.innerHeight - navBarHeight;
     canvas1.width = window.innerWidth * 0.5;
     canvas1.height = window.innerHeight - navBarHeight;
     //console.log(window.innerWidth);
     if (window.innerWidth < 768) {
+        canvas3.width = window.innerWidth;
+        canvas3.height = window.innerHeight * 0.5;
         canvas2.width = window.innerWidth;
         canvas2.height = window.innerHeight * 0.5;
         canvas1.width = window.innerWidth;
@@ -99,8 +103,8 @@ window.addEventListener('resize', function () {
 
 
 var infoArray = calculateOrigin()
-var joyLeft = new JoyStick(0.375 * infoArray[0], 0.9 * infoArray[1], 5 * infoArray[2], true);
-var joyRight = new JoyStick(0.625 * infoArray[0], 0.9 * infoArray[1], 5 * infoArray[2], false);
+var joyLeft = new JoyStick(0.375 * infoArray[0], 0.85 * infoArray[1], 5 * infoArray[2], true);
+var joyRight = new JoyStick(0.625 * infoArray[0], 0.85 * infoArray[1], 5 * infoArray[2], false);
 
 canvas3.addEventListener('mousedown', function (event) {
     joyLeft.startDrawing(event);
@@ -277,7 +281,6 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
             c3.clearRect(canvas2.width * 0.5, 0, canvas2.width, canvas2.height);
         }
         // console.log('clear');
-        //this.calculateCanvasPosition(event);
         // console.log(this.isInBigCircle());
 
         this.drawOuterCircle();

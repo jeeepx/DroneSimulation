@@ -1,69 +1,153 @@
-temp.js
-var canvas2 = document.getElementById('canvas2');
+const canvas2 = document.getElementById('canvas2');
 var c = canvas2.getContext('2d');
 
-var joyLCanvas = document.getElementById('joyL');
-var jL = canvas2.getContext('2d');
-//sizing canvas
-canvas2.width = window.innerWidth * 0.5;
-canvas2.height = window.innerHeight*0.5;
-joyLCanvas.width = window.innerWidth * 0.25;
-joyLCanvas.height = window.innerHeight*0.5;
+const canvas1 = document.getElementById('canvas1');
+var c1 = canvas1.getContext('2d');
 
-if (window.innerWidth < 991) {
+//sizing canvas
+const navBar = document.getElementById('navbar');
+var nav = navBar.getBoundingClientRect()
+var navBarHeight = nav.height;
+canvas2.width = window.innerWidth * 0.5;
+canvas2.height = window.innerHeight - navBarHeight;
+canvas1.width = window.innerWidth * 0.5;
+canvas1.height = window.innerHeight - navBarHeight;
+
+if (window.innerWidth < 768) {
     canvas2.width = window.innerWidth;
-    canvas2.height = 0.25 * window.innerHeight;
+    canvas2.height = window.innerHeight * 0.5;
+    canvas1.width = window.innerWidth;
+    canvas1.height = window.innerHeight * 0.5;
+}
+
+//resizing canvas associated function
+function reposition() {
+    infoArray = calculateOrigin(); //finding center
+    c.clearRect(0, 0, canvas2.width, 0.9 * infoArray[1] - 5 * infoArray[2] - 1);
+    //draw box and lines
+    drawStatic();
+    let postionArray = calculateBodyPosition();
+    let x1 = postionArray[2];
+    let y1 = postionArray[3];
+    let side = postionArray[4]; //drawing propellers start
+    c.save();
+    c.translate(x1, y1);
+    c.rotate(angle1);
+    drawingPropeller(); //actually draw propeller
+    c.restore();
+
+    c.save();
+    c.translate(x1 + side, y1 + side);
+    c.rotate(angle4);
+    drawingPropeller();
+    c.restore();
+
+
+    c.save();
+    c.translate(x1 + side, y1);
+    c.rotate(angle2);
+    drawingPropeller();
+    c.restore();
+
+    c.save();
+    c.translate(x1, y1 + side);
+    c.rotate(angle3);
+    drawingPropeller();
+    c.restore();
 }
 
 
-//resizing canvas
+
+function repositionJoy() {
+    //console.log('reposition!!!!!! JOY');
+    infoArray = calculateOrigin();
+    joyLeft.centerXJ = 0.375 * infoArray[0];
+    console.log(joyLeft.centerXJ);
+    joyLeft.centerYJ = 0.925 * infoArray[1];
+    joyRight.centerXJ = 0.625 * infoArray[0];
+    joyRight.centerYJ = 0.925 * infoArray[1];
+    joyLeft.radiusJ = 5 * infoArray[2];
+    joyRight.radiusJ = 5 * infoArray[2];
+
+    c.clearRect(0, 0.9 * infoArray[1] - 5 * infoArray[2], canvas2.width, canvas2.height);
+    joyLeft.drawOuterCircle();
+    joyLeft.drawInnerCircle(0.375 * infoArray[0], 0.925 * infoArray[1]);
+    joyRight.drawOuterCircle();
+    joyRight.drawInnerCircle(0.625 * infoArray[0], 0.925 * infoArray[1]);
+}
 
 window.addEventListener('resize', function () {
-
     canvas2.width = window.innerWidth * 0.5;
-    canvas2.height = window.innerHeight * 0.5;
-    //canvas2.width = window.innerWidth*0.5;
-    //canvas2.height = window.innerHeight*0.5;
+    canvas2.height = window.innerHeight - navBarHeight;
+    canvas1.width = window.innerWidth * 0.5;
+    canvas1.height = window.innerHeight - navBarHeight;
     //console.log(window.innerWidth);
-
-    // if (window.innerWidth < 991) {
-    //     canvas2.width = window.innerWidth;
-    //     canvas2.height = 0.5 * window.innerHeight;
-    //     //canvas2.width = window.innerWidth;
-    //     //canvas2.height = 0.5*window.innerHeight;
-    // }
+    if (window.innerWidth < 768) {
+        canvas2.width = window.innerWidth;
+        canvas2.height = window.innerHeight * 0.5;
+        canvas1.width = window.innerWidth;
+        canvas1.height = window.innerHeight * 0.5;
+    }
+    repositionJoy();
     reposition();
 });
-var infoArray = calculateOrigin()
-var joyLeft = new JoyStick(0.375 * infoArray[0], 0.85 * infoArray[1], 5 * infoArray[2], true);
-var joyRight = new JoyStick(0.625 * infoArray[0], 0.85 * infoArray[1], 5 * infoArray[2], false);
 
-joyLCanvas.addEventListener('mousedown', function (event) {
-    //console.log('listend');
+
+var infoArray = calculateOrigin()
+var joyLeft = new JoyStick(0.375 * infoArray[0], 0.925 * infoArray[1], 5.5 * infoArray[2], true);
+var joyRight = new JoyStick(0.625 * infoArray[0], 0.925 * infoArray[1], 5.5 * infoArray[2], false);
+
+canvas2.addEventListener('mousedown', function (event) {
     joyLeft.startDrawing(event);
     joyRight.startDrawing(event);
-    console.log('listend down');
+    //console.log('listend down');
 });
-joyLCanvas.addEventListener('mousemove', function (event) {
-    //console.log('listend');
-    if(pressedL){
-        joyLeft.dragDraw(event);
-    }else {
-        joyRight.dragDraw(event);
-    }
-    
-    console.log('listend drag');
+canvas2.addEventListener('mousemove', function (event) {
+
+    joyLeft.dragDraw(event);
+    joyRight.dragDraw(event);
+    //console.log('listend drag');
 });
-joyLCanvas.addEventListener('mouseup', function (event) {
-    //console.log('listend');
+canvas2.addEventListener('mouseup', function (event) {
     joyLeft.stopDrawing(event);
     joyRight.stopDrawing(event);
     //console.log('listend');
-
 });
 
+canvas2.addEventListener('touchstart', function (event) {
+    touched = true;
+    if(event.touches.length>1){
+        console.log('two fingers touch start');
+    }
+    else{
+        joyLeft.startDrawing(event);
+        joyRight.startDrawing(event);
+        console.log('one finger touchstart'); 
+    }
+    
+});
+canvas2.addEventListener('touchmove', function (event) {
+
+    joyLeft.dragDraw(event);
+    joyRight.dragDraw(event);
+    console.log('listend touchmove');
+});
+canvas2.addEventListener('touchend', function (event) {
+    joyLeft.stopDrawing(event);
+    joyRight.stopDrawing(event);
+    touched=false;
+
+    console.log('listen touchend fixed');
+});
+// canvas2.addEventListener('touchcancel', function (event) {
+//     touched = false;
+//     joyLeft.stopDrawing(event);
+//     joyRight.stopDrawing(event);
+//     console.log('listend touch cancel');
+// });
+
 var inited = false;
-var initialSpeed = 0.045;
+var initialSpeed = 0.1;
 var angle1 = 0.005;
 var angle2 = 0.005;
 var angle3 = 0.005;
@@ -72,13 +156,10 @@ var speedControl1 = initialSpeed;
 var speedControl4 = initialSpeed;
 var speedControl2 = initialSpeed;
 var speedControl3 = initialSpeed;
-var infoArray = [];
+var touched = false;
 var pressedL = false;
 var pressedR = false;
 init();
-function isInWhichCircle(){
-
-}
 
 function JoyStick(centerXJ, centerYJ, radiusJ, left) {
     this.centerXJ = centerXJ;
@@ -91,70 +172,76 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
     this.newCirY;
     this.left = left;
     this.direction;
-
-
+    this.oldDirection = '';
+    this.ascending = 'false';
+    this.descending = 'false';
 
     this.drawOuterCircle = function () {
 
-        jL.beginPath();
-        jL.arc(this.centerXJ, this.centerYJ, this.radiusJ, 0, Math.PI * 2, false);
-        jL.fillStyle = 'black';
-        jL.fill();
-        //console.log('drew Outer Circle');
+        c.beginPath();
+        c.arc(this.centerXJ, this.centerYJ, this.radiusJ, 0, Math.PI * 2, false);
+        let gradient = c.createRadialGradient(this.centerXJ, this.centerYJ, this.radiusJ * 0.45, this.centerXJ, this.centerYJ, this.radiusJ);
+        gradient.addColorStop(0, '#696969');
+        gradient.addColorStop(1, '#404040');
+        c.fillStyle = '#696969';
+        c.fill();
+        //console.log('drew Outer Circle Joy');
 
     }
 
     this.drawInnerCircle = function (x, y) {
 
-        jL.beginPath();
-        jL.arc(x, y, this.radiusJ * 0.5, 0, Math.PI * 2, false);
-        jL.fillStyle = 'lightpink';
-        jL.fill();
-        //console.log('drew Inner Circle');
+        c.beginPath();
+        c.arc(x, y, this.radiusJ * 0.45, 0, Math.PI * 2, false);
+        let gradient = c.createRadialGradient(this.centerXJ, this.centerYJ, this.radiusJ * 0.15, this.centerXJ, this.centerYJ, this.radiusJ * 0.45);
+        gradient.addColorStop(0, '#E8E6E1');
+        gradient.addColorStop(1, '#A39E93');
+        c.fillStyle = gradient;
+        c.fill();
+        console.log('drew Inner Circle Joy');
     }
 
     this.startDrawing = function (event) {
-
+        this.pressed = true;
         this.calculateCanvasPosition(event);
         if (this.isInBigCircle()) {
             if (this.left === true) {
-                jL.clearRect(0, canvas2.height * 0.6 + 100, canvas2.width * 0.5, canvas2.height);
+                c.clearRect(0, 0.9 * infoArray[1] - 5 * infoArray[2], canvas2.width * 0.5, canvas2.height);
             } else {
-                jL.clearRect(canvas2.width * 0.5, canvas2.height * 0.6 + 100, canvas2.width, canvas2.height);
+                c.clearRect(canvas2.width * 0.5, 0.9 * infoArray[1] - 5 * infoArray[2], canvas2.width, canvas2.height);
             }
 
-            console.log('clear');
-            console.log('x:' + this.newCirX);
-            console.log('y:' + this.newCirY);
+            //console.log('clear');
+            //console.log('x:' + this.newCirX);
+            //console.log('y:' + this.newCirY);
 
             this.drawOuterCircle();
             this.drawInnerCircle(this.newCirX, this.newCirY);
         } else {
             console.log('not in ');
         }
-        if (this.left){
+        if (this.left) {
             pressedL = true;
             pressR = false;
-        }
-        else {
+        } else {
             pressedR = true;
-            pressedL =false;
+            pressedL = false;
         }
 
     }
 
     this.dragDraw = function (event) {
-        if (pressedL||pressedR) {
+        if (this.pressed == true) {
             this.calculateCanvasPosition(event);
             if (this.isInBigCircle()) {
                 if (this.left === true) {
-                    c.clearRect(0, canvas2.height * 0.6 + 100, canvas2.width * 0.5, canvas2.height);
+                    c.clearRect(0, 0.9 * infoArray[1] - 5 * infoArray[2], canvas2.width * 0.5, canvas2.height);
                 } else {
-                    c.clearRect(canvas2.width * 0.5, canvas2.height * 0.6 + 100, canvas2.width, canvas2.height);
+                    c.clearRect(canvas2.width * 0.5, 0.9 * infoArray[1] - 5 * infoArray[2], canvas2.width, canvas2.height);
                 }
-                console.log('clear drag');
-                console.log('x:' + this.newCirX);
-                console.log('y:' + this.newCirY);
+                // console.log('clear drag');
+                // console.log('x:' + this.newCirX);
+                // console.log('y:' + this.newCirY);
                 this.drawOuterCircle();
                 this.drawInnerCircle(this.newCirX, this.newCirY);
                 var angle = this.calculateAngle(event);
@@ -162,13 +249,15 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
                 this.direction = this.getDirection(angle);
                 if (this.left === true) {
                     this.changeSpeedL(this.direction);
-                }
-            } else {
-                console.log('not in drag');
-                if (this.left === true) {
-                    c.clearRect(0, canvas2.height * 0.6 + 100, canvas2.width * 0.5, canvas2.height);
                 } else {
-                    c.clearRect(canvas2.width * 0.5, canvas2.height * 0.6 + 100, canvas2.width, canvas2.height);
+                    this.changeSpeedR(this.direction);
+                }
+            } else if (this.isInBiggerCircle()) {
+                console.log('bigger circle');
+                if (this.left === true) {
+                    c.clearRect(0, 0.9 * infoArray[1] - 5 * infoArray[2], canvas2.width * 0.5, canvas2.height);
+                } else {
+                    c.clearRect(canvas2.width * 0.5, 0.9 * infoArray[1] - 5 * infoArray[2], canvas2.width, canvas2.height);
                 }
                 var angle = this.calculateAngle(event);
                 this.calculateCoordinate(angle);
@@ -177,27 +266,29 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
                 this.direction = this.getDirection(angle);
                 if (this.left === true) {
                     this.changeSpeedL(this.direction);
+                } else {
+                    this.changeSpeedR(this.direction);
                 }
 
 
+            } else {
+                return;
             }
         }
     }
 
 
     this.stopDrawing = function (event) {
-        pressedL=false;
-        pressedR=false;
+
+        this.pressed = false;
         if (this.left === true) {
-            jL.clearRect(0, joyLCanvas.height * 0.6 + 100, joyLCanvas.width * 0.5, joyLCanvas.height);
+            c.clearRect(0, 0.9 * infoArray[1] - 5 * infoArray[2], canvas2.width * 0.5, canvas2.height);
         } else {
-            jL.clearRect(joyLCanvas.width * 0.5, joyLCanvas.height * 0.6 + 100, joyLCanvas.width, canvas2.height);
+            c.clearRect(canvas2.width * 0.5, 0.9 * infoArray[1] - 5 * infoArray[2], canvas2.width, canvas2.height);
         }
-        console.log('clear');
-        this.calculateCanvasPosition(event);
-        console.log(this.isInBigCircle());
-
-
+        // console.log('clear');
+        //this.calculateCanvasPosition(event);
+        // console.log(this.isInBigCircle());
 
         this.drawOuterCircle();
         this.drawInnerCircle(this.centerXJ, this.centerYJ);
@@ -206,11 +297,20 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
 
     }
     this.calculateCanvasPosition = function (event) {
-        this.clickedX = event.clientX;
-        console.log('x1:' + this.clickedX);
+        if (touched){
+            this.clickedX = event.touches[0].clientX;
+        console.log('x1: fixed if tou remove cal' + this.clickedX);
+
+        this.clickedY = event.touches[0].clientY;
+        console.log('y1: fixed if tou' + this.clickedY);
+        }else{
+            this.clickedX = event.clientX;
+        console.log('x1: fixed if mouse' + this.clickedX);
 
         this.clickedY = event.clientY;
-        console.log('y1:' + this.clickedY);
+        console.log('y1: fixed if mouse' + this.clickedY);
+        }
+       
         const rect = canvas2.getBoundingClientRect()
         this.newCirX = this.clickedX - rect.left;
         this.newCirY = this.clickedY - rect.top;
@@ -224,6 +324,22 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
             return true;
         } else {
             return false;
+        }
+    }
+    this.isInBiggerCircle = function () {
+        let calRadius = Math.sqrt(Math.pow(this.newCirX - this.centerXJ, 2) + Math.pow(this.newCirY - this.centerYJ, 2));
+        console.log('BGcalradius:' + calRadius);
+        console.log('BGradius:' + this.radiusJ);
+
+        if (calRadius - 40 <= this.radiusJ) {
+            console.log('in biggercircle');
+
+            return true;
+        } else {
+            console.log('not inBG');
+
+            return false;
+
         }
     }
 
@@ -253,6 +369,7 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
 
     this.changeSpeedL = function (direction) {
         if (direction === 'N') {
+            this.ascending = true;
             if (speedControl1 <= 0.35) {
                 speedControl1 += 0.005;
             }
@@ -267,17 +384,18 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
             }
 
         } else if (direction === 'S') {
-            if (speedControl1 >= 0) {
-                speedControl1 -= 0.005;
+            this.descending = true;
+            if (speedControl1 > 0) {
+                speedControl1 -= 0.004;
             }
             if (speedControl2 > 0) {
-                speedControl2 -= 0.005;
+                speedControl2 -= 0.004;
             }
             if (speedControl3 > 0) {
-                speedControl3 -= 0.005;
+                speedControl3 -= 0.004;
             }
             if (speedControl4 > 0) {
-                speedControl4 -= 0.005;
+                speedControl4 -= 0.004;
             }
         } else if (direction === 'W') {
             if (speedControl1 <= 0.35) {
@@ -286,6 +404,8 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
             if (speedControl4 <= 0.35) {
                 speedControl4 += 0.005;
             }
+            speedControl2 = initialSpeed;
+            speedControl3 = initialSpeed;
         } else if (direction === 'E') {
             if (speedControl2 <= 0.35) {
                 speedControl2 += 0.005;
@@ -293,41 +413,85 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
             if (speedControl3 <= 0.35) {
                 speedControl3 += 0.005;
             }
+            speedControl1 = initialSpeed;
+            speedControl4 = initialSpeed;
+
         }
     }
 
     this.backToCenter = function (direction) {
-        if (left && direction === 'N' || direction === 'S') {
-            return;
-        }
+
         speedControl1 = initialSpeed;
         speedControl4 = initialSpeed;
         speedControl2 = initialSpeed;
         speedControl3 = initialSpeed;
     }
 
+    this.changeSpeedR = function (direction) {
+
+        if (direction === 'N' || direction === 'NE') {
+            console.log('hereN');
+            if (speedControl3 <= 0.35) {
+                speedControl3 += 0.005;
+            }
+            if (speedControl4 <= 0.35) {
+                speedControl4 += 0.005;
+            }
+            speedControl1 = initialSpeed;
+            speedControl2 = initialSpeed;
+
+        } else if (direction === 'S') {
+            console.log('hereS');
+
+            if (speedControl1 <= 0.35) {
+                speedControl1 += 0.005;
+            }
+            if (speedControl2 <= 0.35) {
+                speedControl2 += 0.005;
+            }
+            speedControl3 = initialSpeed;
+            speedControl4 = initialSpeed;
+
+        } else if (direction === 'W') {
+            console.log('hereW');
+
+            if (speedControl2 <= 0.35) {
+                speedControl2 += 0.005;
+                console.log('hereW2');
+                console.log('speedcon2af' + speedControl2);
+
+            }
+            if (speedControl4 <= 0.35) {
+                speedControl4 += 0.005;
+            }
+            speedControl1 = initialSpeed;
+            speedControl3 = initialSpeed;
+        } else if (direction === 'E') {
+            console.log('hereE');
+
+            if (speedControl1 <= 0.35) {
+                speedControl1 += 0.005;
+            }
+            if (speedControl3 <= 0.35) {
+                speedControl3 += 0.005;
+            }
+            speedControl2 = initialSpeed;
+            speedControl4 = initialSpeed;
+        } else {
+            console.log('hereHHHH');
+            return;
+        }
+    }
 
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 function calculateOrigin() {
 
-    var width = canvas2.width;
-    var height = canvas2.height;
+    let width = canvas2.width;
+    let height = canvas2.height;
 
     //calculating suitable radius
-    var radius = (0.02 * width) / 2
+    let radius = (0.02 * width) / 2
     if (height < width) {
         radius = (0.02 * height) / 2;
     }
@@ -335,68 +499,67 @@ function calculateOrigin() {
     return [width, height, radius];
 }
 
+function calculateBodyPosition() { //this function returns the mid point of the body and x1,y1, side length
+    let width = canvas2.width;
+    let height = canvas2.height;
+
+    let side = 0.5 * width;
+    if (height < width) {
+        side = 0.5 * height;
+    }
+    let xMid = infoArray[0] * 0.5;
+    let yMid = infoArray[1] * 0.4;
+    let x1 = xMid - side / 2;
+    let y1 = yMid - side / 2;
+    return [xMid, yMid, x1, y1, side];
+}
+
 function drawStatic() {
-    c.beginPath();
-    c.moveTo(infoArray[0] * 0.25, infoArray[1] * 0.125);
-    c.lineTo(infoArray[0] * 0.75, infoArray[1] * 0.6);
-    c.lineTo(infoArray[0] * 0.75 - 5, infoArray[1] * 0.6 + 5);
-    c.lineTo(infoArray[0] * 0.25 - 5, infoArray[1] * 0.125 + 5);
-    c.fill();
+
+    //calculate drone body size
+    let postionArray = calculateBodyPosition();
+    let xMid = postionArray[0];
+    let yMid = postionArray[1];
+    let x1 = postionArray[2];
+    let y1 = postionArray[3];
+    let side = postionArray[4];
 
     c.beginPath();
-    c.moveTo(infoArray[0] * 0.25, infoArray[1] * 0.6);
-    c.lineTo(infoArray[0] * 0.75, infoArray[1] * 0.125);
-    c.lineTo(infoArray[0] * 0.75 + 5, infoArray[1] * 0.125 + 5);
-    c.lineTo(infoArray[0] * 0.25 + 5, infoArray[1] * 0.6 + 5);
+    c.arc(x1, y1, infoArray[2] * 3, 0, 0.5 * Math.PI, true);
+    c.lineTo(x1 + side - infoArray[2] * 3, y1 + side);
+    c.arc(x1 + side, y1 + side, infoArray[2] * 3, Math.PI, 1.5 * Math.PI, true);
+    c.closePath();
+    let gradientLine1 = c.createLinearGradient(x1, y1, x1 + 420, y1 + 420);
+    gradientLine1.addColorStop(0, '#8d8d8d');
+    gradientLine1.addColorStop(0.5, '#b0aeae');
+    gradientLine1.addColorStop(1, '#8d8d8d');
+
+    c.stroke();
+    c.fillStyle = gradientLine1;
     c.fill();
 
+    //3to2
     c.beginPath();
-    c.arc(infoArray[0] * 0.5, infoArray[1] * 0.375, infoArray[2] * 10, 0, 2 * Math.PI, false);
+    c.arc(x1, y1 + side, infoArray[2] * 3, 0, 3 / 2 * Math.PI, false);
+    c.lineTo(x1 + side - infoArray[2] * 3, y1);
+    c.arc(x1 + side, y1, infoArray[2] * 3, Math.PI, 0.5 * Math.PI, false);
+    c.closePath();
+    c.stroke();
     c.fill();
 
 
-
+    //middle body
+    c.beginPath();
+    c.arc(xMid, yMid, infoArray[2] * 15, 0, 2 * Math.PI, true);
+    let gradient = c.createRadialGradient(xMid, yMid, infoArray[2] * 1, xMid, yMid, infoArray[2] * 15);
+    gradient.addColorStop(1, '#696969');
+    gradient.addColorStop(0, '#b0aeae');
+    c.fillStyle = gradient;
+    c.fill();
 }
-
-function reposition() {
-    infoArray = calculateOrigin(); //finding center
-    //set center to origin
-
-    c.clearRect(0, 0, canvas2.width, canvas2.height * 0.6 + 100);
-    //draw box and lines
-    drawStatic();
-
-    c.save();
-    c.translate(infoArray[0] * 0.25, infoArray[1] * 0.125);
-    c.rotate(angle1);
-    drawingRandomShit();
-    c.restore();
-
-    c.save();
-    c.translate(infoArray[0] * 0.75, infoArray[1] * 0.6);
-    c.rotate(angle4);
-    drawingRandomShit();
-    c.restore();
-
-
-    c.save();
-    c.translate(infoArray[0] * 0.75, infoArray[1] * 0.125);
-    c.rotate(angle2);
-    drawingRandomShit();
-    c.restore();
-
-    c.save();
-    c.translate(infoArray[0] * 0.25, infoArray[1] * 0.6);
-    c.rotate(angle3);
-    drawingRandomShit();
-    c.restore();
-}
-
-
 
 function init() {
     inited = true;
-
     joyLeft.drawOuterCircle();
     joyLeft.drawInnerCircle(joyLeft.centerXJ, joyLeft.centerYJ);
     joyRight.drawOuterCircle();
@@ -404,49 +567,38 @@ function init() {
     window.requestAnimationFrame(animate);
 }
 
-function drawingRandomShit() {
+function drawingPropeller() {
     c.save();
-    c.beginPath();
-    c.arc(0, 0, 10, 0, Math.PI * 2, false);
-    c.fill();
-    c.moveTo(0, 0);
-    c.lineTo(0, 50);
-    c.lineTo(50, 80);
-    c.fill();
+    for (let i = 1; i < 3; i++) {
+        c.beginPath();
+        c.moveTo(0, 0);
+        c.lineTo(-infoArray[2], infoArray[2] * 7);
+        c.lineTo(infoArray[2] * 1.5, infoArray[2] * 17);
+        c.lineTo(infoArray[2] * 3, infoArray[2] * 17);
+        c.lineTo(infoArray[2] + infoArray[2] * 3, infoArray[2] * 7);
+        c.lineTo(infoArray[2] * 0.5, 0);
+        c.closePath();
+        c.fill();
+        c.rotate(Math.PI);
+    }
 
-    c.rotate(Math.PI);
-    c.beginPath();
-    c.moveTo(0, 0);
-    c.lineTo(0, 50);
-    c.lineTo(50, 80);
-    c.moveTo(0, 0);
-
-    c.fill();
     c.restore();
-}
+    c.beginPath();
+    c.arc(0, 0, infoArray[2] * 1.5, 0, Math.PI * 2.5, false);
+    c.fillStyle = '#404040';
+    c.fill();
 
+    c.beginPath();
+    c.arc(0, 0, infoArray[2] * 1, 0, Math.PI * 2.5, false);
+    c.fillStyle = '#b0aeae';
+    c.fill();
+}
 
 function animate() {
     reposition();
     angle1 += speedControl1;
     angle4 += speedControl4;
-
     angle2 -= speedControl2;
     angle3 -= speedControl3;
-
-
     requestAnimationFrame(animate);
-}
-
-function speedChange(propellerNo, factor) {
-    if (propellerNo === 1) {
-        speedControl1 += factor;
-    } else if (propellerNo === 4) {
-        speedControl4 += factor;
-    } else if (propellerNo === 2) {
-        speedControl2 += factor;
-    } else if (propellerNo === 3) {
-        speedControl3 += factor;
-    }
-
 }

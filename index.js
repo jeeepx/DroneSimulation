@@ -1,6 +1,9 @@
 const canvas2 = document.getElementById('canvas2');
 var c = canvas2.getContext('2d');
 
+const canvas3 = document.getElementById('joyStick');
+var c3 = canvas3.getContext('2d');
+
 const canvas1 = document.getElementById('canvas1');
 var c1 = canvas1.getContext('2d');
 
@@ -8,6 +11,8 @@ var c1 = canvas1.getContext('2d');
 const navBar = document.getElementById('navbar');
 var nav = navBar.getBoundingClientRect()
 var navBarHeight = nav.height;
+canvas3.width = window.innerWidth*0.5;
+canvas3.height = window.innerHeight - navBarHeight;
 canvas2.width = window.innerWidth * 0.5;
 canvas2.height = window.innerHeight - navBarHeight;
 canvas1.width = window.innerWidth * 0.5;
@@ -23,7 +28,7 @@ if (window.innerWidth < 768) {
 //resizing canvas associated function
 function reposition() {
     infoArray = calculateOrigin(); //finding center
-    c.clearRect(0, 0, canvas2.width, 0.9 * infoArray[1] - 5 * infoArray[2] - 1);
+    c.clearRect(0, 0, canvas2.width,  canvas2.height);
     //draw box and lines
     drawStatic();
     let postionArray = calculateBodyPosition();
@@ -69,7 +74,7 @@ function repositionJoy() {
     joyLeft.radiusJ = 5 * infoArray[2];
     joyRight.radiusJ = 5 * infoArray[2];
 
-    c.clearRect(0, 0.9 * infoArray[1] - 5 * infoArray[2], canvas2.width, canvas2.height);
+    c3.clearRect(0, 0.9 * infoArray[1] - 5 * infoArray[2], canvas2.width, canvas2.height);
     joyLeft.drawOuterCircle();
     joyLeft.drawInnerCircle(0.375 * infoArray[0], 0.925 * infoArray[1]);
     joyRight.drawOuterCircle();
@@ -77,12 +82,16 @@ function repositionJoy() {
 }
 
 window.addEventListener('resize', function () {
+        canvas3.width = window.innerWidth * 0.5;
+            canvas3.height = window.innerHeight - navBarHeight;
     canvas2.width = window.innerWidth * 0.5;
     canvas2.height = window.innerHeight - navBarHeight;
     canvas1.width = window.innerWidth * 0.5;
     canvas1.height = window.innerHeight - navBarHeight;
     //console.log(window.innerWidth);
     if (window.innerWidth < 768) {
+        canvas3.width = window.innerWidth;
+        canvas3.height = window.innerHeight * 0.5;
         canvas2.width = window.innerWidth;
         canvas2.height = window.innerHeight * 0.5;
         canvas1.width = window.innerWidth;
@@ -94,57 +103,42 @@ window.addEventListener('resize', function () {
 
 
 var infoArray = calculateOrigin()
-var joyLeft = new JoyStick(0.375 * infoArray[0], 0.925 * infoArray[1], 5.5 * infoArray[2], true);
-var joyRight = new JoyStick(0.625 * infoArray[0], 0.925 * infoArray[1], 5.5 * infoArray[2], false);
+var joyLeft = new JoyStick(0.375 * infoArray[0], 0.85 * infoArray[1], 5 * infoArray[2], true);
+var joyRight = new JoyStick(0.625 * infoArray[0], 0.85 * infoArray[1], 5 * infoArray[2], false);
 
-canvas2.addEventListener('mousedown', function (event) {
+canvas3.addEventListener('mousedown', function (event) {
     joyLeft.startDrawing(event);
     joyRight.startDrawing(event);
     //console.log('listend down');
 });
-canvas2.addEventListener('mousemove', function (event) {
+canvas3.addEventListener('mousemove', function (event) {
 
     joyLeft.dragDraw(event);
     joyRight.dragDraw(event);
     //console.log('listend drag');
 });
-canvas2.addEventListener('mouseup', function (event) {
+canvas3.addEventListener('mouseup', function (event) {
     joyLeft.stopDrawing(event);
     joyRight.stopDrawing(event);
     //console.log('listend');
 });
 
-canvas2.addEventListener('touchstart', function (event) {
-    touched = true;
-    if(event.touches.length>1){
-        console.log('two fingers touch start');
-    }
-    else{
-        joyLeft.startDrawing(event);
-        joyRight.startDrawing(event);
-        console.log('one finger touchstart'); 
-    }
-    
+canvas3.addEventListener('touchstart', function (event) {
+    joyLeft.startDrawing(event);
+    joyRight.startDrawing(event);
+    //console.log('listend down');
 });
-canvas2.addEventListener('touchmove', function (event) {
+canvas3.addEventListener('touchmove', function (event) {
 
     joyLeft.dragDraw(event);
     joyRight.dragDraw(event);
-    console.log('listend touchmove');
+    //console.log('listend drag');
 });
-canvas2.addEventListener('touchend', function (event) {
+canvas3.addEventListener('touchend', function (event) {
     joyLeft.stopDrawing(event);
     joyRight.stopDrawing(event);
-    touched=false;
-
-    console.log('listen touchend fixed');
+    //console.log('listend');
 });
-// canvas2.addEventListener('touchcancel', function (event) {
-//     touched = false;
-//     joyLeft.stopDrawing(event);
-//     joyRight.stopDrawing(event);
-//     console.log('listend touch cancel');
-// });
 
 var inited = false;
 var initialSpeed = 0.1;
@@ -156,7 +150,7 @@ var speedControl1 = initialSpeed;
 var speedControl4 = initialSpeed;
 var speedControl2 = initialSpeed;
 var speedControl3 = initialSpeed;
-var touched = false;
+
 var pressedL = false;
 var pressedR = false;
 init();
@@ -178,26 +172,26 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
 
     this.drawOuterCircle = function () {
 
-        c.beginPath();
-        c.arc(this.centerXJ, this.centerYJ, this.radiusJ, 0, Math.PI * 2, false);
+        c3.beginPath();
+        c3.arc(this.centerXJ, this.centerYJ, this.radiusJ, 0, Math.PI * 2, false);
         let gradient = c.createRadialGradient(this.centerXJ, this.centerYJ, this.radiusJ * 0.45, this.centerXJ, this.centerYJ, this.radiusJ);
         gradient.addColorStop(0, '#696969');
         gradient.addColorStop(1, '#404040');
-        c.fillStyle = '#696969';
-        c.fill();
+        c3.fillStyle = '#696969';
+        c3.fill();
         //console.log('drew Outer Circle Joy');
 
     }
 
     this.drawInnerCircle = function (x, y) {
 
-        c.beginPath();
-        c.arc(x, y, this.radiusJ * 0.45, 0, Math.PI * 2, false);
+        c3.beginPath();
+        c3.arc(x, y, this.radiusJ * 0.45, 0, Math.PI * 2, false);
         let gradient = c.createRadialGradient(this.centerXJ, this.centerYJ, this.radiusJ * 0.15, this.centerXJ, this.centerYJ, this.radiusJ * 0.45);
         gradient.addColorStop(0, '#E8E6E1');
         gradient.addColorStop(1, '#A39E93');
-        c.fillStyle = gradient;
-        c.fill();
+        c3.fillStyle = gradient;
+        c3.fill();
         console.log('drew Inner Circle Joy');
     }
 
@@ -206,9 +200,9 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
         this.calculateCanvasPosition(event);
         if (this.isInBigCircle()) {
             if (this.left === true) {
-                c.clearRect(0, 0.9 * infoArray[1] - 5 * infoArray[2], canvas2.width * 0.5, canvas2.height);
+                c3.clearRect(0, 0, canvas2.width * 0.5, canvas2.height);
             } else {
-                c.clearRect(canvas2.width * 0.5, 0.9 * infoArray[1] - 5 * infoArray[2], canvas2.width, canvas2.height);
+                c3.clearRect(canvas2.width * 0.5, 0, canvas2.width, canvas2.height);
             }
 
             //console.log('clear');
@@ -235,9 +229,9 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
             this.calculateCanvasPosition(event);
             if (this.isInBigCircle()) {
                 if (this.left === true) {
-                    c.clearRect(0, 0.9 * infoArray[1] - 5 * infoArray[2], canvas2.width * 0.5, canvas2.height);
+                    c3.clearRect(0, 0, canvas2.width * 0.5, canvas2.height);
                 } else {
-                    c.clearRect(canvas2.width * 0.5, 0.9 * infoArray[1] - 5 * infoArray[2], canvas2.width, canvas2.height);
+                    c3.clearRect(canvas2.width * 0.5, 0, canvas2.width, canvas2.height);
                 }
                 // console.log('clear drag');
                 // console.log('x:' + this.newCirX);
@@ -255,9 +249,9 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
             } else if (this.isInBiggerCircle()) {
                 console.log('bigger circle');
                 if (this.left === true) {
-                    c.clearRect(0, 0.9 * infoArray[1] - 5 * infoArray[2], canvas2.width * 0.5, canvas2.height);
+                    c3.clearRect(0, 0, canvas2.width * 0.5, canvas2.height);
                 } else {
-                    c.clearRect(canvas2.width * 0.5, 0.9 * infoArray[1] - 5 * infoArray[2], canvas2.width, canvas2.height);
+                    c3.clearRect(canvas2.width * 0.5, 0, canvas2.width, canvas2.height);
                 }
                 var angle = this.calculateAngle(event);
                 this.calculateCoordinate(angle);
@@ -282,12 +276,11 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
 
         this.pressed = false;
         if (this.left === true) {
-            c.clearRect(0, 0.9 * infoArray[1] - 5 * infoArray[2], canvas2.width * 0.5, canvas2.height);
+            c3.clearRect(0, 0, canvas2.width * 0.5, canvas2.height);
         } else {
-            c.clearRect(canvas2.width * 0.5, 0.9 * infoArray[1] - 5 * infoArray[2], canvas2.width, canvas2.height);
+            c3.clearRect(canvas2.width * 0.5, 0, canvas2.width, canvas2.height);
         }
         // console.log('clear');
-        //this.calculateCanvasPosition(event);
         // console.log(this.isInBigCircle());
 
         this.drawOuterCircle();
@@ -297,20 +290,11 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
 
     }
     this.calculateCanvasPosition = function (event) {
-        if (touched){
-            this.clickedX = event.touches[0].clientX;
-        console.log('x1: fixed if tou remove cal' + this.clickedX);
-
-        this.clickedY = event.touches[0].clientY;
-        console.log('y1: fixed if tou' + this.clickedY);
-        }else{
-            this.clickedX = event.clientX;
-        console.log('x1: fixed if mouse' + this.clickedX);
+        this.clickedX = event.clientX;
+        console.log('x1:' + this.clickedX);
 
         this.clickedY = event.clientY;
-        console.log('y1: fixed if mouse' + this.clickedY);
-        }
-       
+        console.log('y1:' + this.clickedY);
         const rect = canvas2.getBoundingClientRect()
         this.newCirX = this.clickedX - rect.left;
         this.newCirY = this.clickedY - rect.top;
@@ -566,6 +550,7 @@ function init() {
     joyRight.drawInnerCircle(joyRight.centerXJ, joyRight.centerYJ);
     window.requestAnimationFrame(animate);
 }
+
 
 function drawingPropeller() {
     c.save();
