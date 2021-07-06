@@ -131,7 +131,7 @@ canvas2.addEventListener('touchend', function (event) {
     joyRight.stopDrawing(event);
     touched=false;
 
-    console.log('listen touchend');
+    console.log('listen touchend fixed');
 });
 // canvas2.addEventListener('touchcancel', function (event) {
 //     touched = false;
