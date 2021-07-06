@@ -117,18 +117,23 @@ canvas2.addEventListener('mouseup', function (event) {
 canvas2.addEventListener('touchstart', function (event) {
     joyLeft.startDrawing(event);
     joyRight.startDrawing(event);
-    //console.log('listend down');
+    console.log('listend touchstart');
 });
 canvas2.addEventListener('touchmove', function (event) {
 
     joyLeft.dragDraw(event);
     joyRight.dragDraw(event);
-    //console.log('listend drag');
+    console.log('listend touchmove');
 });
 canvas2.addEventListener('touchend', function (event) {
     joyLeft.stopDrawing(event);
     joyRight.stopDrawing(event);
-    //console.log('listend');
+    console.log('listen touchend');
+});
+canvas2.addEventListener('touchcancel', function (event) {
+    joyLeft.stopDrawing(event);
+    joyRight.stopDrawing(event);
+    console.log('listend touch cancel');
 });
 
 var inited = false;
