@@ -1,12 +1,12 @@
-/* canvas{
+.wrapper canvas{
     border:2px solid black;
-    margin:0;
-} */
+    position: absolute;
+    top: 0;
+    left: 0;
+}
 body{
     margin:0;
-    /* overflow: hidden;
-    position: fixed */
 }
-.stick-container {
-align-items: center;
+.wrapper{
+    position: relative;
 }

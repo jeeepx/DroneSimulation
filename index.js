@@ -281,7 +281,7 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
             c.clearRect(canvas2.width * 0.5, 0.9 * infoArray[1] - 5 * infoArray[2], canvas2.width, canvas2.height);
         }
         // console.log('clear');
-        this.calculateCanvasPosition(event);
+        //this.calculateCanvasPosition(event);
         // console.log(this.isInBigCircle());
 
         this.drawOuterCircle();
@@ -293,7 +293,7 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
     this.calculateCanvasPosition = function (event) {
         if (touched){
             this.clickedX = event.touches[0].clientX;
-        console.log('x1: fixed if tou' + this.clickedX);
+        console.log('x1: fixed if tou remove cal' + this.clickedX);
 
         this.clickedY = event.touches[0].clientY;
         console.log('y1: fixed if tou' + this.clickedY);
