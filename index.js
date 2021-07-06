@@ -150,7 +150,7 @@ var speedControl1 = initialSpeed;
 var speedControl4 = initialSpeed;
 var speedControl2 = initialSpeed;
 var speedControl3 = initialSpeed;
-
+var touched = false;
 var pressedL = false;
 var pressedR = false;
 init();
@@ -290,11 +290,19 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
 
     }
     this.calculateCanvasPosition = function (event) {
-        this.clickedX = event.clientX;
-        console.log('x1:' + this.clickedX);
+        if (touched){
+            this.clickedX = event.touches[0].clientX;
+        console.log('x1: fixed if tou remove cal' + this.clickedX);
+
+        this.clickedY = event.touches[0].clientY;
+        console.log('y1: fixed if tou' + this.clickedY);
+        }else{
+            this.clickedX = event.clientX;
+        //console.log('x1: fixed if mouse' + this.clickedX);
 
         this.clickedY = event.clientY;
-        console.log('y1:' + this.clickedY);
+        //console.log('y1: fixed if mouse' + this.clickedY);
+        }
         const rect = canvas2.getBoundingClientRect()
         this.newCirX = this.clickedX - rect.left;
         this.newCirY = this.clickedY - rect.top;
@@ -312,15 +320,15 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
     }
     this.isInBiggerCircle = function () {
         let calRadius = Math.sqrt(Math.pow(this.newCirX - this.centerXJ, 2) + Math.pow(this.newCirY - this.centerYJ, 2));
-        console.log('BGcalradius:' + calRadius);
-        console.log('BGradius:' + this.radiusJ);
+        //console.log('BGcalradius:' + calRadius);
+        //console.log('BGradius:' + this.radiusJ);
 
         if (calRadius - 40 <= this.radiusJ) {
-            console.log('in biggercircle');
+            //console.log('in biggercircle');
 
             return true;
         } else {
-            console.log('not inBG');
+            //console.log('not inBG');
 
             return false;
 
