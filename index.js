@@ -94,8 +94,8 @@ window.addEventListener('resize', function () {
 
 
 var infoArray = calculateOrigin()
-var joyLeft = new JoyStick(0.375 * infoArray[0], 0.925 * infoArray[1], 5 * infoArray[2], true);
-var joyRight = new JoyStick(0.625 * infoArray[0], 0.925 * infoArray[1], 5 * infoArray[2], false);
+var joyLeft = new JoyStick(0.375 * infoArray[0], 0.925 * infoArray[1], 5.5 * infoArray[2], true);
+var joyRight = new JoyStick(0.625 * infoArray[0], 0.925 * infoArray[1], 5.5 * infoArray[2], false);
 
 canvas2.addEventListener('mousedown', function (event) {
     joyLeft.startDrawing(event);
@@ -127,17 +127,18 @@ canvas2.addEventListener('touchmove', function (event) {
     console.log('listend touchmove');
 });
 canvas2.addEventListener('touchend', function (event) {
-    touched=false;
     joyLeft.stopDrawing(event);
     joyRight.stopDrawing(event);
+    touched=false;
+
     console.log('listen touchend');
 });
-canvas2.addEventListener('touchcancel', function (event) {
-    touched = false;
-    joyLeft.stopDrawing(event);
-    joyRight.stopDrawing(event);
-    console.log('listend touch cancel');
-});
+// canvas2.addEventListener('touchcancel', function (event) {
+//     touched = false;
+//     joyLeft.stopDrawing(event);
+//     joyRight.stopDrawing(event);
+//     console.log('listend touch cancel');
+// });
 
 var inited = false;
 var initialSpeed = 0.1;
@@ -297,10 +298,10 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
         this.clickedY = event.touches[0].clientY;
         console.log('y1: fixed if tou' + this.clickedY);
         }else{
-            this.clickedX = event.clientX||event.touches[0].clientX;
+            this.clickedX = event.clientX;
         console.log('x1: fixed if mouse' + this.clickedX);
 
-        this.clickedY = event.clientY||event.touches[0].clientY;
+        this.clickedY = event.clientY;
         console.log('y1: fixed if mouse' + this.clickedY);
         }
        
