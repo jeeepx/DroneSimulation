@@ -115,6 +115,7 @@ canvas2.addEventListener('mouseup', function (event) {
 });
 
 canvas2.addEventListener('touchstart', function (event) {
+    touched = true;
     joyLeft.startDrawing(event);
     joyRight.startDrawing(event);
     console.log('listend touchstart');
@@ -126,11 +127,13 @@ canvas2.addEventListener('touchmove', function (event) {
     console.log('listend touchmove');
 });
 canvas2.addEventListener('touchend', function (event) {
+    touched=false;
     joyLeft.stopDrawing(event);
     joyRight.stopDrawing(event);
     console.log('listen touchend');
 });
 canvas2.addEventListener('touchcancel', function (event) {
+    touched = false;
     joyLeft.stopDrawing(event);
     joyRight.stopDrawing(event);
     console.log('listend touch cancel');
@@ -146,7 +149,7 @@ var speedControl1 = initialSpeed;
 var speedControl4 = initialSpeed;
 var speedControl2 = initialSpeed;
 var speedControl3 = initialSpeed;
-
+var touched = false;
 var pressedL = false;
 var pressedR = false;
 init();
@@ -287,11 +290,20 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
 
     }
     this.calculateCanvasPosition = function (event) {
-        this.clickedX = event.clientX||event.touches[0].clientX;
-        console.log('x1: fixed' + this.clickedX);
+        if (touched){
+            this.clickedX = event.touches[0].clientX;
+        console.log('x1: fixed if tou' + this.clickedX);
+
+        this.clickedY = event.touches[0].clientY;
+        console.log('y1: fixed if tou' + this.clickedY);
+        }else{
+            this.clickedX = event.clientX||event.touches[0].clientX;
+        console.log('x1: fixed if mouse' + this.clickedX);
 
         this.clickedY = event.clientY||event.touches[0].clientY;
-        console.log('y1: fixed' + this.clickedY);
+        console.log('y1: fixed if mouse' + this.clickedY);
+        }
+       
         const rect = canvas2.getBoundingClientRect()
         this.newCirX = this.clickedX - rect.left;
         this.newCirY = this.clickedY - rect.top;
