@@ -19,6 +19,8 @@ canvas1.width = window.innerWidth * 0.5;
 canvas1.height = window.innerHeight - navBarHeight;
 
 if (window.innerWidth < 768) {
+    canvas3.width = window.innerWidth;
+    canvas3.height = window.innerHeight * 0.5;
     canvas2.width = window.innerWidth;
     canvas2.height = window.innerHeight * 0.5;
     canvas1.width = window.innerWidth;

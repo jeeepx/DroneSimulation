@@ -1,5 +1,8 @@
-.wrapper canvas{
+canvas{
     border:2px solid black;
+
+}
+.wrapper canvas{
     position: absolute;
     top: 0;
     left: 0;
