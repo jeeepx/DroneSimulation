@@ -1,31 +1,184 @@
 const canvas2 = document.getElementById('canvas2');
-var c = canvas2.getContext('2d');
-
-const canvas3 = document.getElementById('joyStick');
-var c3 = canvas3.getContext('2d');
-
-const canvas1 = document.getElementById('canvas1');
-var c1 = canvas1.getContext('2d');
-
-//sizing canvas
+const c = canvas2.getContext('2d');
 const navBar = document.getElementById('navbar');
-var nav = navBar.getBoundingClientRect()
-var navBarHeight = nav.height;
-canvas3.width = window.innerWidth * 0.5;
-canvas3.height = window.innerHeight - navBarHeight;
-canvas2.width = window.innerWidth * 0.5;
-canvas2.height = window.innerHeight - navBarHeight;
-canvas1.width = window.innerWidth * 0.5;
-canvas1.height = window.innerHeight - navBarHeight;
+const nav = navBar.getBoundingClientRect()
+const navBarHeight = nav.height;
+const canvas3 = document.getElementById('joyStick');
+const c3 = canvas3.getContext('2d');
+const canvas1 = document.querySelector(".webgl")
+
+import * as THREE from './three.module.js'
+import {
+    GLTFLoader
+} from './three.js-master/examples/jsm/loaders/GLTFLoader.js'
+const loader = new GLTFLoader()
+var drone;
+
+
+const scene = new THREE.Scene()
+// const axesHelper = new THREE.AxesHelper(40);
+scene.background = new THREE.Color(0xe4eefd);
+// scene.add(axesHelper);
+loader.load('./file-1592658408798.glb', (glb) => {
+
+        drone = glb.scene;
+        drone.scale.set(20, 20, 20);
+        drone.position.set(0, 0, 0)
+        scene.add(drone)
+    },
+
+    function (xhr) {
+        console.log((xhr.loaded / xhr.total * 100) + "%loaded")
+    },
+    function (error) {
+        console.log('An error occurred')
+    })
+
+const light = new THREE.DirectionalLight(0xffffff, 4)
+scene.add(light)
+
+const light2 = new THREE.DirectionalLight(0xffffff, 13)
+light2.position.set(0, 4, 5)
+scene.add(light2)
+
+const light3 = new THREE.AmbientLight(0xffffff, 2.5)
+//light3.position.set(0,0,15)
+scene.add(light3)
+
+const spotLight = new THREE.SpotLight(0x78ff00, 0.5, 10, Math.PI * 0.1, 0.25, 1)
+spotLight.position.set(0, 2, 3)
+scene.add(spotLight)
+
+//helper
+// const DirectionHelper = new THREE.DirectionalLightHelper(light2, 0.2);
+// scene.add(DirectionHelper)
+
+
+
+const canvas = document.querySelector(".webgl")
+const sizes = {
+    width: window.innerWidth * 0.5,
+    height: window.innerHeight - navBarHeight
+}
 
 if (window.innerWidth < 768) {
-    canvas3.width = window.innerWidth;
-    canvas3.height = window.innerHeight * 0.5;
-    canvas2.width = window.innerWidth;
-    canvas2.height = window.innerHeight * 0.5;
-    canvas1.width = window.innerWidth;
-    canvas1.height = window.innerHeight * 0.5;
+    sizes.width = window.innerWidth;
+    sizes.height = window.innerHeight * 0.5 - navBarHeight * 0.5
 }
+
+//sizing canvas
+
+canvas3.width = sizes.width;
+canvas3.height = sizes.height;
+canvas2.width = sizes.width;
+canvas2.height = sizes.height;
+
+
+
+window.addEventListener('resize', function () {
+    //update camera
+    sizes.width = window.innerWidth * 0.5;
+    sizes.height = window.innerHeight - navBarHeight;
+
+    if (window.innerWidth < 768) {
+        sizes.width = window.innerWidth;
+        sizes.height = window.innerHeight * 0.5 - navBarHeight * 0.5
+    }
+
+    //sizing canvas
+
+    canvas3.width = sizes.width;
+    canvas3.height = sizes.height;
+    canvas2.width = sizes.width;
+    canvas2.height = sizes.height;
+
+
+
+    camera.aspect = sizes.width / sizes.height;
+    camera.updateProjectionMatrix();
+    renderer.setSize(sizes.width, sizes.height) //update renderer
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+    console.log(window.devicePixelRatio);
+
+    repositionJoy();
+    reposition();
+});
+
+
+const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
+camera.position.set(0, 0, 15)
+scene.add(camera)
+const renderer = new THREE.WebGLRenderer({
+    canvas: canvas
+})
+
+renderer.setSize(sizes.width, sizes.height)
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+
+
+
+
+function animate1() {
+    requestAnimationFrame(animate1)
+    if (drone) {
+        //console.log(drone.position)
+        //camera.lookAt(drone.position)
+        //light.lookAt(drone.position)
+
+        //drone.rotation.z+=0.01;
+    }
+    renderer.render(scene, camera)
+}
+animate1()
+
+function flyUp() {
+    if (!pause) {
+        requestAnimationFrame(flyUp)
+        if (drone) {
+            console.log(drone)
+            camera.lookAt(drone.position)
+            light.lookAt(drone.position)
+            drone.position.y += 0.001;
+        }
+        renderer.render(scene, camera)
+
+    }
+
+}
+
+function rotateL() {
+    if (!pause) {
+        requestAnimationFrame(rotateL)
+        if (drone) {
+            //console.log(drone)
+            camera.lookAt(drone.position)
+            //light.lookAt(drone.position)
+            drone.rotateY(0.001);
+        }
+        renderer.render(scene, camera)
+    }
+
+}
+var id;
+var pause = false;
+
+function backward() {
+    if (!pause) {
+        id = requestAnimationFrame(backward)
+        if (drone) {
+            //console.log(drone)
+            camera.lookAt(drone.position)
+            //light.lookAt(drone.position)
+            drone.position.z -= 0.01;
+        }
+        renderer.render(scene, camera)
+    }
+
+}
+
+
+
+
 
 //resizing canvas associated function
 function reposition() {
@@ -90,26 +243,6 @@ function repositionJoy() {
 
 }
 
-window.addEventListener('resize', function () {
-    canvas3.width = window.innerWidth * 0.5;
-    canvas3.height = window.innerHeight - navBarHeight;
-    canvas2.width = window.innerWidth * 0.5;
-    canvas2.height = window.innerHeight - navBarHeight;
-    canvas1.width = window.innerWidth * 0.5;
-    canvas1.height = window.innerHeight - navBarHeight;
-    //console.log(window.innerWidth);
-    if (window.innerWidth < 768) {
-        canvas3.width = window.innerWidth;
-        canvas3.height = window.innerHeight * 0.5;
-        canvas2.width = window.innerWidth;
-        canvas2.height = window.innerHeight * 0.5;
-        canvas1.width = window.innerWidth;
-        canvas1.height = window.innerHeight * 0.5;
-    }
-    repositionJoy();
-    reposition();
-});
-
 
 var infoArray = calculateOrigin()
 let postionArray = calculateBodyPosition();
@@ -151,7 +284,6 @@ canvas3.addEventListener('touchend', function (event) {
     joyLeft.stopDrawing(event);
     joyRight.stopDrawing(event);
     touched = false;
-
     //console.log('listend');
 });
 
@@ -230,9 +362,6 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
         c3.closePath();
         c3.fill();
 
-
-
-        //c3.stroke();
     }
     this.startDrawing = function (event) {
         this.pressed = true;
@@ -243,11 +372,9 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
             } else {
                 c3.clearRect(canvas2.width * 0.5, 0, canvas2.width, canvas2.height);
             }
-
             //console.log('clear');
             //console.log('x:' + this.newCirX);
             //console.log('y:' + this.newCirY);
-
             this.drawOuterCircle();
             this.drawPath();
 
@@ -257,7 +384,7 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
         }
         if (this.left) {
             pressedL = true;
-            pressR = false;
+            pressedR = false;
         } else {
             pressedR = true;
             pressedL = false;
@@ -417,30 +544,32 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
             if (speedControl4 <= 0.45) {
                 speedControl4 += 0.005;
             }
+            pause = false;
+            flyUp();
 
         } else if (direction === 'S') {
             this.descending = true;
 
             if (speedControl1 > 0) {
-                if(speedControl1<-0.003){
+                if (speedControl1 < -0.003) {
                     speedControl1 = 0.003;
                 }
                 speedControl1 -= 0.003;
             }
             if (speedControl2 > 0) {
-                if(speedControl2<-0.003){
+                if (speedControl2 < -0.003) {
                     speedControl2 = 0.003;
                 }
                 speedControl2 -= 0.003;
             }
             if (speedControl3 > 0) {
-                if(speedControl3<-0.003){
+                if (speedControl3 < -0.003) {
                     speedControl3 = 0.003;
                 }
                 speedControl3 -= 0.003;
             }
             if (speedControl4 > 0) {
-                if(speedControl4<-0.003){
+                if (speedControl4 < -0.003) {
                     speedControl4 = 0.003;
                 }
                 speedControl4 -= 0.003;
@@ -454,6 +583,9 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
             }
             speedControl2 = initialSpeed;
             speedControl3 = initialSpeed;
+            pause = false;
+            rotateL();
+
         } else if (direction === 'E') {
             if (speedControl2 <= 0.45) {
                 speedControl2 += 0.005;
@@ -469,40 +601,40 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
                 speedControl2 += 0.005;
             }
             speedControl3 = speedControl2;
-            speedControl1 = speedControl2 -0.02;
-            speedControl4 = speedControl2 -0.02;
-            
+            speedControl1 = speedControl2 - 0.02;
+            speedControl4 = speedControl2 - 0.02;
+
         } else if (direction === 'NW') {
             if (speedControl1 <= 0.45) {
                 speedControl1 += 0.005;
             }
             speedControl4 = speedControl1;
-            speedControl2 = speedControl1 -0.02;
-            speedControl3 = speedControl1 -0.02;
+            speedControl2 = speedControl1 - 0.02;
+            speedControl3 = speedControl1 - 0.02;
         } else if (direction === 'SE') {
             if (speedControl2 > 0) {
-                if(speedControl2 <0.0025){
+                if (speedControl2 < 0.0025) {
                     speedControl2 = 0.0025;
                 }
                 speedControl2 -= 0.0025;
             }
             speedControl3 = speedControl2;
-            if(speedControl1 >0){
-                speedControl1 = speedControl2 -0.02;
-                speedControl4 = speedControl2 -0.02;
+            if (speedControl1 > 0) {
+                speedControl1 = speedControl2 - 0.02;
+                speedControl4 = speedControl2 - 0.02;
             }
-            
+
         } else if (direction === 'SW') {
             if (speedControl1 > 0) {
-                if(speedControl1 <0.0025){
+                if (speedControl1 < 0.0025) {
                     speedControl1 = 0.0025;
                 }
                 speedControl1 -= 0.0025;
             }
             speedControl4 = speedControl1;
-            if(speedControl2 >0){
-                speedControl2 = speedControl1 -0.02;
-                speedControl3 = speedControl1 -0.02;
+            if (speedControl2 > 0) {
+                speedControl2 = speedControl1 - 0.02;
+                speedControl3 = speedControl1 - 0.02;
             }
         }
         speedControlArray = [];
@@ -514,7 +646,9 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
         drawSpeedometer(rankArray);
     }
     this.backToCenter = function (direction) {
-
+        cancelAnimationFrame(id);
+        pause = true;
+        id = undefined;
         speedControl1 = initialSpeed;
         speedControl4 = initialSpeed;
         speedControl2 = initialSpeed;
@@ -533,7 +667,7 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
             speedControl2 = initialSpeed;
 
         } else if (direction === 'S') {
-     
+
             if (speedControl1 <= 0.35) {
                 speedControl1 += 0.005;
             }
@@ -542,6 +676,8 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
             }
             speedControl3 = initialSpeed;
             speedControl4 = initialSpeed;
+            pause = false;
+            backward();
 
         } else if (direction === 'W') {
 
@@ -592,8 +728,8 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
             if (speedControl1 <= 0.35) {
                 speedControl1 += 0.005;
             }
-            speedControl2 = speedControl1 -0.025;;
-            speedControl3 = speedControl1 -0.025;
+            speedControl2 = speedControl1 - 0.025;;
+            speedControl3 = speedControl1 - 0.025;
             speedControl4 = initialSpeed;
         }
         speedControlArray = [];
@@ -609,24 +745,12 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
 
 function selectColor(rankNo) {
     if (rankNo === 1) {
-        // let gradient = c3.createLinearGradient(x1, y1, x1 + side, y1 );
-        // gradient.addColorStop(0, '#E84258');
-        // gradient.addColorStop(1, '#FD8060');
         c3.fillStyle = '#E84258';
     } else if (rankNo === 2) {
-        // let gradient = c3.createLinearGradient(x1, y1, x1 + side, y1 );
-        // gradient.addColorStop(0, '#FD8060');
-        // gradient.addColorStop(1, '#fEE191');
         c3.fillStyle = '#FD8060';
     } else if (rankNo === 3) {
-        // let gradient = c3.createLinearGradient(x1, y1, x1 + side, y1 );
-        // gradient.addColorStop(0, '#fEE191');
-        // gradient.addColorStop(1, '#B0D8A4');
         c3.fillStyle = '#fEE191';
     } else if (rankNo === 4) {
-        // let gradient = c3.createLinearGradient(x1, y1, x1 + side, y1 );
-        // gradient.addColorStop(0, '#B0D8A4');
-        // gradient.addColorStop(1, '#8281A0');
         c3.fillStyle = '#B0D8A4';
     }
 

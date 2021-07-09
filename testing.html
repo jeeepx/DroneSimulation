@@ -11,7 +11,7 @@
 
 <body>
 
-    <nav class="navbar navbar-expand-md navbar-light bg-light" id='navbar'>
+    <nav class="navbar navbar-custom navbar-expand-md navbar-light " id='navbar'>
         <div class="container-fluid">
           <a class="navbar-brand" href="#">DroneViz</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,7 +39,7 @@
         <div class="col-md-6">
             <!-- sim drone fly -->
 
-            <canvas id="canvas1"></canvas>
+            <canvas class='webgl'></canvas>
         </div>
         <div class="col-md-6">
             <!-- flight sim -->
@@ -59,8 +59,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
         integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">
     </script>
-    <script src="testing.js"></script>
-    <!-- <script src="joyStick.js"></script> -->
+    <script type="module" src="testing.js"></script>
 
 
 </body>

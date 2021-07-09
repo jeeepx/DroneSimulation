@@ -1,15 +1,20 @@
-canvas{
+/* canvas{
     border:2px solid black;
 
-}
+} */
 .wrapper canvas{
     position: absolute;
     top: 0;
     left: 0;
 }
-body{
+html,body{
     margin:0;
+   
 }
 .wrapper{
     position: relative;
+}
+.navbar-custom{
+    background-color:#95cdf7;
+    
 }
