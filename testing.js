@@ -922,7 +922,6 @@ function drawingPropeller(number) {
         c.lineTo(infoArray[2] * 0.5, 0);
         c.closePath();
 
-
         c.fill();
         c.rotate(Math.PI);
     }
