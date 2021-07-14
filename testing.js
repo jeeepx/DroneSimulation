@@ -13,18 +13,26 @@ import {
 } from './three.js-master/examples/jsm/loaders/GLTFLoader.js'
 const loader = new GLTFLoader()
 var drone;
-
+var pivot = new THREE.Group();
+var box = new THREE.Box3();
 
 const scene = new THREE.Scene()
 // const axesHelper = new THREE.AxesHelper(40);
 scene.background = new THREE.Color(0xe4eefd);
 // scene.add(axesHelper);
-loader.load('./file-1592658408798.glb', (glb) => {
+var geometry = new THREE.BoxGeometry(100, 100, 100);
 
+loader.load('./file-1592658408798.glb', (glb) => {
         drone = glb.scene;
         drone.scale.set(20, 20, 20);
         drone.position.set(0, 0, 0)
         scene.add(drone)
+        box.setFromObject(drone);
+        box.getCenter(drone.position);
+        drone.position.multiplyScalar(-1);
+        scene.add(pivot);
+        pivot.add(drone);
+        renderer.render(scene, camera)
     },
 
     function (xhr) {
@@ -42,7 +50,6 @@ light2.position.set(0, 4, 5)
 scene.add(light2)
 
 const light3 = new THREE.AmbientLight(0xffffff, 2.5)
-//light3.position.set(0,0,15)
 scene.add(light3)
 
 const spotLight = new THREE.SpotLight(0x78ff00, 0.5, 10, Math.PI * 0.1, 0.25, 1)
@@ -52,8 +59,6 @@ scene.add(spotLight)
 //helper
 // const DirectionHelper = new THREE.DirectionalLightHelper(light2, 0.2);
 // scene.add(DirectionHelper)
-
-
 
 const canvas = document.querySelector(".webgl")
 const sizes = {
@@ -73,8 +78,6 @@ canvas3.height = sizes.height;
 canvas2.width = sizes.width;
 canvas2.height = sizes.height;
 
-
-
 window.addEventListener('resize', function () {
     //update camera
     sizes.width = window.innerWidth * 0.5;
@@ -92,16 +95,16 @@ window.addEventListener('resize', function () {
     canvas2.width = sizes.width;
     canvas2.height = sizes.height;
 
-
-
     camera.aspect = sizes.width / sizes.height;
     camera.updateProjectionMatrix();
     renderer.setSize(sizes.width, sizes.height) //update renderer
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
     console.log(window.devicePixelRatio);
-
+    infoArray = calculateOrigin();
     repositionJoy();
     reposition();
+    let rankArray = [3, 3, 3, 3]
+    drawSpeedBar(rankArray);
 });
 
 
@@ -115,49 +118,44 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
-
-
-
 function animate1() {
     requestAnimationFrame(animate1)
     if (drone) {
-        //console.log(drone.position)
-        //camera.lookAt(drone.position)
-        //light.lookAt(drone.position)
-
-        //drone.rotation.z+=0.01;
+        var box = new THREE.Box3().setFromObject(drone);
+        box.getCenter(drone.position); // this re-sets the mesh position
+        drone.position.multiplyScalar(-1);
+        scene.add(pivot);
+        pivot.add(drone);
     }
     renderer.render(scene, camera)
 }
-animate1()
+//animate1()
+let flyUpB = false;
 
 function flyUp() {
-    if (!pause) {
+    if (!flyUpB) {
         requestAnimationFrame(flyUp)
         if (drone) {
-            console.log(drone)
+            //console.log(drone)
             camera.lookAt(drone.position)
-            light.lookAt(drone.position)
-            drone.position.y += 0.001;
+
+            pivot.position.y += 0.001;
         }
         renderer.render(scene, camera)
-
     }
-
 }
+let firstT = true;
 
 function rotateL() {
     if (!pause) {
         requestAnimationFrame(rotateL)
         if (drone) {
-            //console.log(drone)
-            camera.lookAt(drone.position)
-            //light.lookAt(drone.position)
-            drone.rotateY(0.001);
+            flyUpB = true;
+            // camera.lookAt(drone.position)
+            pivot.rotateY(0.001);
         }
         renderer.render(scene, camera)
     }
-
 }
 var id;
 var pause = false;
@@ -167,18 +165,29 @@ function backward() {
         id = requestAnimationFrame(backward)
         if (drone) {
             //console.log(drone)
-            camera.lookAt(drone.position)
+            // camera.lookAt(drone.position)
             //light.lookAt(drone.position)
+            //pivot.position.z -=0.01;
             drone.position.z -= 0.01;
         }
         renderer.render(scene, camera)
     }
-
 }
 
+function forward() {
+    if (!pause) {
+        id = requestAnimationFrame(forward)
+        if (drone) {
+            //console.log(drone)
+            // camera.lookAt(drone.position)
+            //light.lookAt(drone.position)
 
+            drone.position.z += 0.01;
 
-
+        }
+        renderer.render(scene, camera)
+    }
+}
 
 //resizing canvas associated function
 function reposition() {
@@ -201,7 +210,6 @@ function reposition() {
     c.rotate(angle4);
     drawingPropeller(2);
     c.restore();
-
 
     c.save();
     c.translate(x1 + side, y1);
@@ -244,20 +252,20 @@ function repositionJoy() {
 }
 
 
-var infoArray = calculateOrigin()
+let infoArray = calculateOrigin()
 let postionArray = calculateBodyPosition();
 let x1 = postionArray[2];
 let side = postionArray[4];
-var joyLeft = new JoyStick(x1, 0.9 * infoArray[1], 6 * infoArray[2], true);
-var joyRight = new JoyStick(x1 + side, 0.9 * infoArray[1], 6 * infoArray[2], false);
+let joyLeft = new JoyStick(x1, 0.9 * infoArray[1], 6 * infoArray[2], true);
+let joyRight = new JoyStick(x1 + side, 0.9 * infoArray[1], 6 * infoArray[2], false);
 
 canvas3.addEventListener('mousedown', function (event) {
+    //holdBegin = Date.now();
     joyLeft.startDrawing(event);
     joyRight.startDrawing(event);
     //console.log('listend down');
 });
 canvas3.addEventListener('mousemove', function (event) {
-
     joyLeft.dragDraw(event);
     joyRight.dragDraw(event);
     //console.log('listend drag');
@@ -267,6 +275,10 @@ canvas3.addEventListener('mouseup', function (event) {
     joyRight.stopDrawing(event);
     //console.log('listend');
 });
+canvas3.addEventListener('dblclick', function (event) {
+    joyLeft.drawLockedRing(event);
+    joyRight.drawLockedRing(event);
+})
 
 canvas3.addEventListener('touchstart', function (event) {
     touched = true;
@@ -275,7 +287,6 @@ canvas3.addEventListener('touchstart', function (event) {
     //console.log('listend down');
 });
 canvas3.addEventListener('touchmove', function (event) {
-
     joyLeft.dragDraw(event);
     joyRight.dragDraw(event);
     //console.log('listend drag');
@@ -299,8 +310,7 @@ var speedControl2 = initialSpeed;
 var speedControl3 = initialSpeed;
 var speedControlArray = [];
 var touched = false;
-var pressedL = false;
-var pressedR = false;
+
 init();
 
 function JoyStick(centerXJ, centerYJ, radiusJ, left) {
@@ -315,11 +325,13 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
     this.left = left;
     this.direction;
     this.oldDirection = '';
-    this.ascending = 'false';
-    this.descending = 'false';
+    //this.checkTime;
+    this.holdLeft = false;
+    this.holdRight = false;
+    this.doubleClicked = false;
+    this.oldXcoor;
 
     this.drawOuterCircle = function () {
-
         c3.beginPath();
         c3.arc(this.centerXJ, this.centerYJ, this.radiusJ, 0, Math.PI * 2, false);
         let gradient = c3.createRadialGradient(this.centerXJ, this.centerYJ, this.radiusJ * 0.45, this.centerXJ, this.centerYJ, this.radiusJ);
@@ -328,19 +340,48 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
         c3.fillStyle = '#696969';
         c3.fill();
         //console.log('drew Outer Circle Joy');
-
     }
 
     this.drawInnerCircle = function (x, y) {
-
         c3.beginPath();
-        c3.arc(x, y, this.radiusJ * 0.45, 0, Math.PI * 2, false);
+        c3.arc(x, y, this.radiusJ * 0.4, 0, Math.PI * 2, false);
         let gradient = c3.createRadialGradient(this.centerXJ, this.centerYJ, this.radiusJ * 0.15, this.centerXJ, this.centerYJ, this.radiusJ * 0.45);
         gradient.addColorStop(0, '#E8E6E1');
         gradient.addColorStop(1, '#A39E93');
         c3.fillStyle = gradient;
         c3.fill();
         //console.log('drew Inner Circle Joy');
+    }
+    this.drawLockedRing = (event) => {
+        //this.doubleClicked = true;
+        this.calculateCanvasPosition(event);
+        if (this.isInBigCircle()) {
+            if (this.left === true) {
+                c3.clearRect(0, 0, canvas2.width * 0.5, canvas2.height);
+                this.holdLeft = true;
+                console.log('left ' + this.holdLeft);
+            } else {
+                c3.clearRect(canvas2.width * 0.5, 0, canvas2.width, canvas2.height);
+                this.holdRight = true;
+                console.log('right ' + this.holdRight);
+            }
+            this.drawOuterCircle();
+            this.drawPath();
+            c3.beginPath();
+            c3.arc(this.newCirX, this.newCirY, this.radiusJ * 0.45, 0, Math.PI * 2, false);
+            let gradient = c3.createRadialGradient(this.centerXJ, this.centerYJ, this.radiusJ * 0.15, this.centerXJ, this.centerYJ, this.radiusJ * 0.45);
+            gradient.addColorStop(0, '#E8E6E1');
+            gradient.addColorStop(1, '#A39E93');
+            c3.fillStyle = gradient;
+            c3.fill();
+            let angle = this.calculateAngle(event);
+            this.direction = this.getDirection(angle);
+            if (this.left === true) {
+                this.changeSpeedL(this.direction);
+            } else {
+                this.changeSpeedR(this.direction);
+            }
+        }
     }
     this.drawPath = function () {
         c3.beginPath();
@@ -363,101 +404,116 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
         c3.fill();
 
     }
+
     this.startDrawing = function (event) {
         this.pressed = true;
+
         this.calculateCanvasPosition(event);
         if (this.isInBigCircle()) {
-            if (this.left === true) {
+            if (this.left && this.holdLeft) {
+                this.holdLeft = false;
+                console.log('left ' + this.holdLeft);
+            } else { 
+                if(!this.left && this.holdRight) {
+                this.holdRight = false;
+                console.log('right is false?' + this.holdRight);
+                }
+            }
+
+            if (this.left) {
                 c3.clearRect(0, 0, canvas2.width * 0.5, canvas2.height);
             } else {
                 c3.clearRect(canvas2.width * 0.5, 0, canvas2.width, canvas2.height);
             }
-            //console.log('clear');
+            console.log('in start');
             //console.log('x:' + this.newCirX);
             //console.log('y:' + this.newCirY);
             this.drawOuterCircle();
             this.drawPath();
-
             this.drawInnerCircle(this.newCirX, this.newCirY);
+            let angle = this.calculateAngle(event);
+            this.direction = this.getDirection(angle);
+            if (this.left === true) {
+                this.changeSpeedL(this.direction);
+            } else {
+                this.changeSpeedR(this.direction);
+            }
+
         } else {
-            console.log('not in ');
+            //console.log('not in circle');
         }
-        if (this.left) {
-            pressedL = true;
-            pressedR = false;
-        } else {
-            pressedR = true;
-            pressedL = false;
-        }
+
 
     }
 
     this.dragDraw = function (event) {
-        if (this.pressed == true) {
-            this.calculateCanvasPosition(event);
-            if (this.isInBigCircle()) {
-                if (this.left === true) {
-                    c3.clearRect(0, 0, canvas2.width * 0.5, canvas2.height);
-                } else {
-                    c3.clearRect(canvas2.width * 0.5, 0, canvas2.width, canvas2.height);
-                }
-                // console.log('clear drag');
-                // console.log('x:' + this.newCirX);
-                // console.log('y:' + this.newCirY);
-                this.drawOuterCircle();
-                this.drawPath();
-                this.drawInnerCircle(this.newCirX, this.newCirY);
-                var angle = this.calculateAngle(event);
-                //this.calculateCoordinate(angle);
-                this.direction = this.getDirection(angle);
-                if (this.left === true) {
-                    this.changeSpeedL(this.direction);
-                } else {
-                    this.changeSpeedR(this.direction);
-                }
-            } else if (this.isInBiggerCircle()) {
-                //console.log('bigger circle');
-                if (this.left === true) {
-                    c3.clearRect(0, 0, canvas2.width * 0.5, canvas2.height);
-                } else {
-                    c3.clearRect(canvas2.width * 0.5, 0, canvas2.width, canvas2.height);
-                }
-                var angle = this.calculateAngle(event);
-                this.calculateCoordinate(angle);
-                this.drawOuterCircle();
-                this.drawPath();
-                this.drawInnerCircle(this.newCirX, this.newCirY);
-                this.direction = this.getDirection(angle);
-                if (this.left === true) {
-                    this.changeSpeedL(this.direction);
-                } else {
-                    this.changeSpeedR(this.direction);
-                }
 
+        if ((this.left && !this.holdLeft) || (!this.left && !this.holdRight)) {
+            if (this.pressed) {
+                this.calculateCanvasPosition(event);
+                if (this.isInBigCircle()) {
+                    if (this.left) {
+                        c3.clearRect(0, 0, canvas2.width * 0.5, canvas2.height);
+                    } else {
+                        c3.clearRect(canvas2.width * 0.5, 0, canvas2.width, canvas2.height);
+                    }
+                    console.log('in drag');
+                    // console.log('x:' + this.newCirX);
+                    // console.log('y:' + this.newCirY);
+                    this.drawOuterCircle();
+                    this.drawPath();
+                    this.drawInnerCircle(this.newCirX, this.newCirY);
+                    var angle = this.calculateAngle(event);
 
-            } else {
-                return;
+                    this.mapPosition();
+                    this.direction = this.getDirection(angle);
+                    if (this.left === true) {
+                        this.changeSpeedL(this.direction);
+                    } else {
+                        this.changeSpeedR(this.direction);
+                    }
+                }
+                //  else if (this.isInBiggerCircle()) {
+                //     //console.log('bigger circle');
+                //     // if (this.left === true) {
+                //     //     c3.clearRect(0, 0, canvas2.width * 0.5, canvas2.height);
+                //     // } else {
+                //     //     c3.clearRect(canvas2.width * 0.5, 0, canvas2.width, canvas2.height);
+                //     // }
+                //     // var angle = this.calculateAngle(event);
+                //     // this.calculateCoordinate(angle);
+                //     // this.drawOuterCircle();
+                //     // this.drawPath();
+                //     // this.drawInnerCircle(this.newCirX, this.newCirY);
+                //     // this.direction = this.getDirection(angle);
+                //     // if (this.left === true) {
+                //     //     this.changeSpeedL(this.direction);
+                //     // } else {
+                //     //     this.changeSpeedR(this.direction);
+                //     // }
+                else {
+                    return;
+                }
             }
         }
+
     }
 
 
     this.stopDrawing = function (event) {
-
-        this.pressed = false;
-        if (this.left === true) {
-            c3.clearRect(0, 0, canvas2.width * 0.5, canvas2.height);
-        } else {
-            c3.clearRect(canvas2.width * 0.5, 0, canvas2.width, canvas2.height);
+        if (!this.holdLeft && !this.holdRight) {
+            this.pressed = false;
+            if (this.left) {
+                c3.clearRect(0, 0, canvas2.width * 0.5, canvas2.height);
+            } else {
+                c3.clearRect(canvas2.width * 0.5, 0, canvas2.width, canvas2.height);
+            }
+            console.log('stop drawing called');
+            this.drawOuterCircle();
+            this.drawPath();
+            this.drawInnerCircle(this.centerXJ, this.centerYJ);
+            this.backToCenter(this.direction);
         }
-        // console.log('clear');
-
-        this.drawOuterCircle();
-        this.drawPath();
-        this.drawInnerCircle(this.centerXJ, this.centerYJ);
-        this.backToCenter(this.direction);
-
-
     }
     this.calculateCanvasPosition = function (event) {
         if (touched) {
@@ -524,14 +580,39 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
         let oct = Math.floor(deg / 45);
         //console.log('divide by 45: ' + oct);
         let DirArray = ['E', 'NE', 'N', 'NW', 'W', 'SW', 'S', 'SE'];
-        console.log(DirArray[oct]);
+        //console.log(DirArray[oct]);
         return DirArray[oct];
-
     }
+
+    this.mapPosition = () => {
+        let x = Math.sqrt(Math.pow(this.radiusJ, 2) - Math.pow(this.newCirY - this.centerYJ, 2));
+        let x1 = this.centerXJ - x;
+        //let x2 = this.centerXJ +x;
+        let lengthX = 2 * x;
+        let ratioX = (this.newCirX - x1) / lengthX;
+        //console.log(ratioX);
+
+        let y = Math.sqrt(Math.pow(this.radiusJ, 2) - Math.pow(this.newCirX - this.centerXJ, 2));
+        let y1 = this.centerYJ - y;
+        //let y2 = this.centerYJ +y;
+        let lengthY = 2 * y;
+        
+        let ratioY = (this.newCirY - y1) / lengthY;
+        if(this.left){
+            ratioY= 1- ratioY;
+        }
+        let scaleX = ratioX*2-1;
+        let scaleY =ratioY*2-1;
+        console.log(scaleX + ', ' + scaleY);
+
+        return [scaleX, scaleY];
+    }
+    
+
 
     this.changeSpeedL = function (direction) {
         if (direction === 'N') {
-            this.ascending = true;
+            //this.ascending = true;
             if (speedControl1 <= 0.45) {
                 speedControl1 += 0.005;
             }
@@ -544,11 +625,11 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
             if (speedControl4 <= 0.45) {
                 speedControl4 += 0.005;
             }
-            pause = false;
+            flyUpB = false;
             flyUp();
 
         } else if (direction === 'S') {
-            this.descending = true;
+            //this.descending = true;
 
             if (speedControl1 > 0) {
                 if (speedControl1 < -0.003) {
@@ -644,15 +725,28 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
         speedControlArray.push(speedControl4);
         let rankArray = rankSpeedControl();
         drawSpeedometer(rankArray);
+        drawSpeedBar(rankArray);
+
     }
     this.backToCenter = function (direction) {
         cancelAnimationFrame(id);
         pause = true;
+        flyUpB = true;
         id = undefined;
         speedControl1 = initialSpeed;
         speedControl4 = initialSpeed;
         speedControl2 = initialSpeed;
         speedControl3 = initialSpeed;
+        firstT = true;
+        // box.setFromObject(drone);
+        // box.getCenter(drone.position); // this re-sets the mesh position
+        // drone.position.multiplyScalar(-1);
+        // scene.add(pivot);
+        // pivot.add(drone);        
+        let rankArray = [3, 3, 3, 3]
+        drawSpeedBar(rankArray);
+
+
     }
 
     this.changeSpeedR = function (direction) {
@@ -665,6 +759,8 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
             }
             speedControl1 = initialSpeed;
             speedControl2 = initialSpeed;
+            pause = false;
+            forward();
 
         } else if (direction === 'S') {
 
@@ -690,8 +786,6 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
             speedControl1 = initialSpeed;
             speedControl3 = initialSpeed;
         } else if (direction === 'E') {
-            //console.log('hereE');
-
             if (speedControl1 <= 0.35) {
                 speedControl1 += 0.005;
             }
@@ -740,20 +834,30 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
         let rankArray = rankSpeedControl();
         console.log(rankArray);
         drawSpeedometer(rankArray);
+        drawSpeedBar(rankArray);
     }
 }
 
 function selectColor(rankNo) {
     if (rankNo === 1) {
+        c.fillStyle = '#E84258';
         c3.fillStyle = '#E84258';
     } else if (rankNo === 2) {
+        c.fillStyle = '#FD8060';
         c3.fillStyle = '#FD8060';
     } else if (rankNo === 3) {
+        c.fillStyle = '#fEE191';
         c3.fillStyle = '#fEE191';
     } else if (rankNo === 4) {
+        c.fillStyle = '#B0D8A4';
         c3.fillStyle = '#B0D8A4';
+    } else if (rankNo === 5) {
+        let gradientLine1 = c.createLinearGradient(x1, y1, x1 + 420, y1 + 420);
+        gradientLine1.addColorStop(0, '#8d8d8d');
+        gradientLine1.addColorStop(0.5, '#b0aeae');
+        gradientLine1.addColorStop(1, '#8d8d8d');
+        c3.fillStyle = gradientLine;
     }
-
 }
 
 function drawSpeedometer(rankArray) {
@@ -767,18 +871,18 @@ function drawSpeedometer(rankArray) {
 
     //first propeller
     c3.beginPath();
-    c3.arc(x1, y1, infoArray[2] * 2, 0, 0.5 * Math.PI, true);
-    c3.lineTo(xMid - infoArray[2] * 2, yMid);
-    c3.lineTo(xMid, yMid - infoArray[2] * 2);
+    c3.arc(x1, y1, infoArray[2] * 1.25, 0, 0.5 * Math.PI, true);
+    c3.lineTo(xMid - infoArray[2] * 1.25, yMid);
+    c3.lineTo(xMid, yMid - infoArray[2] * 1.5);
     c3.closePath();
     selectColor(rankArray[0]);
     c3.fill();
 
     //second propeller
     c3.beginPath();
-    c3.arc(x1 + side, y1, infoArray[2] * 2, Math.PI, 0.5 * Math.PI, false);
-    c3.lineTo(xMid, yMid + infoArray[2] * 2);
-    c3.lineTo(xMid - infoArray[2] * 2, yMid);
+    c3.arc(x1 + side, y1, infoArray[2] * 1.25, Math.PI, 0.5 * Math.PI, false);
+    c3.lineTo(xMid, yMid + infoArray[2] * 1.25);
+    c3.lineTo(xMid - infoArray[2] * 1.5, yMid);
     c3.closePath();
     selectColor(rankArray[1]);
     c3.fill();
@@ -786,9 +890,9 @@ function drawSpeedometer(rankArray) {
 
     // 3 propeller
     c3.beginPath();
-    c3.arc(x1, y1 + side, infoArray[2] * 2, 0, 3 / 2 * Math.PI, false);
-    c3.lineTo(xMid, yMid - infoArray[2] * 2);
-    c3.lineTo(xMid + infoArray[2] * 2, yMid);
+    c3.arc(x1, y1 + side, infoArray[2] * 1.25, 0, 3 / 2 * Math.PI, false);
+    c3.lineTo(xMid, yMid - infoArray[2] * 1.25);
+    c3.lineTo(xMid + infoArray[2] * 1.5, yMid);
     c3.closePath();
     selectColor(rankArray[2]);
     c3.fill();
@@ -796,17 +900,17 @@ function drawSpeedometer(rankArray) {
 
     //fourth propeller
     c3.beginPath();
-    c3.arc(x1 + side, y1 + side, infoArray[2] * 2, Math.PI, 1.5 * Math.PI, true);
-    c3.lineTo(xMid, yMid - infoArray[2] * 2);
-    c3.lineTo(xMid - infoArray[2] * 2, yMid);
+    c3.arc(x1 + side, y1 + side, infoArray[2] * 1.25, Math.PI, 1.5 * Math.PI, true);
+    c3.lineTo(xMid, yMid - infoArray[2] * 1.25);
+    c3.lineTo(xMid - infoArray[2] * 1.5, yMid);
     c3.closePath();
     selectColor(rankArray[3]);
     c3.fill();
 
     //middle body
     c3.beginPath();
-    c3.arc(xMid, yMid, infoArray[2] * 14.9, 0, 2 * Math.PI, true);
-    let gradient = c3.createRadialGradient(xMid, yMid, infoArray[2] * 1, xMid, yMid, infoArray[2] * 15);
+    c3.arc(xMid, yMid, infoArray[2] * 10.9, 0, 2 * Math.PI, true);
+    let gradient = c3.createRadialGradient(xMid, yMid, infoArray[2] * 1, xMid, yMid, infoArray[2] * 11);
     gradient.addColorStop(1, '#696969');
     gradient.addColorStop(0, '#b0aeae');
     c3.fillStyle = gradient;
@@ -831,12 +935,12 @@ function calculateBodyPosition() { //this function returns the mid point of the 
     let width = canvas2.width;
     let height = canvas2.height;
 
-    let side = 0.5 * width;
+    let side = 0.4 * width;
     if (height < width) {
-        side = 0.5 * height;
+        side = 0.4 * height;
     }
     let xMid = infoArray[0] * 0.5;
-    let yMid = infoArray[1] * 0.4;
+    let yMid = infoArray[1] * 0.45;
     let x1 = xMid - side / 2;
     let y1 = yMid - side / 2;
     return [xMid, yMid, x1, y1, side];
@@ -853,9 +957,9 @@ function drawStatic() {
     let side = postionArray[4];
 
     c.beginPath();
-    c.arc(x1, y1, infoArray[2] * 3, 0, 0.5 * Math.PI, true);
-    c.lineTo(x1 + side - infoArray[2] * 3, y1 + side);
-    c.arc(x1 + side, y1 + side, infoArray[2] * 3, Math.PI, 1.5 * Math.PI, true);
+    c.arc(x1, y1, infoArray[2] * 2, 0, 0.5 * Math.PI, true);
+    c.lineTo(x1 + side - infoArray[2] * 2, y1 + side);
+    c.arc(x1 + side, y1 + side, infoArray[2] * 2, Math.PI, 1.5 * Math.PI, true);
     c.closePath();
     let gradientLine1 = c.createLinearGradient(x1, y1, x1 + 420, y1 + 420);
     gradientLine1.addColorStop(0, '#8d8d8d');
@@ -868,22 +972,23 @@ function drawStatic() {
 
     //3to2
     c.beginPath();
-    c.arc(x1, y1 + side, infoArray[2] * 3, 0, 3 / 2 * Math.PI, false);
-    c.lineTo(x1 + side - infoArray[2] * 3, y1);
-    c.arc(x1 + side, y1, infoArray[2] * 3, Math.PI, 0.5 * Math.PI, false);
+    c.arc(x1, y1 + side, infoArray[2] * 2, 0, 3 / 2 * Math.PI, false);
+    c.lineTo(x1 + side - infoArray[2] * 2, y1);
+    c.arc(x1 + side, y1, infoArray[2] * 2, Math.PI, 0.5 * Math.PI, false);
     c.closePath();
     c.stroke();
     c.fill();
 
-
     //middle body
     c.beginPath();
-    c.arc(xMid, yMid, infoArray[2] * 15, 0, 2 * Math.PI, true);
-    let gradient = c.createRadialGradient(xMid, yMid, infoArray[2] * 1, xMid, yMid, infoArray[2] * 15);
+    c.arc(xMid, yMid, infoArray[2] * 11, 0, 2 * Math.PI, true);
+    let gradient = c.createRadialGradient(xMid, yMid, infoArray[2] * 1, xMid, yMid, infoArray[2] * 11);
     gradient.addColorStop(1, '#696969');
     gradient.addColorStop(0, '#b0aeae');
     c.fillStyle = gradient;
     c.fill();
+
+
 }
 
 function init() {
@@ -894,11 +999,13 @@ function init() {
     joyRight.drawOuterCircle();
     joyRight.drawPath();
     joyRight.drawInnerCircle(joyRight.centerXJ, joyRight.centerYJ);
+    let rankArray = [3, 3, 3, 3]
+    drawSpeedBar(rankArray);
+
     window.requestAnimationFrame(animate);
 }
 
 function rankSpeedControl() {
-
     let sorted = speedControlArray.slice().sort(function (a, b) {
         return b - a
     })
@@ -906,7 +1013,6 @@ function rankSpeedControl() {
         return sorted.indexOf(v) + 1
     });
     return ranks;
-
 }
 
 
@@ -915,27 +1021,132 @@ function drawingPropeller(number) {
     for (let i = 1; i < 3; i++) {
         c.beginPath();
         c.moveTo(0, 0);
-        c.lineTo(-infoArray[2], infoArray[2] * 7);
-        c.lineTo(infoArray[2] * 1.5, infoArray[2] * 17);
-        c.lineTo(infoArray[2] * 3, infoArray[2] * 17);
-        c.lineTo(infoArray[2] + infoArray[2] * 3, infoArray[2] * 7);
+        c.lineTo(-infoArray[2], infoArray[2] * 5);
+        c.lineTo(infoArray[2] * 1.25, infoArray[2] * 13);
+        c.lineTo(infoArray[2] * 2.5, infoArray[2] * 13);
+        c.lineTo(infoArray[2] + infoArray[2] * 2, infoArray[2] * 5);
         c.lineTo(infoArray[2] * 0.5, 0);
         c.closePath();
-
         c.fill();
         c.rotate(Math.PI);
     }
 
     c.restore();
     c.beginPath();
-    c.arc(0, 0, infoArray[2] * 1.5, 0, Math.PI * 2.5, false);
+    c.arc(0, 0, infoArray[2] * 1.25, 0, Math.PI * 2.5, false);
     c.fillStyle = '#404040';
     c.fill();
 
     c.beginPath();
-    c.arc(0, 0, infoArray[2] * 1, 0, Math.PI * 2.5, false);
+    c.arc(0, 0, infoArray[2] * 0.75, 0, Math.PI * 2.5, false);
     c.fillStyle = '#b0aeae';
     c.fill();
+
+
+}
+
+function drawSpeedBar(rankArray) {
+    c3.clearRect(0, 0, 0, 0.9 * infoArray[1] + 6 * infoArray[2]);
+    let postionArray = calculateBodyPosition();
+    let xMid = postionArray[0];
+    // let yMid = postionArray[1];
+    // let x1 = postionArray[2];
+    let y1 = postionArray[3];
+    let side = postionArray[4];
+    let xL = infoArray[0] * 0.0875;
+    let xR = infoArray[0] - infoArray[0] * 0.0875;
+
+    let barHeight = infoArray[1] * 0.25;
+
+    //fix Y
+    c3.save();
+    c3.translate(xL, y1 - 0.25 * side);
+    drawSpeedBarHelper(barHeight);
+    drawFillSpeedBar(rankArray[0]);
+    c3.restore();
+
+    c3.save();
+    c3.translate(xR, y1 - 0.25 * side);
+    drawSpeedBarHelper(barHeight);
+    drawFillSpeedBar(rankArray[1]);
+    c3.restore();
+
+    c3.save();
+    c3.translate(xL, y1 + 0.75 * side);
+    drawSpeedBarHelper(barHeight);
+    drawFillSpeedBar(rankArray[2]);
+    c3.restore();
+
+    c3.save();
+    c3.translate(xR, y1 + 0.75 * side);
+    drawSpeedBarHelper(barHeight);
+    drawFillSpeedBar(rankArray[3]);
+    c3.restore();
+}
+
+function drawFillSpeedBar(rank) {
+    let barHeight = infoArray[1] * 0.25;
+
+
+    c3.clearRect(0, 0, 0, 0.9 * infoArray[1] + 6 * infoArray[2]);
+    if (rank === 1) {
+        drawSpeedBarHelper(barHeight);
+        selectColor(rank);
+        c3.fill();
+        c3.stroke();
+
+    } else if (rank === 2) {
+        drawSpeedBarHelper(barHeight * 0.75);
+        selectColor(rank);
+        c3.fill();
+        c3.stroke();
+
+        writePercentage(75,barHeight);
+
+
+
+    } else if (rank === 3) {
+        drawSpeedBarHelper(barHeight * 0.5);
+        selectColor(rank);
+        c3.fill();
+        c3.stroke();
+
+    } else if (rank === 4) {
+        drawSpeedBarHelper(barHeight * 0.25);
+        selectColor(rank);
+        c3.fill();
+        c3.stroke();
+
+    } else if (rank === 5) {
+        drawSpeedBarHelper(barHeight * 0.25);
+        selectColor(rank);
+        c3.fill();
+        c3.stroke();
+
+    }
+}
+
+
+
+function drawSpeedBarHelper(scaleY) {
+    c3.clearRect(0, 0, 0, 0.9 * infoArray[1] + 6 * infoArray[2]);
+    c3.beginPath();
+    c3.rect(0, 0, 0.0225 * infoArray[0], scaleY);
+    c3.fillStyle = '#FFFFFF';
+    c3.fill();
+    c3.stroke();
+
+
+  
+}
+
+function writePercentage(percentage,scaleY){
+    let fontSize = Math.floor(0.38* infoArray[0]/15);
+    let fontFillStyle = fontSize+"px serif";
+    console.log(fontFillStyle);
+    c3.font = fontFillStyle;
+    c3.fillStyle ='#000000';
+    c3.fillText(percentage+'%',0.0085 * infoArray[0],scaleY*1.2);
 }
 
 function animate() {
