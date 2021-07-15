@@ -72,18 +72,21 @@ if (window.innerWidth < 768) {
 }
 
 //sizing canvas
-var scale = window.devicePixelRatio; // Change to 1 on retina screens to see blurry canvas.
+var scale = 1; // Change to 1 on retina screens to see blurry canvas.
 // canvas.width = Math.floor(size * scale);
 // canvas.height = Math.floor(size * scale);
-canvas3.style.width = sizes.width +"px";
-canvas3.style.height = sizes.height +"px";
-canvas2.style.width = sizes.width +"px";
-canvas2.style.height = sizes.height +"px";
+
 canvas3.width = sizes.width * scale;
 canvas3.height = sizes.height * scale;
 canvas2.width = sizes.width * scale;
 canvas2.height = sizes.height * scale;
 
+// canvas3.style.width = sizes.width +"px";
+// canvas3.style.height = sizes.height +"px";
+// canvas2.style.width = sizes.width +"px";
+// canvas2.style.height = sizes.height +"px";
+// c3.scale(scale, scale);
+// c.scale(scale, scale);
 
 window.addEventListener('resize', function () {
     //update camera
@@ -97,14 +100,10 @@ window.addEventListener('resize', function () {
 
     //sizing canvas
 
-    canvas3.style.width = sizes.width +"px";
-canvas3.style.height = sizes.height +"px";
-canvas2.style.width = sizes.width +"px";
-canvas2.style.height = sizes.height +"px";
-canvas3.width = sizes.width * scale;
-canvas3.height = sizes.height * scale;
-canvas2.width = sizes.width * scale;
-canvas2.height = sizes.height * scale;
+    canvas3.width = sizes.width;
+    canvas3.height = sizes.height;
+    canvas2.width = sizes.width;
+    canvas2.height = sizes.height;
 
     camera.aspect = sizes.width / sizes.height;
     camera.updateProjectionMatrix();
