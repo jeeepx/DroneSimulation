@@ -103,8 +103,8 @@ window.addEventListener('resize', function () {
     infoArray = calculateOrigin();
     repositionJoy();
     reposition();
-    let rankArray = [3, 3, 3, 3]
-    drawSpeedBar(rankArray);
+    drawSpeedBar([50, 50, 50, 50]);
+    writePercentage([50, 50, 50, 50]);
 });
 
 
@@ -240,7 +240,7 @@ function repositionJoy() {
     joyLeft.radiusJ = 6 * infoArray[2];
     joyRight.radiusJ = 6 * infoArray[2];
 
-    c3.clearRect(0, 0.9 * infoArray[1] - 6 * infoArray[2], canvas2.width, canvas2.height);
+    c3.clearRect(0, 0, canvas2.width, canvas2.height);
     joyLeft.drawOuterCircle();
     joyLeft.drawPath();
     joyLeft.drawInnerCircle(x1, 0.925 * infoArray[1]);
@@ -256,50 +256,61 @@ let infoArray = calculateOrigin()
 let postionArray = calculateBodyPosition();
 let x1 = postionArray[2];
 let side = postionArray[4];
-let joyLeft = new JoyStick(x1, 0.9 * infoArray[1], 6 * infoArray[2], true);
-let joyRight = new JoyStick(x1 + side, 0.9 * infoArray[1], 6 * infoArray[2], false);
+let joyLeft = new JoyStick(x1, 0.92 * infoArray[1], 6 * infoArray[2], true);
+let joyRight = new JoyStick(x1 + side, 0.92 * infoArray[1], 6 * infoArray[2], false);
 
 canvas3.addEventListener('mousedown', function (event) {
-    //holdBegin = Date.now();
-    joyLeft.startDrawing(event);
-    joyRight.startDrawing(event);
-    //console.log('listend down');
+    if (isInLCircle(event)) {
+        joyLeft.startDrawing(event);
+    } else if (isInRCircle(event)) {
+        joyRight.startDrawing(event);
+    }
 });
 canvas3.addEventListener('mousemove', function (event) {
-    joyLeft.dragDraw(event);
-    joyRight.dragDraw(event);
-    //console.log('listend drag');
+    if (isInLCircle(event)) {
+        joyLeft.dragDraw(event);
+    } else if (isInRCircle(event)) {
+        joyRight.dragDraw(event);
+    }
 });
 canvas3.addEventListener('mouseup', function (event) {
-    joyLeft.stopDrawing(event);
-    joyRight.stopDrawing(event);
-    //console.log('listend');
+    // joyLeft.stopDrawing(event);
+    // joyRight.stopDrawing(event);
+
+    if ((isInLCircle(event))) {
+        joyLeft.stopDrawing(event);
+    } else if (isInRCircle(event)) {
+        joyRight.stopDrawing(event);
+    } else {
+        joyLeft.stopDrawing(event);
+        joyRight.stopDrawing(event);
+    }
 });
 canvas3.addEventListener('dblclick', function (event) {
-    joyLeft.drawLockedRing(event);
-    joyRight.drawLockedRing(event);
+    if (isInLCircle(event)) {
+        joyLeft.drawLockedRing(event);
+    } else if (isInRCircle(event)) {
+        joyRight.drawLockedRing(event);
+    }
 })
 
 canvas3.addEventListener('touchstart', function (event) {
     touched = true;
     joyLeft.startDrawing(event);
     joyRight.startDrawing(event);
-    //console.log('listend down');
 });
 canvas3.addEventListener('touchmove', function (event) {
     joyLeft.dragDraw(event);
     joyRight.dragDraw(event);
-    //console.log('listend drag');
 });
 canvas3.addEventListener('touchend', function (event) {
     joyLeft.stopDrawing(event);
     joyRight.stopDrawing(event);
     touched = false;
-    //console.log('listend');
 });
 
 var inited = false;
-var initialSpeed = 0.1;
+var initialSpeed = 0.2;
 var angle1 = 0.005;
 var angle2 = 0.005;
 var angle3 = 0.005;
@@ -308,10 +319,28 @@ var speedControl1 = initialSpeed;
 var speedControl4 = initialSpeed;
 var speedControl2 = initialSpeed;
 var speedControl3 = initialSpeed;
-var speedControlArray = [];
 var touched = false;
+let storedLX = 0;
+let storedLY = 0;
+let storedRX = 0;
+let storedRY = 0;
+let holdLeft = false;
+let holdRight = false;
+let pressedL = false;
+let pressedR = false;
+
 
 init();
+
+function isInLCircle(event) {
+    joyLeft.calculateCanvasPosition(event);
+    return joyLeft.isInBigCircle();
+}
+
+function isInRCircle(event) {
+    joyRight.calculateCanvasPosition(event);
+    return joyRight.isInBigCircle();
+}
 
 function JoyStick(centerXJ, centerYJ, radiusJ, left) {
     this.centerXJ = centerXJ;
@@ -325,10 +354,9 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
     this.left = left;
     this.direction;
     this.oldDirection = '';
-    //this.checkTime;
-    this.holdLeft = false;
-    this.holdRight = false;
+    this.storedLLRR = [];
     this.doubleClicked = false;
+    this.calculatedSpeedArray = [];
     this.oldXcoor;
 
     this.drawOuterCircle = function () {
@@ -353,18 +381,37 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
         //console.log('drew Inner Circle Joy');
     }
     this.drawLockedRing = (event) => {
-        //this.doubleClicked = true;
+        console.log('left or not: ' + this.left);
+        console.log(centerXJ + ', before before' + centerYJ);
         this.calculateCanvasPosition(event);
+        console.log(this.centerXJ + ', before' + this.centerYJ);
+        let calculatedArray = this.mapPosition(this.newCirX, this.newCirY);
+        //console.log(calculatedArray);
         if (this.isInBigCircle()) {
-            if (this.left === true) {
-                c3.clearRect(0, 0, canvas2.width * 0.5, canvas2.height);
-                this.holdLeft = true;
-                console.log('left ' + this.holdLeft);
+            if (this.left && !holdRight) {
+                holdLeft = true;
+                storedLX = calculatedArray[0];
+                storedLY = calculatedArray[1];
+                storedRX = 0;
+                storedRY = 0;
+                console.log('left ' + holdLeft);
+            } else if (this.left && holdRight) {
+                holdLeft = true;
+                storedLX = calculatedArray[0];
+                storedLY = calculatedArray[1];
+            } else if (!this.left && !holdLeft) {
+                holdRight = true;
+                storedRX = calculatedArray[0];
+                storedRY = calculatedArray[1];
+                storedLX = 0;
+                storedLY = 0;
+                console.log('right ' + holdRight);
             } else {
-                c3.clearRect(canvas2.width * 0.5, 0, canvas2.width, canvas2.height);
-                this.holdRight = true;
-                console.log('right ' + this.holdRight);
+                holdRight = true;
+                storedRX = calculatedArray[0];
+                storedRY = calculatedArray[1];
             }
+
             this.drawOuterCircle();
             this.drawPath();
             c3.beginPath();
@@ -374,13 +421,16 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
             gradient.addColorStop(1, '#A39E93');
             c3.fillStyle = gradient;
             c3.fill();
-            let angle = this.calculateAngle(event);
-            this.direction = this.getDirection(angle);
-            if (this.left === true) {
-                this.changeSpeedL(this.direction);
-            } else {
-                this.changeSpeedR(this.direction);
-            }
+
+            this.createUiArray();
+            this.calculatedSpeedArray = this.matrixMultiplication();
+            let rearrangedArray = this.rearrangedArray();
+            drawSpeedometer(rearrangedArray);
+            drawSpeedBar(rearrangedArray);
+            adjustSpeed(this.calculatedSpeedArray);
+            writePercentage(rearrangedArray);
+            writeDescription(this.storedLLRR);
+
         }
     }
     this.drawPath = function () {
@@ -407,22 +457,25 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
 
     this.startDrawing = function (event) {
         this.pressed = true;
+        //console.log('left or not: ' + this.left);
 
         this.calculateCanvasPosition(event);
         if (this.isInBigCircle()) {
-            if (this.left && this.holdLeft) {
-                this.holdLeft = false;
-                console.log('left ' + this.holdLeft);
-            } else { 
-                if(!this.left && this.holdRight) {
-                this.holdRight = false;
-                console.log('right is false?' + this.holdRight);
+            if (this.left && holdLeft) {
+                holdLeft = false;
+                console.log('left ' + holdLeft);
+            } else {
+                if (!this.left && holdRight) {
+                    holdRight = false;
+                    console.log('right' + holdRight);
                 }
             }
 
             if (this.left) {
+                pressedL = true;
                 c3.clearRect(0, 0, canvas2.width * 0.5, canvas2.height);
             } else {
+                pressedR = true;
                 c3.clearRect(canvas2.width * 0.5, 0, canvas2.width, canvas2.height);
             }
             console.log('in start');
@@ -431,25 +484,59 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
             this.drawOuterCircle();
             this.drawPath();
             this.drawInnerCircle(this.newCirX, this.newCirY);
-            let angle = this.calculateAngle(event);
-            this.direction = this.getDirection(angle);
-            if (this.left === true) {
-                this.changeSpeedL(this.direction);
-            } else {
-                this.changeSpeedR(this.direction);
+
+            let calculatedArray = this.mapPosition(this.newCirX, this.newCirY);
+            if (this.left && !holdRight) {
+                storedLX = calculatedArray[0];
+                storedLY = calculatedArray[1];
+                storedRX = 0;
+                storedRY = 0;
+                this.createUiArray();
+            } else if (!this.left && !holdLeft) {
+                storedRX = calculatedArray[0];
+                storedRY = calculatedArray[1];
+                storedLX = 0;
+                storedLY = 0;
+                this.createUiArray();
             }
+
+            this.calculatedSpeedArray = this.matrixMultiplication();
+            let rearrangedArray = this.rearrangedArray();
+            drawSpeedometer(rearrangedArray);
+            drawSpeedBar(rearrangedArray);
+            adjustSpeed(this.calculatedSpeedArray);
+            writePercentage(rearrangedArray);
+            writeDescription(this.storedLLRR);
 
         } else {
             //console.log('not in circle');
         }
 
+    }
+    this.createUiArray = () => {
+        this.storedLLRR = [];
+        this.storedLLRR.push(storedLY);
+        this.storedLLRR.push(storedRX);
+        this.storedLLRR.push(storedRY);
+        this.storedLLRR.push(storedLX);
+        console.log('Ui Array:' + this.storedLLRR);
+    }
+    this.rearrangedArray = () => {
+        let rearrangedArray = [];
+        rearrangedArray.push(this.calculatedSpeedArray[3]);
+        rearrangedArray.push(this.calculatedSpeedArray[0]);
+        rearrangedArray.push(this.calculatedSpeedArray[2]);
+        rearrangedArray.push(this.calculatedSpeedArray[1]);
+        //console.log('rearranged Array:' + rearrangedArray);
+        return rearrangedArray;
 
     }
 
     this.dragDraw = function (event) {
+        //console.log('left or not drag: ' + this.left);
 
-        if ((this.left && !this.holdLeft) || (!this.left && !this.holdRight)) {
-            if (this.pressed) {
+        if ((this.left && !holdLeft) || (!this.left && !holdRight)) {
+            if (this.left && pressedL || !this.left && pressedR) {
                 this.calculateCanvasPosition(event);
                 if (this.isInBigCircle()) {
                     if (this.left) {
@@ -458,40 +545,43 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
                         c3.clearRect(canvas2.width * 0.5, 0, canvas2.width, canvas2.height);
                     }
                     console.log('in drag');
-                    // console.log('x:' + this.newCirX);
-                    // console.log('y:' + this.newCirY);
+
                     this.drawOuterCircle();
                     this.drawPath();
                     this.drawInnerCircle(this.newCirX, this.newCirY);
-                    var angle = this.calculateAngle(event);
 
-                    this.mapPosition();
-                    this.direction = this.getDirection(angle);
-                    if (this.left === true) {
-                        this.changeSpeedL(this.direction);
+                    let calculatedArray = this.mapPosition(this.newCirX, this.newCirY);
+                    if (this.left && !holdRight) {
+                        storedLX = calculatedArray[0];
+                        storedLY = calculatedArray[1];
+                        storedRX = 0;
+                        storedRY = 0;
+                        console.log('left ' + holdLeft);
+                    } else if (this.left && holdRight) {
+                        storedLX = calculatedArray[0];
+                        storedLY = calculatedArray[1];
+                    } else if (!this.left && !holdLeft) {
+                        storedRX = calculatedArray[0];
+                        storedRY = calculatedArray[1];
+                        storedLX = 0;
+                        storedLY = 0;
+                        console.log('right ' + holdRight);
                     } else {
-                        this.changeSpeedR(this.direction);
+                        storedRX = calculatedArray[0];
+                        storedRY = calculatedArray[1];
                     }
-                }
-                //  else if (this.isInBiggerCircle()) {
-                //     //console.log('bigger circle');
-                //     // if (this.left === true) {
-                //     //     c3.clearRect(0, 0, canvas2.width * 0.5, canvas2.height);
-                //     // } else {
-                //     //     c3.clearRect(canvas2.width * 0.5, 0, canvas2.width, canvas2.height);
-                //     // }
-                //     // var angle = this.calculateAngle(event);
-                //     // this.calculateCoordinate(angle);
-                //     // this.drawOuterCircle();
-                //     // this.drawPath();
-                //     // this.drawInnerCircle(this.newCirX, this.newCirY);
-                //     // this.direction = this.getDirection(angle);
-                //     // if (this.left === true) {
-                //     //     this.changeSpeedL(this.direction);
-                //     // } else {
-                //     //     this.changeSpeedR(this.direction);
-                //     // }
-                else {
+
+                    this.createUiArray();
+                    this.calculatedSpeedArray = this.matrixMultiplication();
+                    let rearrangedArray = this.rearrangedArray();
+                    drawSpeedometer(rearrangedArray);
+                    drawSpeedBar(rearrangedArray);
+                    adjustSpeed(this.calculatedSpeedArray);
+                    writePercentage(rearrangedArray);
+                    writeDescription(this.storedLLRR);
+
+
+                } else {
                     return;
                 }
             }
@@ -501,18 +591,49 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
 
 
     this.stopDrawing = function (event) {
-        if (!this.holdLeft && !this.holdRight) {
-            this.pressed = false;
+        if (!holdLeft || !holdRight) {
             if (this.left) {
+                pressedL = false;
                 c3.clearRect(0, 0, canvas2.width * 0.5, canvas2.height);
             } else {
+                pressedR = false;
                 c3.clearRect(canvas2.width * 0.5, 0, canvas2.width, canvas2.height);
             }
             console.log('stop drawing called');
             this.drawOuterCircle();
             this.drawPath();
             this.drawInnerCircle(this.centerXJ, this.centerYJ);
-            this.backToCenter(this.direction);
+
+            if (!holdLeft && !holdRight) {
+                storedLX = 0;
+                storedLY = 0;
+                storedRX = 0;
+                storedRY = 0;
+            } else if (holdLeft && !holdRight) {
+                storedRX = 0;
+                storedRY = 0;
+                console.log('left ' + holdLeft);
+            } else if (!holdLeft && holdRight) {
+                storedLX = 0;
+                storedLY = 0;
+            } else if (!this.left && !holdLeft) {
+                holdRight = true;
+                storedRX = calculatedArray[0];
+                storedRY = calculatedArray[1];
+                storedLX = 0;
+                storedLY = 0;
+                console.log('right ' + holdRight);
+            } else {
+                console.log('super weird thing happen');
+            }
+            this.createUiArray();
+            this.calculatedSpeedArray = this.matrixMultiplication();
+            let rearrangedArray = this.rearrangedArray();
+            drawSpeedometer(rearrangedArray);
+            drawSpeedBar(rearrangedArray);
+            adjustSpeed(this.calculatedSpeedArray);
+            writePercentage(rearrangedArray);
+            writeDescription(this.storedLLRR);
         }
     }
     this.calculateCanvasPosition = function (event) {
@@ -546,321 +667,153 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
     }
     this.isInBiggerCircle = function () {
         let calRadius = Math.sqrt(Math.pow(this.newCirX - this.centerXJ, 2) + Math.pow(this.newCirY - this.centerYJ, 2));
-        //console.log('BGcalradius:' + calRadius);
-        //console.log('BGradius:' + this.radiusJ);
-
         if (calRadius - 40 <= this.radiusJ) {
             //console.log('in biggercircle');
-
             return true;
         } else {
-            //console.log('not inBG');
-
             return false;
 
         }
     }
 
-    this.calculateAngle = function () {
-        let rad = Math.atan2(this.newCirY - this.centerYJ, this.newCirX - this.centerXJ);
-        //console.log('degree in calAngle: ' + rad * 180 / Math.PI);
-        return rad;
-    }
-    this.calculateCoordinate = function (angle) {
-        this.newCirX = Math.cos(angle) * this.radiusJ + this.centerXJ;
-        this.newCirY = Math.sin(angle) * this.radiusJ + this.centerYJ;
-    }
-    this.getDirection = function (angle) {
-        let deg = (angle * 180 / Math.PI) * -1;
-        if (deg < 0) {
-            let factor = 180 + deg;
-            deg = 180 + factor;
-        }
-        //console.log('degree in getDirection:' + deg);
-        let oct = Math.floor(deg / 45);
-        //console.log('divide by 45: ' + oct);
-        let DirArray = ['E', 'NE', 'N', 'NW', 'W', 'SW', 'S', 'SE'];
-        //console.log(DirArray[oct]);
-        return DirArray[oct];
-    }
+    // this.calculateAngle = function () {
+    //     let rad = Math.atan2(this.newCirY - this.centerYJ, this.newCirX - this.centerXJ);
+    //     //console.log('degree in calAngle: ' + rad * 180 / Math.PI);
+    //     return rad;
+    // }
+    // this.calculateCoordinate = function (angle) {
+    //     this.newCirX = Math.cos(angle) * this.radiusJ + this.centerXJ;
+    //     this.newCirY = Math.sin(angle) * this.radiusJ + this.centerYJ;
+    // }
+    // this.getDirection = function (angle) {
+    //     let deg = (angle * 180 / Math.PI) * -1;
+    //     if (deg < 0) {
+    //         let factor = 180 + deg;
+    //         deg = 180 + factor;
+    //     }
+    //     //console.log('degree in getDirection:' + deg);
+    //     let oct = Math.floor(deg / 45);
+    //     //console.log('divide by 45: ' + oct);
+    //     let DirArray = ['E', 'NE', 'N', 'NW', 'W', 'SW', 'S', 'SE'];
+    //     //console.log(DirArray[oct]);
+    //     return DirArray[oct];
+    // }
 
-    this.mapPosition = () => {
-        let x = Math.sqrt(Math.pow(this.radiusJ, 2) - Math.pow(this.newCirY - this.centerYJ, 2));
+    this.mapPosition = (xClicked, yClicked) => {
+        let x = Math.sqrt(Math.pow(this.radiusJ, 2) - Math.pow(yClicked - this.centerYJ, 2));
         let x1 = this.centerXJ - x;
         //let x2 = this.centerXJ +x;
         let lengthX = 2 * x;
-        let ratioX = (this.newCirX - x1) / lengthX;
+        let ratioX = (xClicked - x1) / lengthX;
         //console.log(ratioX);
 
-        let y = Math.sqrt(Math.pow(this.radiusJ, 2) - Math.pow(this.newCirX - this.centerXJ, 2));
+        let y = Math.sqrt(Math.pow(this.radiusJ, 2) - Math.pow(xClicked - this.centerXJ, 2));
+        console.log('y:' + y);
+        //console.log('radius:' + this.radiusJ);
+        //console.log('center:' + this.centerXJ);
+
+        //console.log('XClicked:' + xClicked);
+
         let y1 = this.centerYJ - y;
         //let y2 = this.centerYJ +y;
         let lengthY = 2 * y;
-        
-        let ratioY = (this.newCirY - y1) / lengthY;
-        if(this.left){
-            ratioY= 1- ratioY;
+        //console.log('lengthy:' + y);
+        //console.log('yClicked:' + yClicked);
+
+        var ratioY = (yClicked - y1) / lengthY;
+        if (this.left) {
+            ratioY = 1 - ratioY;
         }
-        let scaleX = ratioX*2-1;
-        let scaleY =ratioY*2-1;
-        console.log(scaleX + ', ' + scaleY);
+        //console.log('ratioY:' + ratioY);
+
+        let scaleX = ratioX * 2 - 1;
+        let scaleY = ratioY * 2 - 1;
+        //console.log(scaleX + ', ' + scaleY);
 
         return [scaleX, scaleY];
     }
-    
+    this.matrixMultiplication = () => {
+        let gMatrix = [
+            [1, -1, 1, -1],
+            [1, -1, -1, 1],
+            [1, 1, -1, -1],
+            [1, 1, 1, 1]
+        ];
+        let uiMatrix = [
+            [this.storedLLRR[0]],
+            [this.storedLLRR[1]],
+            [this.storedLLRR[2]],
+            [this.storedLLRR[3]]
+        ];
+        // let uiMatrix = [
+        //     [1],
+        //     [1],
+        //     [1],
+        //     [0]
+        // ];
+        return this.matrixMultiplicationHelper(gMatrix, uiMatrix);
+    }
 
-
-    this.changeSpeedL = function (direction) {
-        if (direction === 'N') {
-            //this.ascending = true;
-            if (speedControl1 <= 0.45) {
-                speedControl1 += 0.005;
-            }
-            if (speedControl2 <= 0.45) {
-                speedControl2 += 0.005;
-            }
-            if (speedControl3 <= 0.45) {
-                speedControl3 += 0.005;
-            }
-            if (speedControl4 <= 0.45) {
-                speedControl4 += 0.005;
-            }
-            flyUpB = false;
-            flyUp();
-
-        } else if (direction === 'S') {
-            //this.descending = true;
-
-            if (speedControl1 > 0) {
-                if (speedControl1 < -0.003) {
-                    speedControl1 = 0.003;
+    this.matrixMultiplicationHelper = (m1, m2) => {
+        let result = [];
+        //let scaledResult=[];
+        let scaledResultA = [];
+        for (let i = 0; i < m1.length; i++) {
+            result[i] = [];
+            //scaledResult[i] = [];
+            for (let j = 0; j < m2[0].length; j++) {
+                let sum = 0;
+                for (let k = 0; k < m1[0].length; k++) {
+                    sum += m1[i][k] * m2[k][j];
                 }
-                speedControl1 -= 0.003;
-            }
-            if (speedControl2 > 0) {
-                if (speedControl2 < -0.003) {
-                    speedControl2 = 0.003;
-                }
-                speedControl2 -= 0.003;
-            }
-            if (speedControl3 > 0) {
-                if (speedControl3 < -0.003) {
-                    speedControl3 = 0.003;
-                }
-                speedControl3 -= 0.003;
-            }
-            if (speedControl4 > 0) {
-                if (speedControl4 < -0.003) {
-                    speedControl4 = 0.003;
-                }
-                speedControl4 -= 0.003;
-            }
-        } else if (direction === 'W') {
-            if (speedControl1 <= 0.45) {
-                speedControl1 += 0.005;
-            }
-            if (speedControl4 <= 0.45) {
-                speedControl4 += 0.005;
-            }
-            speedControl2 = initialSpeed;
-            speedControl3 = initialSpeed;
-            pause = false;
-            rotateL();
-
-        } else if (direction === 'E') {
-            if (speedControl2 <= 0.45) {
-                speedControl2 += 0.005;
-            }
-            if (speedControl3 <= 0.45) {
-                speedControl3 += 0.005;
-            }
-            speedControl1 = initialSpeed;
-            speedControl4 = initialSpeed;
-
-        } else if (direction === 'NE') {
-            if (speedControl2 <= 0.45) {
-                speedControl2 += 0.005;
-            }
-            speedControl3 = speedControl2;
-            speedControl1 = speedControl2 - 0.02;
-            speedControl4 = speedControl2 - 0.02;
-
-        } else if (direction === 'NW') {
-            if (speedControl1 <= 0.45) {
-                speedControl1 += 0.005;
-            }
-            speedControl4 = speedControl1;
-            speedControl2 = speedControl1 - 0.02;
-            speedControl3 = speedControl1 - 0.02;
-        } else if (direction === 'SE') {
-            if (speedControl2 > 0) {
-                if (speedControl2 < 0.0025) {
-                    speedControl2 = 0.0025;
-                }
-                speedControl2 -= 0.0025;
-            }
-            speedControl3 = speedControl2;
-            if (speedControl1 > 0) {
-                speedControl1 = speedControl2 - 0.02;
-                speedControl4 = speedControl2 - 0.02;
-            }
-
-        } else if (direction === 'SW') {
-            if (speedControl1 > 0) {
-                if (speedControl1 < 0.0025) {
-                    speedControl1 = 0.0025;
-                }
-                speedControl1 -= 0.0025;
-            }
-            speedControl4 = speedControl1;
-            if (speedControl2 > 0) {
-                speedControl2 = speedControl1 - 0.02;
-                speedControl3 = speedControl1 - 0.02;
+                result[i][j] = sum;
+                //scaledResult[i][j] = result[i][j]*12.5+50;
+                scaledResultA.push(result[i][j] * 12.5 + 50);
             }
         }
-        speedControlArray = [];
-        speedControlArray.push(speedControl1);
-        speedControlArray.push(speedControl2);
-        speedControlArray.push(speedControl3);
-        speedControlArray.push(speedControl4);
-        let rankArray = rankSpeedControl();
-        drawSpeedometer(rankArray);
-        drawSpeedBar(rankArray);
-
+        console.log(scaledResultA);
+        return scaledResultA;
     }
+
     this.backToCenter = function (direction) {
         cancelAnimationFrame(id);
         pause = true;
         flyUpB = true;
-        id = undefined;
-        speedControl1 = initialSpeed;
-        speedControl4 = initialSpeed;
-        speedControl2 = initialSpeed;
-        speedControl3 = initialSpeed;
         firstT = true;
-        // box.setFromObject(drone);
-        // box.getCenter(drone.position); // this re-sets the mesh position
-        // drone.position.multiplyScalar(-1);
-        // scene.add(pivot);
-        // pivot.add(drone);        
-        let rankArray = [3, 3, 3, 3]
-        drawSpeedBar(rankArray);
-
-
-    }
-
-    this.changeSpeedR = function (direction) {
-        if (direction === 'N') {
-            if (speedControl3 <= 0.35) {
-                speedControl3 += 0.005;
-            }
-            if (speedControl4 <= 0.35) {
-                speedControl4 += 0.005;
-            }
-            speedControl1 = initialSpeed;
-            speedControl2 = initialSpeed;
-            pause = false;
-            forward();
-
-        } else if (direction === 'S') {
-
-            if (speedControl1 <= 0.35) {
-                speedControl1 += 0.005;
-            }
-            if (speedControl2 <= 0.35) {
-                speedControl2 += 0.005;
-            }
-            speedControl3 = initialSpeed;
-            speedControl4 = initialSpeed;
-            pause = false;
-            backward();
-
-        } else if (direction === 'W') {
-
-            if (speedControl2 <= 0.35) {
-                speedControl2 += 0.005;
-            }
-            if (speedControl4 <= 0.35) {
-                speedControl4 += 0.005;
-            }
-            speedControl1 = initialSpeed;
-            speedControl3 = initialSpeed;
-        } else if (direction === 'E') {
-            if (speedControl1 <= 0.35) {
-                speedControl1 += 0.005;
-            }
-            if (speedControl3 <= 0.35) {
-                speedControl3 += 0.005;
-            }
-            speedControl2 = initialSpeed;
-            speedControl4 = initialSpeed;
-        } else if (direction === 'NE') {
-            if (speedControl3 <= 0.35) {
-                speedControl3 += 0.005;
-            }
-            speedControl1 = speedControl3 - 0.025;
-            speedControl4 = speedControl3 - 0.025;
-            speedControl2 = initialSpeed;
-
-        } else if (direction === 'NW') {
-
-            if (speedControl4 <= 0.35) {
-                speedControl4 += 0.005;
-            }
-            speedControl3 = speedControl4 - 0.025;
-            speedControl2 = speedControl4 - 0.025;
-            speedControl1 = initialSpeed;
-        } else if (direction === 'SW') {
-
-            if (speedControl2 <= 0.35) {
-                speedControl2 += 0.005;
-            }
-            speedControl1 = speedControl2 - 0.025;
-            speedControl4 = speedControl2 - 0.025;
-            speedControl3 = initialSpeed;
-        } else if (direction === 'SE') {
-            if (speedControl1 <= 0.35) {
-                speedControl1 += 0.005;
-            }
-            speedControl2 = speedControl1 - 0.025;;
-            speedControl3 = speedControl1 - 0.025;
-            speedControl4 = initialSpeed;
-        }
-        speedControlArray = [];
-        speedControlArray.push(speedControl1);
-        speedControlArray.push(speedControl2);
-        speedControlArray.push(speedControl3);
-        speedControlArray.push(speedControl4);
-        let rankArray = rankSpeedControl();
-        console.log(rankArray);
-        drawSpeedometer(rankArray);
+        let rankArray = [50, 50, 50, 50]
         drawSpeedBar(rankArray);
     }
 }
 
-function selectColor(rankNo) {
-    if (rankNo === 1) {
-        c.fillStyle = '#E84258';
-        c3.fillStyle = '#E84258';
-    } else if (rankNo === 2) {
-        c.fillStyle = '#FD8060';
-        c3.fillStyle = '#FD8060';
-    } else if (rankNo === 3) {
-        c.fillStyle = '#fEE191';
-        c3.fillStyle = '#fEE191';
-    } else if (rankNo === 4) {
-        c.fillStyle = '#B0D8A4';
+function adjustSpeed(calculatedSpeedArray) {
+    speedControl1 = calculatedSpeedArray[3] / 500 * 2;
+    speedControl2 = calculatedSpeedArray[0] / 500 * 2;
+    speedControl3 = calculatedSpeedArray[2] / 500 * 2;
+    speedControl4 = calculatedSpeedArray[1] / 500 * 2;
+
+    console.log('sp1: ' + speedControl1);
+    console.log('sp2: ' + speedControl2);
+    console.log('sp3: ' + speedControl3);
+    console.log('sp4: ' + speedControl4);
+
+}
+
+function selectColor(percentage) {
+    if (percentage < 20) {
+        c3.fillStyle = '#8281A0';
+    } else if (percentage < 40) {
         c3.fillStyle = '#B0D8A4';
-    } else if (rankNo === 5) {
-        let gradientLine1 = c.createLinearGradient(x1, y1, x1 + 420, y1 + 420);
-        gradientLine1.addColorStop(0, '#8d8d8d');
-        gradientLine1.addColorStop(0.5, '#b0aeae');
-        gradientLine1.addColorStop(1, '#8d8d8d');
-        c3.fillStyle = gradientLine;
+    } else if (percentage < 60) {
+        c3.fillStyle = '#fEE191';
+    } else if (percentage < 80) {
+        c3.fillStyle = '#FD8060';
+    } else {
+        c3.fillStyle = '#E84258';
     }
+
 }
 
-function drawSpeedometer(rankArray) {
+function drawSpeedometer(rearrangedArray) {
 
     let postionArray = calculateBodyPosition();
     let xMid = postionArray[0];
@@ -875,7 +828,7 @@ function drawSpeedometer(rankArray) {
     c3.lineTo(xMid - infoArray[2] * 1.25, yMid);
     c3.lineTo(xMid, yMid - infoArray[2] * 1.5);
     c3.closePath();
-    selectColor(rankArray[0]);
+    selectColor(rearrangedArray[0]);
     c3.fill();
 
     //second propeller
@@ -884,7 +837,7 @@ function drawSpeedometer(rankArray) {
     c3.lineTo(xMid, yMid + infoArray[2] * 1.25);
     c3.lineTo(xMid - infoArray[2] * 1.5, yMid);
     c3.closePath();
-    selectColor(rankArray[1]);
+    selectColor(rearrangedArray[1]);
     c3.fill();
 
 
@@ -894,7 +847,7 @@ function drawSpeedometer(rankArray) {
     c3.lineTo(xMid, yMid - infoArray[2] * 1.25);
     c3.lineTo(xMid + infoArray[2] * 1.5, yMid);
     c3.closePath();
-    selectColor(rankArray[2]);
+    selectColor(rearrangedArray[2]);
     c3.fill();
 
 
@@ -904,7 +857,7 @@ function drawSpeedometer(rankArray) {
     c3.lineTo(xMid, yMid - infoArray[2] * 1.25);
     c3.lineTo(xMid - infoArray[2] * 1.5, yMid);
     c3.closePath();
-    selectColor(rankArray[3]);
+    selectColor(rearrangedArray[3]);
     c3.fill();
 
     //middle body
@@ -999,22 +952,13 @@ function init() {
     joyRight.drawOuterCircle();
     joyRight.drawPath();
     joyRight.drawInnerCircle(joyRight.centerXJ, joyRight.centerYJ);
-    let rankArray = [3, 3, 3, 3]
-    drawSpeedBar(rankArray);
-
-    window.requestAnimationFrame(animate);
+    //let percentageArray = [50, 50, 50, 50]
+    drawSpeedBar([50, 50, 50, 50]);
+    writePercentage([50, 50, 50, 50]);
+    adjustSpeed([50, 50, 50, 50]);
+    //writeDescription([0, 0, 0, 0]);
+    animate();
 }
-
-function rankSpeedControl() {
-    let sorted = speedControlArray.slice().sort(function (a, b) {
-        return b - a
-    })
-    let ranks = speedControlArray.slice().map(function (v) {
-        return sorted.indexOf(v) + 1
-    });
-    return ranks;
-}
-
 
 function drawingPropeller(number) {
     c.save();
@@ -1042,15 +986,12 @@ function drawingPropeller(number) {
     c.fillStyle = '#b0aeae';
     c.fill();
 
-
 }
 
-function drawSpeedBar(rankArray) {
-    c3.clearRect(0, 0, 0, 0.9 * infoArray[1] + 6 * infoArray[2]);
+function drawSpeedBar(rearrangedArray) {
+    c3.clearRect(0, 0, infoArray[0], 0.9 * infoArray[1] - 6.7 * infoArray[2]);
     let postionArray = calculateBodyPosition();
     let xMid = postionArray[0];
-    // let yMid = postionArray[1];
-    // let x1 = postionArray[2];
     let y1 = postionArray[3];
     let side = postionArray[4];
     let xL = infoArray[0] * 0.0875;
@@ -1058,102 +999,133 @@ function drawSpeedBar(rankArray) {
 
     let barHeight = infoArray[1] * 0.25;
 
-    //fix Y
     c3.save();
     c3.translate(xL, y1 - 0.25 * side);
-    drawSpeedBarHelper(barHeight);
-    drawFillSpeedBar(rankArray[0]);
+    drawSpeedBarHelper(barHeight, false);
+    drawFillSpeedBar(rearrangedArray[0]);
     c3.restore();
 
     c3.save();
     c3.translate(xR, y1 - 0.25 * side);
-    drawSpeedBarHelper(barHeight);
-    drawFillSpeedBar(rankArray[1]);
+    drawSpeedBarHelper(barHeight, false);
+    drawFillSpeedBar(rearrangedArray[1]);
     c3.restore();
 
     c3.save();
     c3.translate(xL, y1 + 0.75 * side);
-    drawSpeedBarHelper(barHeight);
-    drawFillSpeedBar(rankArray[2]);
+    drawSpeedBarHelper(barHeight, false);
+    drawFillSpeedBar(rearrangedArray[2]);
     c3.restore();
 
     c3.save();
     c3.translate(xR, y1 + 0.75 * side);
-    drawSpeedBarHelper(barHeight);
-    drawFillSpeedBar(rankArray[3]);
+    drawSpeedBarHelper(barHeight, false);
+    drawFillSpeedBar(rearrangedArray[3]);
     c3.restore();
 }
 
-function drawFillSpeedBar(rank) {
+function drawFillSpeedBar(percentage) {
     let barHeight = infoArray[1] * 0.25;
-
-
-    c3.clearRect(0, 0, 0, 0.9 * infoArray[1] + 6 * infoArray[2]);
-    if (rank === 1) {
-        drawSpeedBarHelper(barHeight);
-        selectColor(rank);
-        c3.fill();
-        c3.stroke();
-
-    } else if (rank === 2) {
-        drawSpeedBarHelper(barHeight * 0.75);
-        selectColor(rank);
-        c3.fill();
-        c3.stroke();
-
-        writePercentage(75,barHeight);
-
-
-
-    } else if (rank === 3) {
-        drawSpeedBarHelper(barHeight * 0.5);
-        selectColor(rank);
-        c3.fill();
-        c3.stroke();
-
-    } else if (rank === 4) {
-        drawSpeedBarHelper(barHeight * 0.25);
-        selectColor(rank);
-        c3.fill();
-        c3.stroke();
-
-    } else if (rank === 5) {
-        drawSpeedBarHelper(barHeight * 0.25);
-        selectColor(rank);
-        c3.fill();
-        c3.stroke();
-
-    }
-}
-
-
-
-function drawSpeedBarHelper(scaleY) {
-    c3.clearRect(0, 0, 0, 0.9 * infoArray[1] + 6 * infoArray[2]);
-    c3.beginPath();
-    c3.rect(0, 0, 0.0225 * infoArray[0], scaleY);
-    c3.fillStyle = '#FFFFFF';
+    drawSpeedBarHelper(barHeight * (100 - percentage) / 100, true);
+    selectColor(percentage);
     c3.fill();
     c3.stroke();
 
+    c3.rect(-infoArray[0] * 0.0108, barHeight * (100 - percentage) / 100, infoArray[0] * 0.0425, infoArray[1] * 0.0105);
+    c3.fill();
+    c3.stroke();
 
-  
 }
 
-function writePercentage(percentage,scaleY){
-    let fontSize = Math.floor(0.38* infoArray[0]/15);
-    let fontFillStyle = fontSize+"px serif";
-    console.log(fontFillStyle);
+
+
+function drawSpeedBarHelper(ratio, writeNo) {
+    let barHeight = infoArray[1] * 0.25;
+    if (!writeNo) {
+        c3.beginPath();
+        c3.rect(0, 0, 0.0225 * infoArray[0], ratio);
+        c3.fillStyle = '#FFFFFF';
+        c3.fill();
+        c3.stroke();
+    } else {
+        let fontSize = Math.floor(0.38 * infoArray[0] / 25);
+        let fontFillStyle = fontSize + "px serif";
+        //console.log(fontFillStyle);
+        c3.font = fontFillStyle;
+        c3.fillStyle = '#000000';
+        c3.fillText(100 + '%', 0, -0.0085 * infoArray[0]);
+        c3.fillText(0 + '%', 0, 0.0085 * infoArray[0] + 0.2 * infoArray[1] + 6 * infoArray[2]);
+
+        c3.beginPath();
+        c3.rect(0, ratio, 0.0225 * infoArray[0], barHeight - ratio);
+    }
+
+}
+
+function writePercentage(percentage) {
+    let fontSize = Math.floor(0.38 * infoArray[0] / 15);
+    let fontFillStyle = fontSize + "px serif";
     c3.font = fontFillStyle;
-    c3.fillStyle ='#000000';
-    c3.fillText(percentage+'%',0.0085 * infoArray[0],scaleY*1.2);
+    c3.fillStyle = '#000000';
+
+    c3.fillText(Math.floor(percentage[0]) + '%', infoArray[0] * 0.17, infoArray[1] * 0.13);
+    c3.fillText(Math.floor(percentage[1]) + '%', infoArray[0] * 0.80, infoArray[1] * 0.13);
+    c3.fillText(Math.floor(percentage[2]) + '%', infoArray[0] * 0.17, infoArray[1] * 0.83);
+    c3.fillText(Math.floor(percentage[3]) + '%', infoArray[0] * 0.80, infoArray[1] * 0.83);
+
 }
+
+function writeDescription(uiArray) {
+    let outputArray = [];
+
+    if (uiArray[0] < 0) {
+        outputArray.push('Descend');
+    } else if (uiArray[0] > 0) {
+        outputArray.push('Ascend');
+    }
+
+    if (uiArray[3] < 0) {
+        outputArray.push('Rotate Left');
+    } else if (uiArray[3] > 0) {
+        outputArray.push('Rotate Right');
+    }
+
+     if (uiArray[2] < 0) {
+        outputArray.push('Upward');
+    } else if (uiArray[2] > 0) {
+        outputArray.push('Downward');
+    }
+
+    if (uiArray[1] < 0) {
+        outputArray.push('Left');
+    } else if (uiArray[1] > 0) {
+        outputArray.push('Right');
+    }
+
+    let fontSize = Math.floor(0.38 * infoArray[0] / 15);
+    let fontFillStyle = fontSize + "px serif";
+    c3.font = fontFillStyle;
+    c3.fillStyle = '#000000';
+    for(let i=0; i<outputArray.length; i++){
+        if(outputArray.length===2){
+            c3.fillText(outputArray[i] + ' ', infoArray[0] * 0.63*(i+1)/outputArray.length, infoArray[1] * 0.085);
+        }else{
+            c3.fillText(outputArray[i] + ' ', infoArray[0]*0.1+infoArray[0] * 0.63*(i+1)/outputArray.length, infoArray[1] * 0.085);
+        }
+       
+    }
+
+
+
+}
+
+
 
 function animate() {
-    reposition();
     angle1 += speedControl1;
     angle4 += speedControl4;
     angle2 -= speedControl2;
     angle3 -= speedControl3;
+    reposition();
     requestAnimationFrame(animate);
 }
