@@ -354,7 +354,7 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
     this.left = left;
     this.direction;
     this.oldDirection = '';
-    this.storedLLRR = [];
+    storedLLRR = [];
     this.doubleClicked = false;
     this.calculatedSpeedArray = [];
     this.oldXcoor;
@@ -429,7 +429,7 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
             drawSpeedBar(rearrangedArray);
             adjustSpeed(this.calculatedSpeedArray);
             writePercentage(rearrangedArray);
-            writeDescription(this.storedLLRR);
+            writeDescription(storedLLRR);
 
         }
     }
@@ -506,7 +506,7 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
             drawSpeedBar(rearrangedArray);
             adjustSpeed(this.calculatedSpeedArray);
             writePercentage(rearrangedArray);
-            writeDescription(this.storedLLRR);
+            writeDescription(storedLLRR);
 
         } else {
             //console.log('not in circle');
@@ -514,12 +514,12 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
 
     }
     this.createUiArray = () => {
-        this.storedLLRR = [];
-        this.storedLLRR.push(storedLY);
-        this.storedLLRR.push(storedRX);
-        this.storedLLRR.push(storedRY);
-        this.storedLLRR.push(storedLX);
-        console.log('Ui Array:' + this.storedLLRR);
+        storedLLRR = [];
+        storedLLRR.push(storedLY);
+        storedLLRR.push(storedRX);
+        storedLLRR.push(storedRY);
+        storedLLRR.push(storedLX);
+        console.log('Ui Array:' + storedLLRR);
     }
     this.rearrangedArray = () => {
         let rearrangedArray = [];
@@ -578,7 +578,7 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
                     drawSpeedBar(rearrangedArray);
                     adjustSpeed(this.calculatedSpeedArray);
                     writePercentage(rearrangedArray);
-                    writeDescription(this.storedLLRR);
+                    writeDescription(storedLLRR);
 
 
                 } else {
@@ -633,7 +633,7 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
             drawSpeedBar(rearrangedArray);
             adjustSpeed(this.calculatedSpeedArray);
             writePercentage(rearrangedArray);
-            writeDescription(this.storedLLRR);
+            writeDescription(storedLLRR);
         }
     }
     this.calculateCanvasPosition = function (event) {
@@ -740,10 +740,10 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
             [1, 1, 1, 1]
         ];
         let uiMatrix = [
-            [this.storedLLRR[0]],
-            [this.storedLLRR[1]],
-            [this.storedLLRR[2]],
-            [this.storedLLRR[3]]
+            [storedLLRR[0]],
+            [storedLLRR[1]],
+            [storedLLRR[2]],
+            [storedLLRR[3]]
         ];
         // let uiMatrix = [
         //     [1],

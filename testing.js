@@ -1,3 +1,6 @@
+const actionCanvas = document.getElementById("action");
+console.log(actionCanvas);
+const c1 = actionCanvas.getContext('2d');
 const canvas2 = document.getElementById('canvas2');
 const c = canvas2.getContext('2d');
 const navBar = document.getElementById('navbar');
@@ -72,18 +75,23 @@ if (window.innerWidth < 768) {
 }
 
 //sizing canvas
-canvas3.style.width = sizes.width+"px";
-canvas3.style.height = sizes.height+"px";
-canvas2.style.width = sizes.width+"px";
-canvas2.style.height = sizes.height+"px";
+canvas3.style.width = sizes.width + "px";
+canvas3.style.height = sizes.height + "px";
+canvas2.style.width = sizes.width + "px";
+canvas2.style.height = sizes.height + "px";
+actionCanvas.style.width = sizes.width + "px";
+actionCanvas.style.height = sizes.height * 0.35 + "px";
+
 console.log(canvas3.style.width);
 console.log(canvas3.style.height);
 
 var scale = window.devicePixelRatio;
-canvas3.width = sizes.width*scale;
-canvas3.height = sizes.height*scale;
-canvas2.width = sizes.width*scale;
-canvas2.height = sizes.height*scale;
+canvas3.width = sizes.width * scale;
+canvas3.height = sizes.height * scale;
+canvas2.width = sizes.width * scale;
+canvas2.height = sizes.height * scale;
+actionCanvas.style.width = sizes.width * scale;;
+actionCanvas.style.height = sizes.height * scale * 0.35;
 
 window.addEventListener('resize', function () {
     //update camera
@@ -97,24 +105,26 @@ window.addEventListener('resize', function () {
 
     //sizing canvas
 
-    canvas3.style.width = sizes.width+"px";
-    canvas3.style.height = sizes.height+"px";
-    canvas2.style.width = sizes.width+"px";
-    canvas2.style.height = sizes.height+"px";
-    console.log(canvas3.style.width);
-    console.log(canvas3.style.height);
-    
-    var scale = window.devicePixelRatio;
-    canvas3.width = sizes.width*scale;
-    canvas3.height = sizes.height*scale;
-    canvas2.width = sizes.width*scale;
-    canvas2.height = sizes.height*scale;
+    canvas3.style.width = sizes.width + "px";
+    canvas3.style.height = sizes.height + "px";
+    canvas2.style.width = sizes.width + "px";
+    canvas2.style.height = sizes.height + "px";
+    actionCanvas.style.width = sizes.width + "px";
+    actionCanvas.style.height = sizes.height * 0.35 + "px";
 
-    camera.aspect = sizes.width / sizes.height;
+    let scale = window.devicePixelRatio;
+    canvas3.width = sizes.width * scale;
+    canvas3.height = sizes.height * scale;
+    canvas2.width = sizes.width * scale;
+    canvas2.height = sizes.height * scale;
+    actionCanvas.style.width = sizes.width * scale;;
+    actionCanvas.style.height = sizes.height * scale * 0.35;
+
+    camera.aspect = sizes.width / (sizes.height*0.65);
     camera.updateProjectionMatrix();
-    renderer.setSize(sizes.width, sizes.height) //update renderer
+    renderer.setSize(sizes.width, sizes.height*0.65) //update renderer
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-    console.log(window.devicePixelRatio);
+    //console.log(window.devicePixelRatio);
     infoArray = calculateOrigin();
     repositionJoy();
     reposition();
@@ -123,14 +133,14 @@ window.addEventListener('resize', function () {
 });
 
 
-const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
+const camera = new THREE.PerspectiveCamera(75, sizes.width / (sizes.height * 0.65), 0.1, 100)
 camera.position.set(0, 0, 15)
 scene.add(camera)
 const renderer = new THREE.WebGLRenderer({
     canvas: canvas
 })
 
-renderer.setSize(sizes.width, sizes.height)
+renderer.setSize(sizes.width, sizes.height * 0.65)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
 function animate1() {
@@ -202,6 +212,20 @@ function forward() {
         }
         renderer.render(scene, camera)
     }
+}
+
+function animation3D(){
+    if(!pause){
+        requestAnimationFrame(animation3D);
+        if(drone){
+            drone.position.y += storedLLRR[0]/1000;
+            drone.position.x += storedLLRR[1]/1000;
+            drone.position.z += -storedLLRR[2]/1000;
+            drone.rotateY(storedLLRR[3]/1000);
+        }
+        renderer.render(scene, camera)
+    }
+
 }
 
 //resizing canvas associated function
@@ -343,6 +367,8 @@ let holdLeft = false;
 let holdRight = false;
 let pressedL = false;
 let pressedR = false;
+let storedLLRR = [];
+
 
 
 init();
@@ -369,7 +395,6 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
     this.left = left;
     this.direction;
     this.oldDirection = '';
-    this.storedLLRR = [];
     this.doubleClicked = false;
     this.calculatedSpeedArray = [];
     this.oldXcoor;
@@ -444,7 +469,7 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
             drawSpeedBar(rearrangedArray);
             adjustSpeed(this.calculatedSpeedArray);
             writePercentage(rearrangedArray);
-            writeDescription(this.storedLLRR);
+            writeDescription(storedLLRR);
 
         }
     }
@@ -472,6 +497,8 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
 
     this.startDrawing = function (event) {
         this.pressed = true;
+        pause=false;
+
         //console.log('left or not: ' + this.left);
 
         this.calculateCanvasPosition(event);
@@ -517,11 +544,12 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
 
             this.calculatedSpeedArray = this.matrixMultiplication();
             let rearrangedArray = this.rearrangedArray();
+            animation3D();
             drawSpeedometer(rearrangedArray);
             drawSpeedBar(rearrangedArray);
             adjustSpeed(this.calculatedSpeedArray);
             writePercentage(rearrangedArray);
-            writeDescription(this.storedLLRR);
+            writeDescription(storedLLRR);
 
         } else {
             //console.log('not in circle');
@@ -529,12 +557,12 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
 
     }
     this.createUiArray = () => {
-        this.storedLLRR = [];
-        this.storedLLRR.push(storedLY);
-        this.storedLLRR.push(storedRX);
-        this.storedLLRR.push(storedRY);
-        this.storedLLRR.push(storedLX);
-        console.log('Ui Array:' + this.storedLLRR);
+        storedLLRR = [];
+        storedLLRR.push(storedLY);
+        storedLLRR.push(storedRX);
+        storedLLRR.push(storedRY);
+        storedLLRR.push(storedLX);
+        console.log('Ui Array:' + storedLLRR);
     }
     this.rearrangedArray = () => {
         let rearrangedArray = [];
@@ -551,6 +579,7 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
         //console.log('left or not drag: ' + this.left);
 
         if ((this.left && !holdLeft) || (!this.left && !holdRight)) {
+            pause=false;
             if (this.left && pressedL || !this.left && pressedR) {
                 this.calculateCanvasPosition(event);
                 if (this.isInBigCircle()) {
@@ -587,13 +616,14 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
                     }
 
                     this.createUiArray();
+                    animation3D();
                     this.calculatedSpeedArray = this.matrixMultiplication();
                     let rearrangedArray = this.rearrangedArray();
                     drawSpeedometer(rearrangedArray);
                     drawSpeedBar(rearrangedArray);
                     adjustSpeed(this.calculatedSpeedArray);
                     writePercentage(rearrangedArray);
-                    writeDescription(this.storedLLRR);
+                    writeDescription(storedLLRR);
 
 
                 } else {
@@ -620,6 +650,7 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
             this.drawInnerCircle(this.centerXJ, this.centerYJ);
 
             if (!holdLeft && !holdRight) {
+                pause = true;
                 storedLX = 0;
                 storedLY = 0;
                 storedRX = 0;
@@ -648,7 +679,7 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
             drawSpeedBar(rearrangedArray);
             adjustSpeed(this.calculatedSpeedArray);
             writePercentage(rearrangedArray);
-            writeDescription(this.storedLLRR);
+            writeDescription(storedLLRR);
         }
     }
     this.calculateCanvasPosition = function (event) {
@@ -660,14 +691,14 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
             //console.log('y1: fixed if tou' + this.clickedY);
         } else {
             this.clickedX = event.clientX;
-            console.log('x1: fixed if mouse' + this.clickedX);
+            //console.log('x1: fixed if mouse' + this.clickedX);
 
             this.clickedY = event.clientY;
-            console.log('y1: fixed if mouse' + this.clickedY);
+            //console.log('y1: fixed if mouse' + this.clickedY);
         };
         const rect = canvas3.getBoundingClientRect()
-        this.newCirX = (this.clickedX - rect.left)*window.devicePixelRatio;
-        this.newCirY = (this.clickedY - rect.top)*window.devicePixelRatio;
+        this.newCirX = (this.clickedX - rect.left) * window.devicePixelRatio;
+        this.newCirY = (this.clickedY - rect.top) * window.devicePixelRatio;
         // let arrayTry = getRelativeCoordinates(event,canvas3)
         // this.newCirX = event.offsetX*window.devicePixelRatio;
         // this.newCirY = event.offsetY*window.devicePixelRatio;
@@ -678,7 +709,7 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
 
     }
 
- 
+
     this.isInBigCircle = function () {
         let calRadius = Math.sqrt(Math.pow(this.newCirX - this.centerXJ, 2) + Math.pow(this.newCirY - this.centerYJ, 2));
         //console.log('calradius:' + calRadius);
@@ -767,10 +798,10 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
             [1, 1, 1, 1]
         ];
         let uiMatrix = [
-            [this.storedLLRR[0]],
-            [this.storedLLRR[1]],
-            [this.storedLLRR[2]],
-            [this.storedLLRR[3]]
+            [storedLLRR[0]],
+            [storedLLRR[1]],
+            [storedLLRR[2]],
+            [storedLLRR[3]]
         ];
         // let uiMatrix = [
         //     [1],
@@ -803,8 +834,6 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
     }
 
     this.backToCenter = function (direction) {
-        cancelAnimationFrame(id);
-        pause = true;
         flyUpB = true;
         firstT = true;
         let rankArray = [50, 50, 50, 50]
@@ -1076,7 +1105,7 @@ function drawSpeedBarHelper(ratio, writeNo) {
         c3.stroke();
     } else {
         let fontSize = Math.floor(0.38 * infoArray[0] / 25);
-        let fontFillStyle = fontSize + "px serif";
+        let fontFillStyle = fontSize + "px Helvetica";
         //console.log(fontFillStyle);
         c3.font = fontFillStyle;
         c3.fillStyle = '#000000';
@@ -1091,7 +1120,7 @@ function drawSpeedBarHelper(ratio, writeNo) {
 
 function writePercentage(percentage) {
     let fontSize = Math.floor(0.38 * infoArray[0] / 15);
-    let fontFillStyle = fontSize + "px serif";
+    let fontFillStyle = fontSize + "px Helvetica";
     c3.font = fontFillStyle;
     c3.fillStyle = '#000000';
 
@@ -1099,6 +1128,12 @@ function writePercentage(percentage) {
     c3.fillText(Math.floor(percentage[1]) + '%', infoArray[0] * 0.80, infoArray[1] * 0.13);
     c3.fillText(Math.floor(percentage[2]) + '%', infoArray[0] * 0.17, infoArray[1] * 0.83);
     c3.fillText(Math.floor(percentage[3]) + '%', infoArray[0] * 0.80, infoArray[1] * 0.83);
+    fontSize = Math.floor(0.38 * infoArray[0] / 25);
+    fontFillStyle = fontSize + "px Helvetica";
+    c3.font = fontFillStyle;
+
+    c3.fillText('DRONE FRONT', infoArray[0] * 0.425, infoArray[1] * 0.13);
+
 
 }
 
@@ -1117,7 +1152,7 @@ function writeDescription(uiArray) {
         outputArray.push('Rotate Right');
     }
 
-     if (uiArray[2] < 0) {
+    if (uiArray[2] < -0) {
         outputArray.push('Forward');
     } else if (uiArray[2] > 0) {
         outputArray.push('Backward');
@@ -1130,16 +1165,16 @@ function writeDescription(uiArray) {
     }
 
     let fontSize = Math.floor(0.38 * infoArray[0] / 15);
-    let fontFillStyle = fontSize + "px serif";
+    let fontFillStyle = fontSize + "px Helvetica";
     c3.font = fontFillStyle;
     c3.fillStyle = '#000000';
-    for(let i=0; i<outputArray.length; i++){
-        if(outputArray.length===2){
-            c3.fillText(outputArray[i] + ' ', infoArray[0] * 0.63*(i+1)/outputArray.length, infoArray[1] * 0.085);
-        }else{
-            c3.fillText(outputArray[i] + ' ', infoArray[0]*0.1+infoArray[0] * 0.63*(i+1)/outputArray.length, infoArray[1] * 0.085);
+    for (let i = 0; i < outputArray.length; i++) {
+        if (outputArray.length === 2) {
+            c3.fillText(outputArray[i] + ' ', infoArray[0] * 0.63 * (i + 1) / outputArray.length, infoArray[1] * 0.085);
+        } else {
+            c3.fillText(outputArray[i] + ' ', infoArray[0] * 0.1 + infoArray[0] * 0.63 * (i + 1) / outputArray.length, infoArray[1] * 0.085);
         }
-       
+
     }
 
 

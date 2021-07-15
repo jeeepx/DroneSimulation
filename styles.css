@@ -1,7 +1,8 @@
-/* canvas{
-    border:2px solid black;
+canvas{
+    /* border:1px solid black; */
+    margin:0;
 
-} */
+}
 
 .wrapper canvas{
     position: absolute;
@@ -18,7 +19,4 @@ html,body{
 .navbar-custom{
     background-color:#95cdf7;
     
-}
-.child{
-    pointer-events: none;
 }
