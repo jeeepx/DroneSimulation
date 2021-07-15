@@ -72,11 +72,18 @@ if (window.innerWidth < 768) {
 }
 
 //sizing canvas
+var scale = window.devicePixelRatio; // Change to 1 on retina screens to see blurry canvas.
+// canvas.width = Math.floor(size * scale);
+// canvas.height = Math.floor(size * scale);
+canvas3.style.width = sizes.width +"px";
+canvas3.style.height = sizes.height +"px";
+canvas2.style.width = sizes.width +"px";
+canvas2.style.height = sizes.height +"px";
+canvas3.width = sizes.width * scale;
+canvas3.height = sizes.height * scale;
+canvas2.width = sizes.width * scale;
+canvas2.height = sizes.height * scale;
 
-canvas3.width = sizes.width;
-canvas3.height = sizes.height;
-canvas2.width = sizes.width;
-canvas2.height = sizes.height;
 
 window.addEventListener('resize', function () {
     //update camera
@@ -90,10 +97,14 @@ window.addEventListener('resize', function () {
 
     //sizing canvas
 
-    canvas3.width = sizes.width;
-    canvas3.height = sizes.height;
-    canvas2.width = sizes.width;
-    canvas2.height = sizes.height;
+    canvas3.style.width = sizes.width +"px";
+canvas3.style.height = sizes.height +"px";
+canvas2.style.width = sizes.width +"px";
+canvas2.style.height = sizes.height +"px";
+canvas3.width = sizes.width * scale;
+canvas3.height = sizes.height * scale;
+canvas2.width = sizes.width * scale;
+canvas2.height = sizes.height * scale;
 
     camera.aspect = sizes.width / sizes.height;
     camera.updateProjectionMatrix();
@@ -308,6 +319,17 @@ canvas3.addEventListener('touchend', function (event) {
     joyRight.stopDrawing(event);
     touched = false;
 });
+
+let pixelRatioBox = document.querySelector(".pixel-ratio");
+
+// const updatePixelRatio = () => {
+//   let pr = window.devicePixelRatio;
+//   let prString = (pr * 100).toFixed(0);
+//   pixelRatioBox.innerText = `${prString}% (${pr.toFixed(2)})`;
+//   matchMedia(`(resolution: ${pr}dppx)`).addEventListener("change", updatePixelRatio, { once: true })
+// }
+
+// updatePixelRatio()
 
 var inited = false;
 var initialSpeed = 0.2;
@@ -1090,7 +1112,7 @@ function writeDescription(uiArray) {
         outputArray.push('Rotate Right');
     }
 
-     if (uiArray[2] < 0) {
+    if (uiArray[2] < 0) {
         outputArray.push('Forward');
     } else if (uiArray[2] > 0) {
         outputArray.push('Backward');
@@ -1106,13 +1128,13 @@ function writeDescription(uiArray) {
     let fontFillStyle = fontSize + "px serif";
     c3.font = fontFillStyle;
     c3.fillStyle = '#000000';
-    for(let i=0; i<outputArray.length; i++){
-        if(outputArray.length===2){
-            c3.fillText(outputArray[i] + ' ', infoArray[0] * 0.63*(i+1)/outputArray.length, infoArray[1] * 0.085);
-        }else{
-            c3.fillText(outputArray[i] + ' ', infoArray[0]*0.1+infoArray[0] * 0.63*(i+1)/outputArray.length, infoArray[1] * 0.085);
+    for (let i = 0; i < outputArray.length; i++) {
+        if (outputArray.length === 2) {
+            c3.fillText(outputArray[i] + ' ', infoArray[0] * 0.63 * (i + 1) / outputArray.length, infoArray[1] * 0.085);
+        } else {
+            c3.fillText(outputArray[i] + ' ', infoArray[0] * 0.1 + infoArray[0] * 0.63 * (i + 1) / outputArray.length, infoArray[1] * 0.085);
         }
-       
+
     }
 
 
