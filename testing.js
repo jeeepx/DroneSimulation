@@ -1091,9 +1091,9 @@ function writeDescription(uiArray) {
     }
 
      if (uiArray[2] < 0) {
-        outputArray.push('Upward');
+        outputArray.push('Forward');
     } else if (uiArray[2] > 0) {
-        outputArray.push('Downward');
+        outputArray.push('Backward');
     }
 
     if (uiArray[1] < 0) {
