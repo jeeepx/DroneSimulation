@@ -20,16 +20,18 @@ var pivot = new THREE.Group();
 var box = new THREE.Box3();
 
 const scene = new THREE.Scene()
-// const axesHelper = new THREE.AxesHelper(40);
-scene.background = new THREE.Color(0xe4eefd);
-// scene.add(axesHelper);
+const axesHelper = new THREE.AxesHelper(40);
+scene.background = new THREE.Color(0xcaf1ff
+    );
 var geometry = new THREE.BoxGeometry(100, 100, 100);
+var helper;
 
 loader.load('./file-1592658408798.glb', (glb) => {
         drone = glb.scene;
-        drone.scale.set(20, 20, 20);
-        drone.position.set(0, 0, 0)
+        drone.scale.set(12.5, 12.5, 12.5);
+        drone.position.set(0, 1, 0)
         scene.add(drone)
+        console.log(drone);
         box.setFromObject(drone);
         box.getCenter(drone.position);
         drone.position.multiplyScalar(-1);
@@ -45,23 +47,22 @@ loader.load('./file-1592658408798.glb', (glb) => {
         console.log('An error occurred')
     })
 
-const light = new THREE.DirectionalLight(0xffffff, 4)
+const light = new THREE.DirectionalLight(0xffffff, 3)
 scene.add(light)
 
-const light2 = new THREE.DirectionalLight(0xffffff, 13)
-light2.position.set(0, 4, 5)
+const light2 = new THREE.DirectionalLight(0xffffff, 3)
+light2.position.set(0, -1, 15)
 scene.add(light2)
 
 const light3 = new THREE.AmbientLight(0xffffff, 2.5)
 scene.add(light3)
 
-const spotLight = new THREE.SpotLight(0x78ff00, 0.5, 10, Math.PI * 0.1, 0.25, 1)
-spotLight.position.set(0, 2, 3)
-scene.add(spotLight)
-
 //helper
-// const DirectionHelper = new THREE.DirectionalLightHelper(light2, 0.2);
+// const DirectionHelper = new THREE.DirectionalLightHelper(light, 0.2);
 // scene.add(DirectionHelper)
+// const DirectionHelper1 = new THREE.DirectionalLightHelper(light2, 0.2);
+// scene.add(DirectionHelper1)
+
 
 const canvas = document.querySelector(".webgl")
 const sizes = {
@@ -120,9 +121,9 @@ window.addEventListener('resize', function () {
     actionCanvas.style.width = sizes.width * scale;;
     actionCanvas.style.height = sizes.height * scale * 0.35;
 
-    camera.aspect = sizes.width / (sizes.height*0.65);
+    camera.aspect = sizes.width / (sizes.height * 0.65);
     camera.updateProjectionMatrix();
-    renderer.setSize(sizes.width, sizes.height*0.65) //update renderer
+    renderer.setSize(sizes.width, sizes.height * 0.65) //update renderer
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
     //console.log(window.devicePixelRatio);
     infoArray = calculateOrigin();
@@ -134,7 +135,7 @@ window.addEventListener('resize', function () {
 
 
 const camera = new THREE.PerspectiveCamera(75, sizes.width / (sizes.height * 0.65), 0.1, 100)
-camera.position.set(0, 0, 15)
+camera.position.set(0, 0, 6)
 scene.add(camera)
 const renderer = new THREE.WebGLRenderer({
     canvas: canvas
@@ -157,75 +158,75 @@ function animate1() {
 //animate1()
 let flyUpB = false;
 
-function flyUp() {
-    if (!flyUpB) {
-        requestAnimationFrame(flyUp)
-        if (drone) {
-            //console.log(drone)
-            camera.lookAt(drone.position)
+// function flyUp() {
+//     if (!flyUpB) {
+//         requestAnimationFrame(flyUp)
+//         if (drone) {
+//             //console.log(drone)
+//             camera.lookAt(drone.position)
 
-            pivot.position.y += 0.001;
-        }
-        renderer.render(scene, camera)
-    }
-}
+//             pivot.position.y += 0.001;
+//         }
+//         renderer.render(scene, camera)
+//     }
+// }
 let firstT = true;
 
-function rotateL() {
-    if (!pause) {
-        requestAnimationFrame(rotateL)
-        if (drone) {
-            flyUpB = true;
-            // camera.lookAt(drone.position)
-            pivot.rotateY(0.001);
-        }
-        renderer.render(scene, camera)
-    }
-}
+// function rotateL() {
+//     if (!pause) {
+//         requestAnimationFrame(rotateL)
+//         if (drone) {
+//             flyUpB = true;
+//             // camera.lookAt(drone.position)
+//             pivot.rotateY(0.001);
+//         }
+//         renderer.render(scene, camera)
+//     }
+// }
 var id;
 var pause = false;
 
-function backward() {
+// function backward() {
+//     if (!pause) {
+//         id = requestAnimationFrame(backward)
+//         if (drone) {
+//             //console.log(drone)
+//             // camera.lookAt(drone.position)
+//             //light.lookAt(drone.position)
+//             //pivot.position.z -=0.01;
+//             drone.position.z -= 0.01;
+//         }
+//         renderer.render(scene, camera)
+//     }
+// }
+
+// function forward() {
+//     if (!pause) {
+//         id = requestAnimationFrame(forward)
+//         if (drone) {
+
+
+//             drone.position.z += 0.01;
+
+//         }
+//         renderer.render(scene, camera)
+//     }
+// }
+
+function animation3D() {
     if (!pause) {
-        id = requestAnimationFrame(backward)
-        if (drone) {
-            //console.log(drone)
-            // camera.lookAt(drone.position)
-            //light.lookAt(drone.position)
-            //pivot.position.z -=0.01;
-            drone.position.z -= 0.01;
-        }
-        renderer.render(scene, camera)
-    }
-}
-
-function forward() {
-    if (!pause) {
-        id = requestAnimationFrame(forward)
-        if (drone) {
-            //console.log(drone)
-            // camera.lookAt(drone.position)
-            //light.lookAt(drone.position)
-
-            drone.position.z += 0.01;
-
-        }
-        renderer.render(scene, camera)
-    }
-}
-
-function animation3D(){
-    if(!pause){
         requestAnimationFrame(animation3D);
-        if(drone){
-            drone.position.y += storedLLRR[0]/1000;
-            drone.position.x += storedLLRR[1]/1000;
-            drone.position.z += -storedLLRR[2]/1000;
-            drone.rotateY(storedLLRR[3]/1000);
+        if (drone) {
+            // light2.position.set(drone.position)
+            console.log(pivot.position);
+            
+            pivot.position.y += storedLLRR[0] / 1000;
+            pivot.translateX(-storedLLRR[1] / 1000);
+            pivot.translateZ(-storedLLRR[2] / 1000);
+            pivot.rotateY(-storedLLRR[3] / 1000);
         }
         renderer.render(scene, camera)
     }
-
 }
 
 //resizing canvas associated function
@@ -263,8 +264,6 @@ function reposition() {
     c.restore();
 }
 
-
-
 function repositionJoy() {
     //console.log('reposition!!!!!! JOY');
     infoArray = calculateOrigin();
@@ -286,8 +285,6 @@ function repositionJoy() {
     joyRight.drawOuterCircle();
     joyRight.drawPath();
     joyRight.drawInnerCircle(x1 + side, 0.925 * infoArray[1]);
-
-
 }
 
 
@@ -428,6 +425,7 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
         let calculatedArray = this.mapPosition(this.newCirX, this.newCirY);
         //console.log(calculatedArray);
         if (this.isInBigCircle()) {
+            pause = false;
             if (this.left && !holdRight) {
                 holdLeft = true;
                 storedLX = calculatedArray[0];
@@ -463,6 +461,7 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
             c3.fill();
 
             this.createUiArray();
+            animation3D();
             this.calculatedSpeedArray = this.matrixMultiplication();
             let rearrangedArray = this.rearrangedArray();
             drawSpeedometer(rearrangedArray);
@@ -497,7 +496,7 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
 
     this.startDrawing = function (event) {
         this.pressed = true;
-        pause=false;
+        pause = false;
 
         //console.log('left or not: ' + this.left);
 
@@ -579,7 +578,7 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
         //console.log('left or not drag: ' + this.left);
 
         if ((this.left && !holdLeft) || (!this.left && !holdRight)) {
-            pause=false;
+            pause = false;
             if (this.left && pressedL || !this.left && pressedR) {
                 this.calculateCanvasPosition(event);
                 if (this.isInBigCircle()) {
