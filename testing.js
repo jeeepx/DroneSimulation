@@ -205,12 +205,13 @@ function animation3D() {
 }
 
 function drawCanvasBackground() {
-    c0.clearRect(0,0,actionCanvasBg.width, actionCanvasBg.height);
+    c0.clearRect(0, 0, actionCanvasBg.width, actionCanvasBg.height);
     let radius = actionCanvasBg.width * 0.08
     if (actionCanvasBg.height < actionCanvas.width) {
         radius = actionCanvasBg.height * 0.3
     }
     let y = actionCanvasBg.height * 0.6;
+
     let x = actionCanvasBg.width / 12
 
     c0.strokeStyle = '#add3ff';
@@ -233,6 +234,8 @@ function drawCanvasBackground() {
     c0.stroke();
     c0.fill();
 
+    //drawCurveArrow();
+
 
     let topView = new Image();
     let backView = new Image();
@@ -242,13 +245,13 @@ function drawCanvasBackground() {
         let fontSize = Math.floor(0.38 * actionCanvas.width / 35);
         let fontFillStyle = fontSize + "px Helvetica";
         c0.font = fontFillStyle;
-        c0.drawImage(backView, 3 * x - radius * 0.35, y - radius * 0.5, radius* 0.9, radius * 0.85);
+        c0.drawImage(backView, 3 * x - radius * 0.35, y - radius * 0.5, radius * 0.9, radius * 0.85);
         c0.fillText('BACK', 3 * x - radius * 0.1, y - radius * 0.35);
     };
     backView.src = './img/backView.png';
 
     sideView.onload = function () {
-        c0.drawImage(sideView, 6 * x - radius * 0.45, y - radius * 0.5, radius* 0.9, radius * 0.85);
+        c0.drawImage(sideView, 6 * x - radius * 0.45, y - radius * 0.5, radius * 0.9, radius * 0.85);
         c0.save();
         c0.translate(6 * x + radius * 0.55, y - radius * 0.15);
         c0.rotate(Math.PI * 0.5)
@@ -260,7 +263,7 @@ function drawCanvasBackground() {
     sideView.src = './img/sideView.png';
 
     topView.onload = function () {
-        c0.drawImage(topView, 9 * x - radius * 0.425, y - radius * 0.45, radius* 0.9, radius * 0.85);
+        c0.drawImage(topView, 9 * x - radius * 0.425, y - radius * 0.45, radius * 0.9, radius * 0.85);
         c0.fillText('FRONT', 9 * x - radius * 0.10, y - radius * 0.35);
 
     };
@@ -278,6 +281,8 @@ function drawCanvasBackground() {
 
 }
 
+
+c0.stroke();
 //show direction stuff
 function arraysEqual(a, b) {
     if (a === b) return true;
@@ -300,11 +305,13 @@ function drawActionCircles(speedArray) {
         drawArrow(storedLLRR, 2);
         drawArrow(storedLLRR, 3);
 
+        drawCurveArrow();
+
     }
 }
 
 function calAngleAction(x, y) {
-    if (-0.05<=x&& x<=0.05 && -0.05<=y && y<=0.05 ) {
+    if (-0.05 <= x && x <= 0.05 && -0.05 <= y && y <= 0.05) {
         return 500;
     }
     console.log('deg:' + Math.atan2(y, x) * 180 / Math.PI);
@@ -371,7 +378,52 @@ function drawArrowHelper() {
     c1.closePath();
     c1.fillStyle = '#add3ff';
     c1.fill();
+
+
+
+
+
 }
+
+
+function drawCurveArrow() {
+    let x = actionCanvasBg.width / 12
+    let y1 = actionCanvasBg.height * 0.4;
+    let radius = actionCanvasBg.width * 0.08
+
+    // c1.beginPath();
+    // c1.moveTo(10*x,y1+4*radius*0.04);
+    // c1.lineTo(10.25*x,y1);
+    // c1.lineTo(10*x, y1-4*radius*0.04);
+    // c1.lineTo(10*x, y1-4*radius*0.02);
+
+
+    // c1.arc(9 * x, y1, radius, Math.PI * 0.5, Math.PI * 0.25, true);
+    // // c1.y = c1.y-10;
+    // // c1.lineTo(c1.x, c1.y);
+    // c1.stroke();
+
+   
+
+    let curveArrow = new Image();
+    if(storedLLRR[3]>0.05){
+        curveArrow.onload = function () {
+            c1.drawImage(curveArrow, 10.25 * x, y1, radius * 0.5, radius);
+            
+        };
+        curveArrow.src = './img/rightArrow.png';
+    } else if(storedLLRR[3]<-0.05){
+        curveArrow.onload = function () {
+            c1.drawImage(curveArrow, 7.25 * x, y1, radius * 0.5, radius);
+            
+        };
+        curveArrow.src = './img/leftLongArrow.png';
+
+    }
+
+  
+}
+
 
 //resizing canvas associated function
 function reposition() {
@@ -454,9 +506,6 @@ canvas3.addEventListener('mousemove', function (event) {
     }
 });
 canvas3.addEventListener('mouseup', function (event) {
-    // joyLeft.stopDrawing(event);
-    // joyRight.stopDrawing(event);
-
     if ((isInLCircle(event))) {
         joyLeft.stopDrawing(event);
     } else if (isInRCircle(event)) {
@@ -476,8 +525,21 @@ canvas3.addEventListener('dblclick', function (event) {
 
 canvas3.addEventListener('touchstart', function (event) {
     touched = true;
-    joyLeft.startDrawing(event);
-    joyRight.startDrawing(event);
+    let timeNow = new Date().getTime();
+    let timesince = timeNow - lastTap;
+    if ((timesince < 600) && (timesince > 0)) {
+
+        if (isInLCircle(event)) {
+            joyLeft.drawLockedRing(event);
+        } else if (isInRCircle(event)) {
+            joyRight.drawLockedRing(event);
+        }
+    } else {
+        joyLeft.startDrawing(event);
+        joyRight.startDrawing(event);
+    }
+    lastTap = new Date().getTime();
+
 });
 canvas3.addEventListener('touchmove', function (event) {
     joyLeft.dragDraw(event);
@@ -879,29 +941,6 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
         }
     }
 
-    // this.calculateAngle = function () {
-    //     let rad = Math.atan2(this.newCirY - this.centerYJ, this.newCirX - this.centerXJ);
-    //     //console.log('degree in calAngle: ' + rad * 180 / Math.PI);
-    //     return rad;
-    // }
-    // this.calculateCoordinate = function (angle) {
-    //     this.newCirX = Math.cos(angle) * this.radiusJ + this.centerXJ;
-    //     this.newCirY = Math.sin(angle) * this.radiusJ + this.centerYJ;
-    // }
-    // this.getDirection = function (angle) {
-    //     let deg = (angle * 180 / Math.PI) * -1;
-    //     if (deg < 0) {
-    //         let factor = 180 + deg;
-    //         deg = 180 + factor;
-    //     }
-    //     //console.log('degree in getDirection:' + deg);
-    //     let oct = Math.floor(deg / 45);
-    //     //console.log('divide by 45: ' + oct);
-    //     let DirArray = ['E', 'NE', 'N', 'NW', 'W', 'SW', 'S', 'SE'];
-    //     //console.log(DirArray[oct]);
-    //     return DirArray[oct];
-    // }
-
     this.mapPosition = (xClicked, yClicked) => {
         let x = Math.sqrt(Math.pow(this.radiusJ, 2) - Math.pow(yClicked - this.centerYJ, 2));
         let x1 = this.centerXJ - x;
@@ -948,29 +987,21 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
             [storedLLRR[2]],
             [storedLLRR[3]]
         ];
-        // let uiMatrix = [
-        //     [1],
-        //     [1],
-        //     [1],
-        //     [0]
-        // ];
+
         return this.matrixMultiplicationHelper(gMatrix, uiMatrix);
     }
 
     this.matrixMultiplicationHelper = (m1, m2) => {
         let result = [];
-        //let scaledResult=[];
         let scaledResultA = [];
         for (let i = 0; i < m1.length; i++) {
             result[i] = [];
-            //scaledResult[i] = [];
             for (let j = 0; j < m2[0].length; j++) {
                 let sum = 0;
                 for (let k = 0; k < m1[0].length; k++) {
                     sum += m1[i][k] * m2[k][j];
                 }
                 result[i][j] = sum;
-                //scaledResult[i][j] = result[i][j]*12.5+50;
                 scaledResultA.push(result[i][j] * 12.5 + 50);
             }
         }
@@ -1326,12 +1357,7 @@ function writeDescription(uiArray) {
         }
 
     }
-
-
-
 }
-
-
 
 function animate() {
     angle1 += speedControl1;
