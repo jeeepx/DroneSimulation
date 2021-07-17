@@ -1,18 +1,16 @@
-canvas{
-    /* border:1px solid black; */
+html,body{
     margin:0;
-
+   
 }
-
+/* canvas{
+    border: 1px solid black;
+} */
 .wrapper canvas{
     position: absolute;
     top: 0;
     left: 0;
 }
-html,body{
-    margin:0;
-   
-}
+
 .wrapper{
     position: relative;
 }
@@ -21,3 +19,8 @@ html,body{
     ;
     
 }
+#action-background{
+    position: absolute;
+    z-index: -1;
+}
+

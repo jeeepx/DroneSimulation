@@ -9,8 +9,10 @@ const navBarHeight = nav.height;
 const canvas3 = document.getElementById('joyStick');
 const c3 = canvas3.getContext('2d');
 const canvas1 = document.querySelector(".webgl")
+const actionCanvasBg = document.getElementById("action-background");
+const c0 = actionCanvasBg.getContext('2d');
 
-import * as THREE from './three.module.js'
+import * as THREE from './three.js-master/build/three.module.js'
 import {
     GLTFLoader
 } from './three.js-master/examples/jsm/loaders/GLTFLoader.js'
@@ -21,17 +23,16 @@ var box = new THREE.Box3();
 
 const scene = new THREE.Scene()
 const axesHelper = new THREE.AxesHelper(40);
-scene.background = new THREE.Color(0xcaf1ff
-    );
-var geometry = new THREE.BoxGeometry(100, 100, 100);
-var helper;
+scene.background = new THREE.Color(0xcaf1ff);
+//var geometry = new THREE.BoxGeometry(100, 100, 100);
 
-loader.load('./file-1592658408798.glb', (glb) => {
+
+loader.load('file-1592658408798.glb', (glb) => {
         drone = glb.scene;
-        drone.scale.set(12.5, 12.5, 12.5);
+        drone.scale.set(15, 15, 15);
         drone.position.set(0, 1, 0)
         scene.add(drone)
-        console.log(drone);
+        //console.log(drone);
         box.setFromObject(drone);
         box.getCenter(drone.position);
         drone.position.multiplyScalar(-1);
@@ -47,7 +48,7 @@ loader.load('./file-1592658408798.glb', (glb) => {
         console.log('An error occurred')
     })
 
-const light = new THREE.DirectionalLight(0xffffff, 3)
+const light = new THREE.DirectionalLight(0xffffff, 5)
 scene.add(light)
 
 const light2 = new THREE.DirectionalLight(0xffffff, 3)
@@ -76,23 +77,27 @@ if (window.innerWidth < 768) {
 }
 
 //sizing canvas
+actionCanvasBg.style.background = "#fff1c3";
 canvas3.style.width = sizes.width + "px";
 canvas3.style.height = sizes.height + "px";
 canvas2.style.width = sizes.width + "px";
 canvas2.style.height = sizes.height + "px";
 actionCanvas.style.width = sizes.width + "px";
 actionCanvas.style.height = sizes.height * 0.35 + "px";
-
-console.log(canvas3.style.width);
-console.log(canvas3.style.height);
+actionCanvasBg.style.width = sizes.width + "px";
+actionCanvasBg.style.height = sizes.height * 0.35 + "px";
+// console.log(canvas3.style.width);
+// console.log(canvas3.style.height);
 
 var scale = window.devicePixelRatio;
 canvas3.width = sizes.width * scale;
 canvas3.height = sizes.height * scale;
 canvas2.width = sizes.width * scale;
 canvas2.height = sizes.height * scale;
-actionCanvas.style.width = sizes.width * scale;;
-actionCanvas.style.height = sizes.height * scale * 0.35;
+actionCanvas.width = sizes.width * scale;;
+actionCanvas.height = sizes.height * scale * 0.35;
+actionCanvasBg.width = sizes.width * scale;;
+actionCanvasBg.height = sizes.height * scale * 0.35;
 
 window.addEventListener('resize', function () {
     //update camera
@@ -112,14 +117,18 @@ window.addEventListener('resize', function () {
     canvas2.style.height = sizes.height + "px";
     actionCanvas.style.width = sizes.width + "px";
     actionCanvas.style.height = sizes.height * 0.35 + "px";
+    actionCanvasBg.style.width = sizes.width + "px";
+    actionCanvasBg.style.height = sizes.height * 0.35 + "px";
 
     let scale = window.devicePixelRatio;
     canvas3.width = sizes.width * scale;
     canvas3.height = sizes.height * scale;
     canvas2.width = sizes.width * scale;
     canvas2.height = sizes.height * scale;
-    actionCanvas.style.width = sizes.width * scale;;
-    actionCanvas.style.height = sizes.height * scale * 0.35;
+    actionCanvas.width = sizes.width * scale;
+    actionCanvas.height = sizes.height * scale * 0.35;
+    actionCanvasBg.width = sizes.width * scale;
+    actionCanvasBg.height = sizes.height * scale * 0.35;
 
     camera.aspect = sizes.width / (sizes.height * 0.65);
     camera.updateProjectionMatrix();
@@ -131,11 +140,14 @@ window.addEventListener('resize', function () {
     reposition();
     drawSpeedBar([50, 50, 50, 50]);
     writePercentage([50, 50, 50, 50]);
+    drawCanvasBackground();
+    drawActionCircles([50, 50, 50, 50]);
+
 });
 
 
 const camera = new THREE.PerspectiveCamera(75, sizes.width / (sizes.height * 0.65), 0.1, 100)
-camera.position.set(0, 0, 6)
+camera.position.set(0, 0, 8)
 scene.add(camera)
 const renderer = new THREE.WebGLRenderer({
     canvas: canvas
@@ -146,14 +158,8 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
 function animate1() {
     requestAnimationFrame(animate1)
-    if (drone) {
-        var box = new THREE.Box3().setFromObject(drone);
-        box.getCenter(drone.position); // this re-sets the mesh position
-        drone.position.multiplyScalar(-1);
-        scene.add(pivot);
-        pivot.add(drone);
-    }
     renderer.render(scene, camera)
+
 }
 //animate1()
 let flyUpB = false;
@@ -170,7 +176,6 @@ let flyUpB = false;
 //         renderer.render(scene, camera)
 //     }
 // }
-let firstT = true;
 
 // function rotateL() {
 //     if (!pause) {
@@ -183,43 +188,13 @@ let firstT = true;
 //         renderer.render(scene, camera)
 //     }
 // }
-var id;
 var pause = false;
-
-// function backward() {
-//     if (!pause) {
-//         id = requestAnimationFrame(backward)
-//         if (drone) {
-//             //console.log(drone)
-//             // camera.lookAt(drone.position)
-//             //light.lookAt(drone.position)
-//             //pivot.position.z -=0.01;
-//             drone.position.z -= 0.01;
-//         }
-//         renderer.render(scene, camera)
-//     }
-// }
-
-// function forward() {
-//     if (!pause) {
-//         id = requestAnimationFrame(forward)
-//         if (drone) {
-
-
-//             drone.position.z += 0.01;
-
-//         }
-//         renderer.render(scene, camera)
-//     }
-// }
 
 function animation3D() {
     if (!pause) {
         requestAnimationFrame(animation3D);
         if (drone) {
-            // light2.position.set(drone.position)
-            console.log(pivot.position);
-            
+            // console.log(pivot.position);
             pivot.position.y += storedLLRR[0] / 1000;
             pivot.translateX(-storedLLRR[1] / 1000);
             pivot.translateZ(-storedLLRR[2] / 1000);
@@ -227,6 +202,175 @@ function animation3D() {
         }
         renderer.render(scene, camera)
     }
+}
+
+function drawCanvasBackground() {
+    c0.clearRect(0,0,actionCanvasBg.width, actionCanvasBg.height);
+    let radius = actionCanvasBg.width * 0.08
+    if (actionCanvasBg.height < actionCanvas.width) {
+        radius = actionCanvasBg.height * 0.3
+    }
+    let y = actionCanvasBg.height * 0.6;
+    let x = actionCanvasBg.width / 12
+
+    c0.strokeStyle = '#add3ff';
+    c0.lineWidth = 8;
+    c0.fillStyle = '#FFFFFF';
+
+    c0.beginPath();
+    c0.arc(3 * x, y, radius, 0, Math.PI * 2, true);
+    c0.stroke();
+    c0.fill();
+
+    c0.beginPath();
+    c0.arc(6 * x, y, radius, 0, Math.PI * 2, true);
+    c0.stroke();
+    c0.fill();
+
+
+    c0.beginPath();
+    c0.arc(9 * x, y, radius, 0, Math.PI * 2, true);
+    c0.stroke();
+    c0.fill();
+
+
+    let topView = new Image();
+    let backView = new Image();
+    let sideView = new Image();
+
+    backView.onload = function () {
+        let fontSize = Math.floor(0.38 * actionCanvas.width / 35);
+        let fontFillStyle = fontSize + "px Helvetica";
+        c0.font = fontFillStyle;
+        c0.drawImage(backView, 3 * x - radius * 0.35, y - radius * 0.5, radius* 0.9, radius * 0.85);
+        c0.fillText('BACK', 3 * x - radius * 0.1, y - radius * 0.35);
+    };
+    backView.src = './img/backView.png';
+
+    sideView.onload = function () {
+        c0.drawImage(sideView, 6 * x - radius * 0.45, y - radius * 0.5, radius* 0.9, radius * 0.85);
+        c0.save();
+        c0.translate(6 * x + radius * 0.55, y - radius * 0.15);
+        c0.rotate(Math.PI * 0.5)
+        c0.fillText('FRONT', 0, 0);
+        c0.restore();
+
+
+    };
+    sideView.src = './img/sideView.png';
+
+    topView.onload = function () {
+        c0.drawImage(topView, 9 * x - radius * 0.425, y - radius * 0.45, radius* 0.9, radius * 0.85);
+        c0.fillText('FRONT', 9 * x - radius * 0.10, y - radius * 0.35);
+
+    };
+    topView.src = './img/topView.png';
+
+    let fontSize = Math.floor(0.38 * actionCanvas.width / 25);
+    let fontFillStyle = fontSize + "px Helvetica";
+    c0.font = fontFillStyle;
+    c0.fillStyle = '#000000';
+    c0.fillText('BACK VIEW', 3 * x - radius * 0.5, actionCanvasBg.height * 0.18);
+    c0.fillText('SIDE VIEW', 6 * x - radius * 0.5, actionCanvasBg.height * 0.18);
+    c0.fillText('TOP VIEW', 9 * x - radius * 0.5, actionCanvasBg.height * 0.18);
+
+
+
+}
+
+//show direction stuff
+function arraysEqual(a, b) {
+    if (a === b) return true;
+    if (a == null || b == null) return false;
+    if (a.length !== b.length) return false;
+
+    for (var i = 0; i < a.length; ++i) {
+        if (a[i] !== b[i]) return false;
+    }
+    return true;
+}
+
+
+function drawActionCircles(speedArray) {
+    console.log(speedArray);
+    c1.clearRect(0, 0, actionCanvas.width, actionCanvas.height);
+
+    if (!arraysEqual(speedArray, [50, 50, 50, 50])) {
+        drawArrow(storedLLRR, 1);
+        drawArrow(storedLLRR, 2);
+        drawArrow(storedLLRR, 3);
+
+    }
+}
+
+function calAngleAction(x, y) {
+    if (-0.05<=x&& x<=0.05 && -0.05<=y && y<=0.05 ) {
+        return 500;
+    }
+    console.log('deg:' + Math.atan2(y, x) * 180 / Math.PI);
+    return Math.atan2(y, x)
+}
+
+function drawArrow(uiArray, number) {
+    let y = actionCanvasBg.height * 0.6;
+    let x = actionCanvasBg.width / 12
+    //first pic
+    if (number === 1) {
+        let angle1 = calAngleAction(uiArray[1], uiArray[0] * -1);
+        if (angle1 !== 500) {
+            c1.save();
+            c1.translate(3 * x, y);
+            c1.beginPath();
+            // c1.arc(0, 0, 3, 0, Math.PI * 2, true);
+            c1.stroke();
+            c1.rotate(angle1);
+            drawArrowHelper();
+            c1.restore();
+        }
+
+    } else if (number === 2) {
+        let angle2 = calAngleAction(uiArray[2] * -1, uiArray[0] * -1);
+        if (angle2 != 500) {
+            c1.save();
+            c1.translate(6 * x, y);
+            c1.beginPath();
+            // c1.arc(0, 0, 3, 0, Math.PI * 2, true);
+            c1.stroke();
+            c1.rotate(angle2);
+            drawArrowHelper();
+            c1.restore();
+        }
+
+    } else if (number === 3) {
+        let angle3 = calAngleAction(uiArray[1], uiArray[2]);
+        if (angle3 != 500) {
+            c1.save();
+            c1.translate(9 * x, y);
+            c1.beginPath();
+            // c1.arc(0, 0, 3, 0, Math.PI * 2, true);
+            c1.stroke();
+            c1.rotate(angle3);
+            drawArrowHelper();
+            c1.restore();
+        }
+
+    }
+}
+
+function drawArrowHelper() {
+    let xStart = actionCanvas.width * 0.04;
+    let yStart = -actionCanvas.width * 0.004;
+    c1.beginPath();
+    c1.moveTo(xStart, yStart);
+    c1.lineTo(xStart + actionCanvas.width * 0.03, yStart)
+    c1.lineTo(xStart + actionCanvas.width * 0.03, yStart - actionCanvas.width * 0.006);
+    c1.lineTo(xStart + actionCanvas.width * 0.05, yStart + actionCanvas.width * 0.0035);
+    c1.lineTo(xStart + actionCanvas.width * 0.03, yStart + 2 * actionCanvas.width * 0.006);
+    c1.lineTo(xStart + actionCanvas.width * 0.03, yStart + actionCanvas.width * 0.006);
+    c1.lineTo(xStart, yStart + actionCanvas.width * 0.006);
+    c1.closePath();
+    c1.fillStyle = '#add3ff';
+    c1.fill();
 }
 
 //resizing canvas associated function
@@ -463,6 +607,7 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
             this.createUiArray();
             animation3D();
             this.calculatedSpeedArray = this.matrixMultiplication();
+            drawActionCircles(this.calculatedSpeedArray);
             let rearrangedArray = this.rearrangedArray();
             drawSpeedometer(rearrangedArray);
             drawSpeedBar(rearrangedArray);
@@ -532,18 +677,17 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
                 storedLY = calculatedArray[1];
                 storedRX = 0;
                 storedRY = 0;
-                this.createUiArray();
             } else if (!this.left && !holdLeft) {
                 storedRX = calculatedArray[0];
                 storedRY = calculatedArray[1];
                 storedLX = 0;
                 storedLY = 0;
-                this.createUiArray();
             }
-
+            this.createUiArray();
             this.calculatedSpeedArray = this.matrixMultiplication();
             let rearrangedArray = this.rearrangedArray();
             animation3D();
+            drawActionCircles(this.calculatedSpeedArray);
             drawSpeedometer(rearrangedArray);
             drawSpeedBar(rearrangedArray);
             adjustSpeed(this.calculatedSpeedArray);
@@ -623,6 +767,7 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
                     adjustSpeed(this.calculatedSpeedArray);
                     writePercentage(rearrangedArray);
                     writeDescription(storedLLRR);
+                    drawActionCircles(this.calculatedSpeedArray);
 
 
                 } else {
@@ -674,6 +819,7 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
             this.createUiArray();
             this.calculatedSpeedArray = this.matrixMultiplication();
             let rearrangedArray = this.rearrangedArray();
+            drawActionCircles(this.calculatedSpeedArray);
             drawSpeedometer(rearrangedArray);
             drawSpeedBar(rearrangedArray);
             adjustSpeed(this.calculatedSpeedArray);
@@ -1012,6 +1158,8 @@ function init() {
     writePercentage([50, 50, 50, 50]);
     adjustSpeed([50, 50, 50, 50]);
     //writeDescription([0, 0, 0, 0]);
+    drawCanvasBackground();
+    drawActionCircles([50, 50, 50, 50]);
     animate();
 }
 
@@ -1139,37 +1287,40 @@ function writePercentage(percentage) {
 function writeDescription(uiArray) {
     let outputArray = [];
 
-    if (uiArray[0] < 0) {
-        outputArray.push('Descend');
-    } else if (uiArray[0] > 0) {
-        outputArray.push('Ascend');
+    if (uiArray[0] < -0.05) {
+        outputArray.push('DESCEND');
+    } else if (uiArray[0] > 0.05) {
+        outputArray.push('ASCEND');
     }
 
-    if (uiArray[3] < 0) {
-        outputArray.push('Rotate Left');
-    } else if (uiArray[3] > 0) {
-        outputArray.push('Rotate Right');
+    if (uiArray[3] < -0.05) {
+        outputArray.push('ROTATE LEFT');
+    } else if (uiArray[3] > 0.05) {
+        outputArray.push('ROTATE RIGHT');
     }
 
-    if (uiArray[2] < -0) {
-        outputArray.push('Forward');
-    } else if (uiArray[2] > 0) {
-        outputArray.push('Backward');
+    if (uiArray[2] < -0.05) {
+        outputArray.push('FORWARD');
+    } else if (uiArray[2] > 0.05) {
+        outputArray.push('BACKWARD');
     }
 
-    if (uiArray[1] < 0) {
-        outputArray.push('Left');
-    } else if (uiArray[1] > 0) {
-        outputArray.push('Right');
+    if (uiArray[1] < -0.05) {
+        outputArray.push('LEFT');
+    } else if (uiArray[1] > 0.05) {
+        outputArray.push('RIGHT');
     }
 
-    let fontSize = Math.floor(0.38 * infoArray[0] / 15);
+    let fontSize = Math.floor(0.38 * infoArray[0] / 20);
     let fontFillStyle = fontSize + "px Helvetica";
     c3.font = fontFillStyle;
     c3.fillStyle = '#000000';
     for (let i = 0; i < outputArray.length; i++) {
         if (outputArray.length === 2) {
             c3.fillText(outputArray[i] + ' ', infoArray[0] * 0.63 * (i + 1) / outputArray.length, infoArray[1] * 0.085);
+        } else if (outputArray.length === 1) {
+            c3.fillText(outputArray[i] + ' ', infoArray[0] * 0.43 * (i + 1) / outputArray.length, infoArray[1] * 0.085);
+
         } else {
             c3.fillText(outputArray[i] + ' ', infoArray[0] * 0.1 + infoArray[0] * 0.63 * (i + 1) / outputArray.length, infoArray[1] * 0.085);
         }

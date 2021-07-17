@@ -1,3 +1,13 @@
 .navbar-custom{
     background-color:#95cdf7;
 }
+.img{
+    height: 100%;
+    width: 100%;
+    border: 1px black;
+}
+.outer-box{
+    background-color:#caf1ff;
+    margin: 4% 15% 7% 15%;
+
+}
