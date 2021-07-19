@@ -71,7 +71,7 @@ const sizes = {
     height: window.innerHeight - navBarHeight
 }
 
-if (window.innerWidth < 768) {
+if (window.innerWidth < 992) {
     sizes.width = window.innerWidth;
     sizes.height = window.innerHeight * 0.5 - navBarHeight * 0.5
 }
@@ -104,7 +104,7 @@ window.addEventListener('resize', function () {
     sizes.width = window.innerWidth * 0.5;
     sizes.height = window.innerHeight - navBarHeight;
 
-    if (window.innerWidth < 768) {
+    if (window.innerWidth < 992) {
         sizes.width = window.innerWidth;
         sizes.height = window.innerHeight * 0.5 - navBarHeight * 0.5
     }
