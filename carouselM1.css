@@ -177,7 +177,7 @@ body {
 
 @media only screen and (max-width: 1024px) {
     html {
-        font-size: 18px;
+        font-size: 13px;
     }
 
     .carousel {
@@ -225,7 +225,7 @@ body {
 
 @media only screen and (max-width: 768px) {
     html {
-        font-size: 13px;
+        font-size: 10px;
         overflow: hidden;
     }
 }
@@ -296,7 +296,7 @@ body {
     }
 
     .long-text {
-        margin-top: -3%;
+        margin-top: -2%;
         font-size: 1.2rem;
 
 
