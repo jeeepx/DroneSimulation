@@ -490,6 +490,8 @@ let x1 = postionArray[2];
 let side = postionArray[4];
 let joyLeft = new JoyStick(x1, 0.92 * infoArray[1], 6 * infoArray[2], true);
 let joyRight = new JoyStick(x1 + side, 0.92 * infoArray[1], 6 * infoArray[2], false);
+let lastTap = 0;
+
 
 canvas3.addEventListener('mousedown', function (event) {
     if (isInLCircle(event)) {
@@ -525,8 +527,12 @@ canvas3.addEventListener('dblclick', function (event) {
 
 canvas3.addEventListener('touchstart', function (event) {
     touched = true;
+
     let timeNow = new Date().getTime();
+
     let timesince = timeNow - lastTap;
+    console.log('here')
+
     if ((timesince < 600) && (timesince > 0)) {
 
         if (isInLCircle(event)) {
@@ -538,7 +544,7 @@ canvas3.addEventListener('touchstart', function (event) {
         joyLeft.startDrawing(event);
         joyRight.startDrawing(event);
     }
-    lastTap = new Date().getTime();
+     lastTap = new Date().getTime();
 
 });
 canvas3.addEventListener('touchmove', function (event) {
