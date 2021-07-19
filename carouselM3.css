@@ -4,14 +4,18 @@ body {
     height: 100%;
     padding: 0;
     margin: 0 auto;
-    font-size: 13.5px;
-
+    font-size: 14px;
 }
 
 .navbar-custom {
     background-color: #95cdf7;
 }
-
+.comp-button{
+    font-size: 1.05rem;
+    color:black;
+    background-color: #fff1c3;
+    border: #fff1c3 ;
+}
 
 .fa-home {
     position: absolute;
@@ -71,28 +75,23 @@ body {
     padding: 2%;
     margin: 5% 5%;
     text-align: center;
-
 }
 
 .img-module {
-    position: absolute;
-    width: 17rem;
-    height: 17rem;
+    width: 14rem;
+    height: 14rem;
     background-color: white;
     padding: 2%;
     border-radius: 30%;
     border: 0.5rem #caf1ff solid;
-    margin-left: auto;
-    margin-right: auto;
-    left: 0;
-    right: 0;
-    top: 35%;
+    margin: 0 auto;
+    display: block;
 }
 
 .info {
     position: absolute;
-    width: 17rem;
-    top: 24%;
+    width: 18rem;
+    top: 20%;
     background-color: #fff1c3;
     font-size: 1rem;
     padding: 2%;
@@ -100,31 +99,27 @@ body {
 }
 
 .quote {
-    position: absolute;
+    position: relative;
     display: block;
     text-align: center;
-    /* position: absolute; */
-    /* padding: 2%; */
-    top: 25%;
-    margin-left: auto;
-    margin-right: auto;
+    position: absolute;
+    padding: 2%;
+    top: 12%;
     left: 0;
-    right: 0;
-    text-align: center;
-    font-size: 1.1rem;
+    margin: 4% 5%;
+    font-size: 1.25rem;
 
 }
 
 
 
 .real-life {
-
     font-size: 1rem;
     position: absolute;
     background-color: #fff1c3;
     padding: 2%;
-    top: 24%;
-    width: 17rem;
+    top: 20%;
+    width: 18rem;
     right: 0;
     margin: 7% 5%;
 
@@ -148,7 +143,6 @@ body {
     margin: 3% 5%;
     right: 0;
     bottom: 0;
-
 
 }
 
@@ -208,27 +202,22 @@ body {
     }
 
     .info {
-        margin-top: 4%;
+        margin-top: 7%;
     }
 
     .quote {
         position: absolute;
         width: 100%;
-        margin: -18% auto;
+        margin: -2% auto;
     }
-
     /* .quote-short{
         margin: 2%  auto;
     } */
 
     .img-module {
-        
         position: relative;
-        top:0;
-        width: 14rem;
-        height: 14rem;
-        display: block;
-        margin-top: 10%;
+        top: 3%;
+        margin: 4% auto;
     }
 
     .next-module {
@@ -238,12 +227,11 @@ body {
     }
 
 }
-
 @media only screen and (max-width: 834px) {
     html {
         font-size: 15px;
     }
-
+    
 }
 
 @media only screen and (max-width: 768px) {
@@ -254,7 +242,7 @@ body {
 
 @media only screen and (max-width: 480px) {
     html {
-        font-size: 12px;
+        font-size: 11px;
     }
 
     .carousel {
@@ -291,10 +279,10 @@ body {
 
     }
 
-
+    
 
     .info {
-        margin-top: 5%;
+        margin-top: 9%;
     }
 
     .info,
@@ -312,10 +300,7 @@ body {
     }
 
     .quote {
-        margin-top: -33%;
+        margin-top: -4%;
     }
-    .img-module{
-        margin-top: 10%;
-    }
-
+   
 }
