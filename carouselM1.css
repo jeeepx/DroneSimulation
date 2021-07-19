@@ -177,7 +177,7 @@ body {
 
 @media only screen and (max-width: 1024px) {
     html {
-        font-size: 13px;
+        font-size: 14px;
     }
 
     .carousel {
@@ -208,6 +208,9 @@ body {
         width: 100%;
         margin: 0 auto;
     }
+    .quote-short{
+        margin: -2% auto;
+    }
 
     .img-module {
         position: relative;
@@ -226,7 +229,6 @@ body {
 @media only screen and (max-width: 768px) {
     html {
         font-size: 10px;
-        overflow: hidden;
     }
 }
 
