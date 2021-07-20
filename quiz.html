@@ -10,7 +10,7 @@
     <title>DroneViz</title>
 </head>
 
-<body>
+<body id="body">
 
     <nav class="navbar navbar-custom navbar-expand-md navbar-light " id='navbar'>
         <div class="container-fluid">
@@ -38,39 +38,52 @@
         </div>
     </nav>
 
-    <div class="outer-box">
-        <div class="question">
-            <div class="question-text">1. What is the reasonable propeller speed to make the drone behaves follow? </div>
+    <div class="outer-box" id="outer-box">
+        <div class="question" id="question">
+            <div class="question-text ">1. What is the reasonable propeller speed to make the drone behaves follow?
+            </div>
             <img class="img-question img-left" src="img/backView1.png" alt="">
             <img class="img-question img-right" src="img/topView.png" alt="">
         </div>
 
-        <div class="choice-container">
-            <button id = "1" class="btn btn-warning  choice img-choice img-left">
-                <div class="number choice-text">1</div>
-                <img src="img/backView1.png" alt="">
+        <div class="choice-container" id="choice-container">
+            <button id="1" class="btn btn-warning  choice img-choice img-left keep">
+                <div class="number choice-text keep">1</div>
+                <img class="keep" src="img/backView1.png" alt="">
             </button>
-            <button id = "2" class=" btn btn-warning choice img-choice ">
-                <div class="number choice-text">2</div>
-                <img src="img/backView1.png" alt="">
+            <button id="2" class=" btn btn-warning choice img-choice keep ">
+                <div class="number choice-text keep">2</div>
+                <img class="keep" src="img/backView1.png" alt="">
             </button>
-            <button id = "3" class=" btn btn-warning  choice  img-choice img-left">
-                <div class="number choice-text">3</div>
-                <img src="img/backView1.png" alt="">
+            <button id="3" class=" btn btn-warning  choice  img-choice img-left keep">
+                <div class="number choice-text keep">3</div>
+                <img class="keep" src="img/backView1.png" alt="">
             </button>
-            <button id = "4" class=" btn btn-warning choice img-choice">
-                <div class="number choice-text">4</div>
-                <img src="img/backView1.png" alt="">
+            <button id="4" class=" btn btn-warning choice img-choice keep">
+                <div class="number choice-text keep">4</div>
+                <img class="keep" src="img/backView1.png" alt="">
             </button>
             <div></div>
         </div>
 
-        <button id = "submit" class=" btn btn-warning sub-next">
+        <button id="submit" class=" btn btn-warning sub-next keep">
             SUBMIT
         </button>
-        <button id = "next" class=" btn btn-warning sub-next hide">
+        <button id="next" class=" btn btn-warning sub-next hide keep">
             NEXT
         </button>
+
+        <div class="alert hide" id="alert" >
+             You didn't select your answer yet !
+        </div>
+    </div>
+
+    <div class="summary hide">
+        <strong>You scored <span class="score"></span>/<span class="total-qs"></span>!</strong><br> <span class= "sum-sm">
+        Good Job.<br> What's your plan? <br></span>
+        <button class=" btn btn-warning last-btn " id="retry">Retry</button>
+        <button class=" btn btn-warning last-btn " id="chill">Chill Out</button>
+
     </div>
 
 
