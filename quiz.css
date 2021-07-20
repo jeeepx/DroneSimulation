@@ -4,8 +4,7 @@ body {
     height: 100%;
     padding: 0;
     margin: 0;
-    overflow: hidden;
-    font-size: 11px;
+    font-size: 9.5px;
 
 }
 
@@ -24,11 +23,10 @@ body {
 .outer-box {
     position: relative;
     width: 80%;
-    height: 85%;
+    height: max-content;
     background-color: #caf1ff;
     padding: 3% 5%;
-    margin: 9% auto;
-
+    margin: 5% auto;
 }
 
 .question {
@@ -79,22 +77,23 @@ body {
     position: relative;
     background-color: #95cdf7;
     border: #95cdf7;
-    float: right;
+    left: 78%;
 }
 
 .alert {
     position: relative;
     font-size: 1rem;
     text-align: center;
-    color: #E84258 ;
-    bottom: 2% ;
+    color: #E84258;
+    bottom: 2%;
 
 }
 
 .hide {
     display: none;
 }
-.summary{
+
+.summary {
     font-size: 1.25rem;
     position: fixed;
     top: 50%;
@@ -106,49 +105,59 @@ body {
     text-align: center;
 
 }
-.blur{
+
+.blur {
     opacity: 0.5;
 }
-.sum-sm{
+
+.sum-sm {
     font-size: 1rem;
 }
 
-.last-btn{
-    margin: 6%  auto;
-    background-color: #fff1c3 ;
+.last-btn {
+    margin: 6% auto;
+    background-color: #fff1c3;
     border: #fff1c3;
 }
 
+@media only screen and (min-width: 375px) {
+    html {
+        font-size: 11px;
+    }
 
+}
 
 
 @media only screen and (min-width: 414px) {
     html {
-        font-size: 12px;
+        font-size: 12.25px;
     }
 
 }
 
 @media only screen and (min-width: 768px) {
     html {
-        font-size: 15px;
+        font-size: 15.5px;
+    }
+    .sub-next{
+        left: 85%;
     }
 }
 
-@media only screen and (min-width: 833px) {
+@media only screen and (min-width: 830px) {
     html {
-        font-size: 16px;
+        font-size: 16.5px;
     }
 }
 
 @media only screen and (min-width: 1024px) {
     html {
-        font-size: 20px;
+        font-size: 21.5px;
     }
 
 }
 
-@media only screen and (min-width: 1025px) {
+@media only screen and (min-width: 1026px) {
     html {
         font-size: 20px;
     }
@@ -168,9 +177,9 @@ body {
     }
 
     .outer-box {
-        height: 80%;
-        margin: 3% auto;
-        padding: 2% 2%;
+        height: max-content;
+        margin: 2% auto;
+        padding: 2% 2% 1% 2%;
     }
 
     .question {
@@ -183,8 +192,14 @@ body {
         margin: 0.5% 2%;
     }
 
-    .submit {
-        margin-right: 0;
+    .sub-next {
+        left:90%;
     }
 
+}
+
+@media only screen and (min-width: 1920px) {
+    html {
+        font-size:28px;
+    }
 }
