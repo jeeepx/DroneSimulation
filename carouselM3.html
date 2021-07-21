@@ -2,156 +2,186 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://kit.fontawesome.com/62c4fa60ee.js" crossorigin="anonymous"></script>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-  <link rel="stylesheet" href="carouselM3.css">
-  <link rel="stylesheet" href="carouselM1.css">
-  <title>DroneViz</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/62c4fa60ee.js" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="carouselM1.css">
+    <link rel="stylesheet" href="carouselM3.css">
+
+    <title>DroneViz</title>
 </head>
 
 <body>
 
-  <nav class="navbar navbar-custom navbar-expand-md navbar-light " id='navbar'>
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">DroneViz</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link" href="droneModule.html">How does drone work?</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="index.html">Playground</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Challenge</a>
-          </li>
+    <nav class="navbar navbar-custom navbar-expand-md navbar-light " id='navbar'>
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">DroneViz</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="droneModule.html">How does drone work?</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Playground</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="quiz.html">Challenge</a>
+                    </li>
 
-        </ul>
+                </ul>
 
-      </div>
-    </div>
-  </nav>
-  <div class="below-nav">
-    <a class="top-nav" href="droneModule.html">
-      <i class="fas fa-home fa-2x"></i>
-    </a>
-    <div class="lessons top-nav">
-      CW/CCW &nbsp; &nbsp; &nbsp; &nbsp; Flight Mech &nbsp; &nbsp; &nbsp; &nbsp; <strong>Drone Components </strong>
-    </div>
-
-    <div id="module1" class="carousel slide" data-ride="false">
-      <div class="carousel-indicators">
-        <button type="button" data-bs-target="#module1" data-bs-slide-to="0" class="active" aria-current="true"
-          aria-label="Slide 1"></button>
-        <button type="button" data-bs-target="#module1" data-bs-slide-to="1" aria-label="Slide 2"></button>
-        <button type="button" data-bs-target="#module1" data-bs-slide-to="2" aria-label="Slide 3"></button>
-      </div>
-      <div class="carousel-inner">
-        <div class="carousel-item active page-one ">
-          <div class="topic-box">
-            Drone Components
-          </div>
-          <img src="./img/rotatePropeller.png" class=" img-module" alt="...">
-
-          <!-- Button trigger modal -->
-          <button type="button" class="btn btn-primary comp-button" data-bs-toggle="modal" data-bs-target="#propellers">
-            Propellers
-          </button>
-
-          <!-- Modal -->
-          <div class="modal fade" id="propellers" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title comp-heading">Propellers</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                  <div class="row">
-                    <img class=" col-lg-6 comp-img" src="" alt="Img of the propellers" srcset="">
-                    <div class=" col-lg-6 comp-desc">Propellers does this.
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
-          </div>
-          
-          <div class="next-module">Next: Making angular momentum = zero</div>
-
+        </div>
+    </nav>
+    <div class="below-nav">
+        <a class="top-nav" href="droneModule.html">
+            <i class="fas fa-home fa-2x"></i>
+        </a>
+        <div class="lessons top-nav">
+            CW/CCW&nbsp; &nbsp; &nbsp; &nbsp; Flight Mech&nbsp; &nbsp; &nbsp; &nbsp;<strong> Drone Components</strong>
         </div>
 
-      <div class="carousel-item ">
-        <div class="topic-box">
-          ANGULAR MOMENTUM = 0
-        </div>
-        <img src="./img/rotatePropeller.png" class=" img-module" alt="...">
-        <div class="info ">
-          <strong>Calculating Angular Momentum</strong> <br>
+        <div id="module1" class="carousel slide" data-ride="false">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#module1" data-bs-slide-to="0" class="active" aria-current="true"
+                    aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#module1" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#module1" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                <button type="button" data-bs-target="#module1" data-bs-slide-to="3" aria-label="Slide 4"></button>
+                <button type="button" data-bs-target="#module1" data-bs-slide-to="4" aria-label="Slide 5"></button>
+                <button type="button" data-bs-target="#module1" data-bs-slide-to="5" aria-label="Slide 6"></button>
+              
 
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi non quis exercitationem culpa
-          nesciunt nihil aut nostrum explicabo reprehenderit optio amet ab temporibus asperiores quasi
-          cupiditate. Voluptatum ducimus voluptates voluptas?
-        </div>
-        <div class="quote quote-short long-text"><i>Opposing rotating direction makes angular momentum = 0 !</i> <br>
-        </div>
-        <div class="real-life"><strong>Example of Angular momentum in Real Life:</strong> <br>orem ipsum dolor sit
-          amet, consectetur adipisicing elit. Eligendi non quis exercitationem culpa
-          nesciunt nihil aut nostrum explicabo reprehenderit optio amet ab temporibus asperiores quasi
-          cupiditate. Voluptatum ducimus voluptates voluptas? </div>
-        <div class="next-module">Next: What If All the Propellers Spin in the Same Direction ?</div>
-      </div>
-      <div class="carousel-item">
-        <div class="topic-box">
-          What If All Propellers Spin in the Same Direction ?
-        </div>
-        <img src="./img/rotatePropeller.png" class=" img-module" alt="...">
-        <div class="info ">
-          <strong>Why Does the Drone Start Rotating ?</strong> <br>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active page-one ">
+                    <div class="topic-box">
+                        Drone Components
+                    </div>
+                    <img src="./img/rotatePropeller.png" class=" img-module" alt="...">
+                    <div class="info ">
 
-          Newton's third law => reaction torque => net torque
+                        Each spinning propeller creates a lift. If the sum of the lift created by the four propellers
+                        are greater than the weight of the drones, the drone will take off. On the other hand, if the
+                        lift is less than the weight of the drone, the drone will fly down. Lastly, if the lift is equal
+                        to the weight of the drone, the drone will stay still vertically.
+                    </div>
+                    <div class="quote "><i> For information about lift, check the previous chapter! </i>
+                        <br>
+                    </div>
+                    <div class="real-life"><strong>Calculation Example:</strong> <br> If each propeller creates a 2 N
+                        lift and the weight of the drone is 7 N, how will the drone move vertically ? <br>Yes, the drone
+                        will fly up! This is because the lift created by the four propellers is equal to 2 N x 4 = 8 N,
+                        which is greater the weight of the drone. </div>
+                    <div class="next-module">Next: To the left and to the right !</div>
+                </div>
+                <div class="carousel-item ">
+                    <div class="topic-box">
+                        Propellers & Motors</div>
+                    <img src="./img/rotatePropeller.png" class=" img-module" alt="...">
+                    <div class="info ">
+                        <strong>Propellers</strong> <br>
+                       The drone component that generates lift and it is responsible for controlling the movement of the drone. Usually, propellers are made of carbon fiber or plastic. It is extremely important to check your propeller condition before making your drone take off since a broken propeller could pontentially cause an accident. 
+                    </div>
+                    <div class="quote quote-short long-text"><i>The essential duo to create lift!</i> <br>
+                    </div>
+                    <div class="real-life"><strong>Motor</strong> <br> The motor spins the propellers of drone. The quality of motor contributes greatly to the battery life and your flight duration. Brushless motors are more efficient than brushed motors. </div>
+                  
+                    <div class="next-module">Next: Battery & PDB  </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="topic-box">
+                        Battery & PDB </div>
+                    <img src="./img/rotatePropeller.png" class=" img-module img-3" alt="...">
+                    <div class="info info-3 ">
+                        <strong>Battery</strong> <br>
+
+                        Battery is the power source for our drone. Without the battery, our drone would not be able to fly. Battery is considered one of the heaviest components of our drone. Usually, drone use LiPo or Lithium polymer batter because they have a high energy density compared to their size and weight.
+                    </div>
+                    <div class="quote quote-short "><i>Distribute the power!</i>
+                        <br>
+                    </div>
+                    <div class="real-life"><strong>Power Distribution Board (PDB)</strong> <br> PDB is a printed circuit board that distributes power from the battery to all the components at an appropriate voltage. </div>
+                    <div class="next-module">Next: ESC & Flight Controller</div>
+                </div>
+                <div class="carousel-item">
+                    <div class="topic-box">
+                        ESC & Flight Controller </div>
+                    <img src="./img/rotatePropeller.png" class=" img-module" alt="...">
+                    <div class="info ">
+                        <strong>ESC - Electronic Speed Controller</strong> <br>
+                        ESC is an electronic circuit which enables flight controller to monitor and change the speed of drone's motors during the flight. The flight controller will send a signal to ESC. ESC will then translate the desired speed to motor by converting DC battery power to AC power at lower or higher voltage to the motor as needed.
+                    </div>
+                    <div class="quote quote-short "><i>Work together to control the motors' speed.</i> <br>
+                    </div>
+                    <div class="real-life"><strong>Flight Controller</strong> <br>  The flight controller is a circuit board that collects data through a set of sensors, and then use those collected data to calculate the speed each motor needs to follow the drone pilot's command. Flight controllers will then send this speed information to ESC, so that ESC could pass along this information to the motor. We can think of the flight controller as the brain of the drone. </div>
+               
+                        <div class="next-module">Next: Transmitter & Receiver</div>
+                    
+                </div>
+                <div class="carousel-item">
+                  <div class="topic-box">
+                      Transmitter & Receiver </div>
+                  <img src="./img/rotatePropeller.png" class=" img-module" alt="...">
+                  <div class="info ">
+                      <strong>Transmitter</strong> <br>
+                      Transmitter is responsible for transmitting the radio signal from the controller to the drone. In simpler term, the transmitter will read your joystick inputs and send those inputs to the receiver.
+                  </div>
+                  <div class="quote quote-short "><i>It is all about communication.</i> <br>
+                  </div>
+                  <div class="real-life"><strong>Receiver</strong> <br>  The receiver is responsible for receiving the radio signal that has been sent from the transmitter. The transmitter and receiver should use the same radio signal. Once the signal is received, the receiver will send this information to the drone flight controller.  </div>
+                
+                      <div class="next-module">Next: GPS & Frame</div>
+               
+              </div>
+
+              <div class="carousel-item">
+                <div class="topic-box">
+                    GPS & Frame </div>
+                <img src="./img/rotatePropeller.png" class=" img-module" alt="...">
+                <div class="info ">
+                    <strong>GPS</strong> <br>
+                    GPS helps the drone to determine its relative position and speed. GPS also enables many useful drone function, such as Altitude Hold, which enables the drone to stay at the same altitude during the flight, and Return to Home, which enables the drone to return to its take off position.
+                </div>
+                <div class="quote quote-short "><i>Last slide!</i> <br>
+                </div>
+                <div class="real-life"><strong>Frame</strong> <br>  Frame is the main structure of our drone. All of the components discussed are attached to the frame. The size of your frame will effect the size of your propellers and motors. </div>
+                <a href="droneModule.html">
+                    <div class="next-module">Congrats ! You finished the module.</div>
+                </a>
+            </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#module1" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#module1" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+
         </div>
-        <div class="quote quote-short "><i>The drone rotates in the opposite direction of the propellers rotation.
-            !</i> <br>
-        </div>
-        <div class="real-life"><strong>Review Time!:</strong> <br>orem ipsum dolor sit amet, consectetur adipisicing
-          elit. Eligendi non quis exercitationem culpa
-          nesciunt nihil aut nostrum explicabo reprehenderit optio amet ab temporibus asperiores quasi
-          cupiditate. Voluptatum ducimus voluptates voluptas? </div>
-        <div class="next-module">Next: Chapter 2 - Drone Components</div>
-      </div>
     </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#module1" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#module1" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
-    </button>
-
-  </div>
-  </div>
 
 
 
 
 
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
-    integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous">
-  </script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
-    integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">
-  </script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">
+    </script>
 
-<script src="carouselM1.js"></script>
+    <script src="carouselM1.js"></script>
 </body>
 
 </html>

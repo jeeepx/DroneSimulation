@@ -77,7 +77,7 @@ body {
 .img-module {
     position: absolute;
     width: 17rem;
-    height: 17rem;
+    height: 20rem;
     background-color: white;
     padding: 2%;
     border-radius: 30%;
@@ -92,10 +92,10 @@ body {
 .info {
     position: absolute;
     width: 17rem;
-    top: 24%;
+    top: 22%;
     background-color: #fff1c3;
     font-size: 1rem;
-    padding: 2%;
+    padding: 2% 1.5%;
     margin: 7% 5%;
 }
 
@@ -120,8 +120,8 @@ body {
     font-size: 1rem;
     position: absolute;
     background-color: #fff1c3;
-    padding: 2%;
-    top: 24%;
+    padding: 2% 1.5%;
+    top: 22%;
     width: 17rem;
     right: 0;
     margin: 7% 5%;
@@ -131,11 +131,12 @@ body {
 .next-module {
     position: absolute;
     background-color: #fff1c3;
-    padding: 2%;
+    padding: 1% 2%;
     font-size: 1rem;
     margin: 3% 5%;
     right: 0;
     bottom: 1%;
+   
 }
 
 .carousel-control-prev {
@@ -167,10 +168,17 @@ body {
     color: black;
 }
 
-
+.next-ch{
+    color:black;
+    background-color: #caf1ff ;
+    border: #caf1ff  ;
+    
+}
 
 .next-ch:hover{
-background-color: #ffd4c4;
+    color:black;
+    background-color: #fff1c3 ;
+    border: #caf1ff  ;
 }
 
 
