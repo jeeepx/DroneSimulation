@@ -246,7 +246,7 @@ function drawCanvasBackground() {
         let fontFillStyle = fontSize + "px Helvetica";
         c0.font = fontFillStyle;
         c0.drawImage(backView, 3 * x - radius * 0.35, y - radius * 0.5, radius * 0.9, radius * 0.85);
-        c0.fillText('BACK', 3 * x - radius * 0.1, y - radius * 0.35);
+        c0.fillText('FRONT', 3 * x - radius * 0.1, y - radius * 0.35);
     };
     backView.src = './img/backView1.png';
 
