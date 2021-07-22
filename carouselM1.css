@@ -300,7 +300,7 @@ body {
 
 @media only screen and (max-width: 480px) {
     html {
-        font-size: 10px;
+        font-size: 9px;
     }
 
     .carousel {
@@ -356,7 +356,7 @@ body {
     }
 
     .quote {
-        margin-top: -33%;
+        margin-top: -25%;
     }
 
     .img-module {
@@ -376,7 +376,7 @@ body {
 }
 @media only screen and (max-width: 380px) {
     html {
-        font-size: 8px;
+        font-size: 7px;
     }
 }
 
