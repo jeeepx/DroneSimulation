@@ -21,6 +21,8 @@
     height: max-content;
     padding: 2% 3%;
     background-color: #fff1c3;
+    border: 0.5rem #caf1ff solid;
+
 
 }
 
@@ -53,7 +55,7 @@
 }
 
 .comp-long {
-    font-size: 0.95rem;
+    font-size: 0.83rem;
 }
 
 .comp-button {

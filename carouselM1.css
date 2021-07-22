@@ -66,6 +66,7 @@ body {
 }
 
 .topic-box {
+    border: 0.5rem #caf1ff solid;
     background-color: #fff1c3;
     font-size: 1.5rem;
     padding: 2%;
@@ -76,23 +77,23 @@ body {
 
 .img-module {
     position: absolute;
-    width: 17rem;
+    width: 20rem;
     height: 20rem;
     background-color: white;
-    padding: 2%;
     border-radius: 30%;
     border: 0.5rem #caf1ff solid;
     margin-left: auto;
     margin-right: auto;
     left: 0;
     right: 0;
-    top: 35%;
+    top: 32%;
 }
 
 .info {
+    border: 0.5rem #caf1ff solid;
     position: absolute;
     width: 17rem;
-    top: 22%;
+    top: 20%;
     background-color: #fff1c3;
     font-size: 1rem;
     padding: 2% 1.5%;
@@ -100,6 +101,7 @@ body {
 }
 
 .quote {
+    
     position: absolute;
     display: block;
     text-align: center;
@@ -116,19 +118,27 @@ body {
 }
 
 .real-life {
-
+    border: 0.5rem #caf1ff solid;
     font-size: 1rem;
     position: absolute;
     background-color: #fff1c3;
     padding: 2% 1.5%;
-    top: 22%;
+    top: 20%;
     width: 17rem;
     right: 0;
     margin: 7% 5%;
 
 }
 
+.long-text{
+    width: 17.5rem;
+    font-size: 0.9rem;
+    top: 19%;
+
+}
+
 .next-module {
+    border: 0.5rem #caf1ff solid;
     position: absolute;
     background-color: #fff1c3;
     padding: 1% 2%;
@@ -171,14 +181,14 @@ body {
 .next-ch{
     color:black;
     background-color: #caf1ff ;
-    border: #caf1ff  ;
+    border: #fff1c3 0.5rem solid ;
     
 }
 
 .next-ch:hover{
-    color:black;
-    background-color: #fff1c3 ;
-    border: #caf1ff  ;
+    color:white;
+    background-color: black ;
+    border: #fff1c3 0.5rem solid ;
 }
 
 
@@ -374,14 +384,14 @@ body {
 
 
 }
-@media only screen and (max-width: 414px) {
+@media only screen and (max-width: 415px) {
     html {
-        font-size: 8px;
+        font-size: 8.5px;
     }
 }
 @media only screen and (max-width: 380px) {
     html {
-        font-size: 7px;
+        font-size: 7.5px;
     }
 }
 
