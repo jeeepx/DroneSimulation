@@ -242,14 +242,22 @@
 
 }
 
-@media only screen and (max-width: 380px) {
+@media only screen and (max-width: 415px) {
     html {
-        font-size: 8px;
+        font-size: 9px;
     }
 
     .comp-long {
         font-size: 0.9rem;
     }
+}
+
+@media only screen and (max-width: 380px) {
+    html {
+        font-size: 8px;
+    }
+
+   
 }
 
 @media only screen and (max-width: 1112px) and (orientation:landscape) {

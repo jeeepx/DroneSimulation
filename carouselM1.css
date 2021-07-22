@@ -374,6 +374,11 @@ body {
 
 
 }
+@media only screen and (max-width: 414px) {
+    html {
+        font-size: 8px;
+    }
+}
 @media only screen and (max-width: 380px) {
     html {
         font-size: 7px;
