@@ -386,7 +386,10 @@ body {
 }
 @media only screen and (max-width: 415px) {
     html {
-        font-size: 8.5px;
+        font-size: 10px;
+    }
+    .quote{
+        top:27%;
     }
 }
 @media only screen and (max-width: 380px) {
