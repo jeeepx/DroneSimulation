@@ -293,7 +293,7 @@
 
 @media only screen and (max-width: 830px) and (orientation:landscape) {
     html {
-        font-size: 9.5px;
+        font-size: 10px;
         overflow: auto;
     }
 
@@ -323,7 +323,7 @@
     .wrapper {
         height: max-content;
         position: relative;
-        margin: 1% 0 0%;
+        margin: 1% 0 1%;
     }
     
     .comp-first,
@@ -340,6 +340,9 @@
         margin-left: auto;
         margin-right: 5%;
     
+    }
+    .comp-sec{
+        top:0%;
     }
     
     .img-first,
@@ -359,8 +362,8 @@
     
 
     .next-module {
-        height: max-content;
-        top: 85%;
+        height: 7%;
+        top: 80%;
     }
 
 }
