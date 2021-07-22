@@ -1,17 +1,322 @@
+.topic-box {
+    margin: 5% 5% 2% 5%;
+}
 
-.comp-button{
+.comp-quote {
+    position: relative;
+    text-align: center;
+    margin: 1%;
+}
+
+.wrapper {
+    height: max-content;
+    position: relative;
+    margin: 1% 0 2%;
+}
+
+
+.comp-first,
+.comp-sec {
+    display: inline-block;
+    height: max-content;
+    padding: 2% 3%;
+    background-color: #fff1c3;
+
+}
+
+.comp-first {
+    margin-left: auto;
+    margin-right: 5%;
+
+}
+
+
+
+.img-first,
+.img-sec {
+    width: 10rem;
+    height: 10rem;
+}
+
+.img-first {
+    margin-left: 5%;
+}
+
+.img-sec {
+    margin-right: 5%;
+}
+
+
+.comp-sec {
+    margin: 0 5% 4%;
+
+}
+
+.comp-long {
+    font-size: 0.95rem;
+}
+
+.comp-button {
     font-size: 1.25rem;
-    color:black;
+    color: black;
     padding: 1.5% 1.5%;
     background-color: #fff1c3;
-    border: #fff1c3 ;
-}
-.comp-button:hover{
-    color:black;
-    background-color: #caf1ff ;
-    border: #caf1ff  ;
+    border: #fff1c3;
 }
 
+.comp-button:hover {
+    color: black;
+    background-color: #caf1ff;
+    border: #caf1ff;
+}
+
+@media only screen and (max-width: 1024px) {
+    html {
+        font-size: 17.5px;
+    }
+
+
+    .img-first,
+    .img-sec {
+        position: relative;
+        margin: 3% auto;
+        width: 9rem;
+        height: 9rem;
+
+    }
+
+    .img-sec {
+        position: absolute;
+        left: 0;
+        right: 0;
+        margin: 3% auto 0;
+    }
+
+    .comp-sec {
+        position: relative;
+        margin-top: 3%;
+        top: 21%;
+
+    }
+
+    .wrapper {
+        margin: 0;
+        padding: 0;
+    }
+
+    .comp-first,
+    .comp-sec {
+        font-size: 1rem;
+        width: 90%;
+        margin: 0 5%;
+    }
+
+    .carousel {
+        height: 85%;
+        margin: 6% auto;
+    }
+
+    .comp-long {
+        font-size: 0.9rem;
+    }
+
+    .comp-quote {
+        font-size: 1rem;
+    }
 
 
 
+    .next-module {
+        top: 23%;
+    }
+
+
+    .next-module {
+        text-align: center;
+        position: relative;
+        bottom: -1%;
+    }
+
+    .carousel-control-prev {
+        margin-left: -5rem;
+    }
+
+    .carousel-control-next {
+        margin-right: -5rem;
+    }
+
+
+}
+
+
+@media only screen and (max-width: 1022px) {
+    html {
+        font-size: 16px;
+    }
+
+}
+
+@media only screen and (max-width: 834px) {
+    html {
+        font-size: 14px;
+    }
+}
+
+
+@media only screen and (max-width: 768px) {
+    html {
+        font-size: 12.5px;
+    }
+}
+
+@media only screen and (max-width: 736px) {
+    html {
+        font-size: 10.5px;
+    }
+}
+
+
+@media only screen and (max-width: 480px) {
+    html {
+        font-size: 11px;
+    }
+
+    .carousel {
+        position: relative;
+        border: 1rem #caf1ff solid;
+        width: 80%;
+        margin-top: 13%;
+        height: 85%;
+    }
+
+    .img-sec {
+        margin-top: 7%;
+    }
+
+    .comp-sec {
+        top: 20%;
+    }
+
+    .next-module {
+        top: 19%;
+    }
+
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+        height: 5rem;
+        width: 5rem;
+        outline: black;
+        background-size: 80%, 80%;
+        background-image: none;
+
+    }
+
+    .carousel-control-next-icon:after {
+        content: '>';
+        font-size: 3rem;
+        color: black;
+
+    }
+
+    .carousel-control-prev-icon:after {
+        content: '<';
+        font-size: 3rem;
+        color: black;
+        left: -3rem;
+
+
+    }
+
+    .lessons {
+        font-size: 1rem;
+    }
+
+    .fa-home {
+        margin-top: -2.5%;
+    }
+
+    a {
+        text-decoration: none
+    }
+
+
+}
+
+@media only screen and (max-width: 1112px) and (orientation:landscape) {
+    html {
+        font-size: 12px;
+    }
+
+    .carousel {
+        height: 73%;
+        margin: 6% auto;
+    }
+
+    .next-module {
+        position: absolute;
+        height: max-content;
+    }
+}
+
+@media only screen and (max-width: 1024px) and (orientation:landscape) {
+    html {
+        overflow: auto;
+    }
+
+    .carousel {
+        width: 80%;
+        height: 100%;
+        margin: 6% auto;
+    }
+
+    .next-module {
+        height: 5%;
+        top:90%
+    }
+}
+
+@media only screen and (max-width: 830px) and (orientation:landscape) {
+    html {
+        font-size: 10px;
+    }
+
+    .fa-home {
+        position: absolute;
+        color: #95cdf7;
+        top: -10%;
+        left: 2%
+    }
+
+    .lessons {
+        font-size: 1rem;
+        position: absolute;
+        top: -9%;
+        left: 11%
+    }
+
+    .carousel {
+        width: 100%;
+        height: 100%;
+        border: 1.5rem #caf1ff solid;
+        
+    }
+
+    .real-life,
+    .info {
+        top: 12%;
+        width: 28%;
+    }
+
+    .topic-box {
+        margin: 2% 5%;
+    }
+
+    .next-module {
+        width: max-content;
+        right: 0%;
+        bottom: -3%;
+    }
+
+
+
+}
