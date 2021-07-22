@@ -245,7 +245,12 @@
     html {
         font-size: 8px;
     }
-
+   
+}
+@media only screen and (max-width: 330px) {
+    html {
+        font-size: 7.5px;
+    }
    
 }
 
@@ -266,51 +271,33 @@
     }
 
     .next-module {
-        position: absolute;
-        height: max-content;
+        bottom: 0%;
     }
 }
 
-@media only screen and (max-width: 1024px) and (orientation:landscape) {
+@media only screen and (max-width: 1025px) and (orientation:landscape) {
     html {
-        overflow: auto;
-    }
-
-    .carousel {
-        width: 80%;
-        height: 100%;
-        margin: 6% auto;
-    }
-
-    .next-module {
-        height: 5%;
-        top: 90%
-    }
-}
-
-@media only screen and (max-width: 830px) and (orientation:landscape) {
-    html {
-        font-size: 10px;
+        font-size: 13px;
         overflow: auto;
     }
 
     .fa-home {
         position: absolute;
         color: #95cdf7;
-        top: -10%;
+        top: -6%;
         left: 2%
     }
 
     .lessons {
         font-size: 1rem;
         position: absolute;
-        top: -9%;
+        top: -5%;
         left: 11%
     }
 
     .carousel {
         width: 100%;
-        overflow: auto;
+        height: max-content;
         border: 1.5rem #caf1ff solid;
     }
 
@@ -356,12 +343,61 @@
     .img-sec {
         margin-right: 5%;
     }
+    .next-module {
+        width: max-content;
+        margin: 3% 5%;
+        bottom: -10%;
+        left: 65%;
+    }
+    
+    
+}
+
+@media only screen and (max-width: 830px) and (orientation:landscape) {
+    html {
+        font-size: 10px;
+        overflow: auto;
+    }
+
+    .fa-home {
+        position: absolute;
+        color: #95cdf7;
+        top: -9%;
+        left: 2%
+    }
+
+    .lessons {
+        font-size: 1rem;
+        position: absolute;
+        top: -7%;
+        left: 11%
+    }
+
+    .carousel {
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        border: 1.5rem #caf1ff solid;
+    }    
+    
+    .img-first,
+    .img-sec {
+        margin: 1% auto;
+        width: 10rem;
+        height: 10rem;
+    }
+    
+    .img-first {
+        margin-left: 5%;
+    }
+    
+    .img-sec {
+        margin-right: 5%;
+    }
     
 
     .next-module {
-        width: fit-content;
-        padding: 1% 1% 3%;
-        top: 84%;
+        top: -4%;
     }
 
 }
@@ -370,9 +406,13 @@
     html {
         font-size: 9.5px;
     }
+    .next-module {
+        display: none;
+    }
 }
-@media only screen and (max-width: 700px) and (orientation:landscape) {
+@media only screen and (max-width: 600px) and (orientation:landscape) {
     html {
         font-size: 8px;
     }
+   
 }
