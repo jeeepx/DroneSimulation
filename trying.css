@@ -1,0 +1,412 @@
+.comp-quote {
+    position: relative;
+    text-align: center;
+    margin: 1%;
+}
+
+.wrapper {
+    height: max-content;
+    position: relative;
+    margin: 1% 0 2%;
+}
+
+
+.comp-first,
+.comp-sec {
+    display: inline-block;
+    height: max-content;
+    padding: 2% 3%;
+    background-color: #fff1c3;
+    border: 0.5rem #caf1ff solid;
+}
+
+.comp-first {
+    margin-left: auto;
+    margin-right: 5%;
+
+}
+
+
+
+.img-first,
+.img-sec {
+    width: 10rem;
+    height: 10rem;
+}
+
+.img-first {
+    margin-left: 5%;
+}
+
+.img-sec {
+    margin-right: 5%;
+}
+
+
+.comp-sec {
+    margin: 0 5% 4%;
+
+}
+
+.comp-long {
+    font-size: 0.83rem;
+}
+
+.comp-button {
+    font-size: 1.25rem;
+    color: black;
+    padding: 1.5% 1.5%;
+    background-color: #fff1c3;
+    border: #fff1c3;
+}
+
+.comp-button:hover {
+    color: black;
+    background-color: #caf1ff;
+    border: #caf1ff;
+}
+
+@media only screen and (max-width: 1024px) {
+    
+    .img-first,
+    .img-sec {
+        position: relative;
+        margin: 3% auto;
+        width: 9rem;
+        height: 9rem;
+
+    }
+
+    .img-sec {
+        position: absolute;
+        left: 0;
+        right: 0;
+        margin: 3% auto 0;
+    }
+
+    .comp-sec {
+        position: relative;
+        margin-top: 3%;
+        top: 21%;
+    }
+
+    .wrapper {
+        margin: 0;
+        padding: 0;
+    }
+
+    .comp-first,
+    .comp-sec {
+        font-size: 1rem;
+        width: 90%;
+        margin: 0 5%;
+    }
+
+    .carousel {
+        height: 85%;
+        margin: 6% auto;
+    }
+
+    .comp-long {
+        font-size: 0.9rem;
+    }
+
+    .comp-quote {
+        font-size: 1rem;
+    }
+
+    .next-module {
+        top: 23%;
+    }
+
+
+    .next-module {
+        text-align: center;
+        position: relative;
+        bottom: -1%;
+    }
+
+    .carousel-control-prev {
+        margin-left: -5rem;
+    }
+
+    .carousel-control-next {
+        margin-right: -5rem;
+    }
+
+
+}
+
+
+
+@media only screen and (max-width: 835px) {
+    html {
+        font-size: 12.5px;
+    }
+}
+
+
+@media only screen and (max-width: 768px) {
+    html {
+        font-size: 11.5px;
+    }
+}
+
+@media only screen and (max-width: 736px) {
+    html {
+        font-size: 11px;
+    }
+}
+
+
+@media only screen and (max-width: 480px) {
+    html {
+        font-size: 8.5px;
+    }
+
+    .carousel {
+        position: relative;
+        border: 1rem #caf1ff solid;
+        width: 85%;
+        margin-top: 13%;
+        height: 85%;
+    }
+
+    .img-sec {
+        margin-top: 7%;
+    }
+
+    .comp-sec {
+        top: 20%;
+    }
+
+    .next-module {
+        top: 19%;
+    }
+
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+        height: 5rem;
+        width: 5rem;
+        outline: black;
+        background-size: 80%, 80%;
+        background-image: none;
+
+    }
+
+    .carousel-control-next-icon:after {
+        content: '>';
+        font-size: 3rem;
+        color: black;
+
+    }
+
+    .carousel-control-prev-icon:after {
+        content: '<';
+        font-size: 3rem;
+        color: black;
+        left: -3rem;
+
+
+    }
+
+    .lessons {
+        font-size: 1rem;
+    }
+
+    .fa-home {
+        margin-top: -2.5%;
+    }
+
+    a {
+        text-decoration: none
+    }
+
+
+}
+
+@media only screen and (max-width: 415px) {
+    html {
+        font-size: 9px;
+    }
+
+    .comp-long {
+        font-size: 0.9rem;
+    }
+}
+
+@media only screen and (max-width: 380px) {
+    html {
+        font-size: 8px;
+    }
+   
+}
+@media only screen and (max-width: 330px) {
+    html {
+        font-size: 7.5px;
+    }
+   
+}
+
+@media only screen and (max-width: 1112px) and (orientation:landscape) {
+    html {
+        font-size: 12px;
+    }
+
+    .carousel {
+        height: 73%;
+        margin: 6% auto;
+    }
+
+    .img-sec,
+    .img-first {
+        width: 9rem;
+        height: 9rem;
+    }
+
+    .next-module {
+        bottom: 0%;
+    }
+}
+
+@media only screen and (max-width: 1025px) and (orientation:landscape) {
+    html {
+        font-size: 13px;
+        overflow: auto;
+    }
+
+    .fa-home {
+        position: absolute;
+        color: #95cdf7;
+        top: -6%;
+        left: 2%
+    }
+
+    .lessons {
+        font-size: 1rem;
+        position: absolute;
+        top: -5%;
+        left: 11%
+    }
+
+    .carousel {
+        width: 100%;
+        height: max-content;
+        border: 1.5rem #caf1ff solid;
+    }
+
+    .topic-box{
+        margin-top: 2%;
+    }
+    .wrapper {
+        height: max-content;
+        position: relative;
+        margin: 1% 0 1%;
+    }
+    
+    .comp-first,
+    .comp-sec {
+        position: relative;
+        display: inline-block;
+        height: max-content;
+        width: 70%;
+        padding: 2% 3%;
+        background-color: #fff1c3;
+    }
+    
+    .comp-first {
+        margin-left: auto;
+        margin-right: 5%;
+    
+    }
+    .comp-sec{
+        top:0%;
+    }
+    
+    .img-first,
+    .img-sec {
+        margin: 1% auto;
+        width: 10rem;
+        height: 10rem;
+    }
+    
+    .img-first {
+        margin-left: 5%;
+    }
+    
+    .img-sec {
+        margin-right: 5%;
+    }
+    .next-module {
+        width: max-content;
+        margin: 3% 5%;
+        bottom: -10%;
+        left: 65%;
+    }
+    
+    
+}
+
+@media only screen and (max-width: 830px) and (orientation:landscape) {
+    html {
+        font-size: 10px;
+        overflow: auto;
+    }
+
+    .fa-home {
+        position: absolute;
+        color: #95cdf7;
+        top: -9%;
+        left: 2%
+    }
+
+    .lessons {
+        font-size: 1rem;
+        position: absolute;
+        top: -7%;
+        left: 11%
+    }
+
+    .carousel {
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        border: 1.5rem #caf1ff solid;
+    }    
+    
+    .img-first,
+    .img-sec {
+        margin: 1% auto;
+        width: 10rem;
+        height: 10rem;
+    }
+    
+    .img-first {
+        margin-left: 5%;
+    }
+    
+    .img-sec {
+        margin-right: 5%;
+    }
+    
+
+    .next-module {
+        top: -4%;
+    }
+
+}
+
+@media only screen and (max-width: 700px) and (orientation:landscape) {
+    html {
+        font-size: 9.5px;
+    }
+    .next-module {
+        display: none;
+    }
+}
+@media only screen and (max-width: 600px) and (orientation:landscape) {
+    html {
+        font-size: 8px;
+    }
+   
+}

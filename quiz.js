@@ -119,43 +119,103 @@ function storedSelected(event) {
 
 
 const question = [{
-        question: 'What are the purpose of drone propellers?',
+        question: 'What are the condition to make the drone hover without spinning in the air ?',
         answer: [{
-                text: 'Netatorque',
+                text: 'Lift > Weight, Clockwise torque = Counter Clockwise torque',
+                correct: false
+            },
+            {
+                text: 'Lift = Weight, Clockwise torque = Counter Clockwise torque',
                 correct: true
             },
             {
-                text: 'Lalalala',
+                text: 'Lift = Weight, Net torque does not matter.',
                 correct: false
             },
             {
-                text: 'Babababa',
-                correct: false
-            },
-            {
-                text: 'Nananana',
+                text: 'Lift > Weight, Net torque does not matter.',
                 correct: false
             }
         ]
     },
     {
-        question: 'Second question',
+        question: 'If the weight of the drone is 10 N, how much lift should each propeller generates to make the drone take off? ',
         answer: [{
-                text: '2.1',
+                text: '2.3 N',
+                correct: false
+            },
+            {
+                text: '2.4 N',
+                correct: false
+            },
+            {
+                text: '2.5 N',
+                correct: false
+            },
+            {
+                text: '2.6 N',
+                correct: true
+            }
+        ]
+    },
+    {
+        question: 'What would happen if each drone propeller creates a lift as follow: Front Left: 0.8 N, Front Right: 0.8 N, Rear Left: 1.2 N, Rear Right: 1.2 N ?',
+        answer: [{
+                text: 'The drone would move backward.',
+                correct: false
+            },
+            {
+                text: 'The drone would move to the left.',
+                correct: false
+            },
+            {
+                text: 'The drone would move to the right.',
+                correct: false
+            },
+            {
+                text: 'The drone would move forward.',
+                correct: true
+            }
+        ]
+    },
+    {
+        question: 'What would happen if each drone propeller creates a lift as follow: Front Left: 0.25 N, Front Right: 1 N, Rear Left: 0.25 N, Rear Right: 1 N ? Assume the weight of the drone is 4 N.',
+        answer: [{
+                text: ' Down, Left',
                 correct: true
             },
             {
-                text: '2.2',
+                text: ' Down, Right',
                 correct: false
             },
             {
-                text: '2.3',
+                text: ' Up, Left',
                 correct: false
             },
             {
-                text: '2.4',
+                text: 'Up, Right',
+                correct: false
+            }
+        ]
+    },
+    {
+        question: 'What is the most reasonable speed for each propeller to make the drone rotate clockwise ? Assume the weight of the drone is 4N and speed 100% is the fastest propeller speed.',
+        answer: [{
+                text: '1. Front Left, Rear Right: 37% ; Front Right, Rear Left: 61% ',
                 correct: false
             },
+            {
+                text: 'Front Left, Rear Right: 61% ; Front Right, Rear Left: 61%',
+                correct: false
+            },
+            {
+                text: 'Front Left, Rear Right: 61% ; Front Right, Rear Left: 37% ',
+                correct: true
+            },
+            {
+                text: 'Front Left, Front Right: 61% ; Rear Left, Rear Right: 61%',
+                correct: false
+            }
         ]
     }
 ]
@@ -183,12 +243,13 @@ function generateQuestion(questionNo) {
         choicesElement[i].innerHTML = question[questionNo].answer[i].text;
         if (question[questionNo].answer[i].correct) {
             correctChoice = i;
+            // console.log('hh'+correctChoice)
         }
     }
     questionOrderIndex++;
 }
 
-// console.log(question[0].answer[0].correct)
+//  console.log(question[1].answer[3].correct)
 
 function checkAnswer() {
     console.log(selectedChoice)
@@ -198,7 +259,7 @@ function checkAnswer() {
         return;
     }
 
-    if (question[0].answer[selectedChoice - 1].correct) {
+    if (correctChoice === selectedChoice -1) {
         choices[selectedChoice - 1].classList.add("correct");
         userScore++;
         answerSuccess = 1;
