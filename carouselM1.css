@@ -194,7 +194,7 @@ body {
 
 @media only screen and (max-width: 1024px) {
     html {
-        font-size: 18px;
+        font-size: 16px;
     }
 
     .carousel {
@@ -223,10 +223,8 @@ body {
     .quote {
         position: absolute;
         width: 100%;
-        margin: -12% auto;
+        margin: -16% auto;
     }
-
-
 
     .img-module {
 
@@ -252,48 +250,26 @@ body {
         margin-right: -5rem;
     }
 
-
 }
 
-
-@media only screen and (max-width: 1022px) {
+@media only screen and (max-width: 835px) {
     html {
-        font-size: 10px;
-    }
-
-    .carousel {
-        height: 80%;
-        margin: 6% auto;
-    }
-
-    .info,
-    .real-life {
-        width: 90%;
-    }
-
-    .next-module {
-        bottom: 1%;
-    }
-}
-
-@media only screen and (max-width: 834px) {
-    html {
-        font-size: 14px;
+        font-size: 13px;
     }
 
     .quote {
-        margin: -11% auto;
+        margin: -15% auto;
     }
 }
 
 
 @media only screen and (max-width: 768px) {
     html {
-        font-size: 12.5px;
+        font-size: 12px;
     }
 
     .quote {
-        margin: -10% auto;
+        margin: -16% auto;
     }
 }
 
