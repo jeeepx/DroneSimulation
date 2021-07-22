@@ -306,7 +306,7 @@ body {
     .carousel {
         position: relative;
         border: 1rem #caf1ff solid;
-        width: 80%;
+        width: 85%;
         margin-top: 13%;
         height: 90%;
     }
@@ -374,6 +374,11 @@ body {
 
 
 }
+@media only screen and (max-width: 380px) {
+    html {
+        font-size: 8px;
+    }
+}
 
 @media only screen and (max-width: 1112px) and (orientation:landscape) {
     html {
@@ -397,6 +402,7 @@ body {
         position: absolute;
         bottom: 3%;
     }
+
 
     .quote {
         top: 21%
