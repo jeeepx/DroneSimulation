@@ -386,16 +386,23 @@ body {
 }
 @media only screen and (max-width: 415px) {
     html {
-        font-size: 10px;
+        font-size: 9px;
     }
     .quote{
         top:27%;
+    }
+    .long-text{
+        font-size:0.96rem;
+    }
+    .quote-l{
+        top:24%;
     }
 }
 @media only screen and (max-width: 380px) {
     html {
         font-size: 7.5px;
     }
+
 }
 
 @media only screen and (max-width: 1112px) and (orientation:landscape) {
