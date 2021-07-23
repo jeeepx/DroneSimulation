@@ -12,6 +12,16 @@
 
 }
 
+.big-img{
+    width:100%;
+    height: 55%;
+    border-radius: 10%;
+    border: 0.3rem #caf1ff solid;
+}
+
+.img-3{
+    background-color: white;
+}
 
 .img-first,
 .img-sec {
