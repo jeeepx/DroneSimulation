@@ -13,7 +13,8 @@
         font-size: 13px;
     }
 }
-@media only screen and (max-width: 450px) {
+
+@media only screen and (max-width: 450px) and (orientation:portrait){
     html {
         font-size: 10px;
         overflow: hidden;

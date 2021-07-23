@@ -1,9 +1,27 @@
+
 @media only screen and (max-width: 1025px) and (orientation:portrait) {
     
     .carousel {
         width: 80%;
         height: 85%;
         border: 2.5rem #caf1ff solid;
+    }
+    .comp-quote{
+        margin: 5% auto;
+    }
+    .img-module{
+        position: relative;
+       margin: 5% auto;
+    }
+    .next-module{
+        margin: 5% auto;
+    }
+}
+@media only screen and (max-width: 1220px) {
+    
+    .carousel {
+        width: 85%;
+        height: max-content;
     }
     .comp-quote{
         margin: 5% auto;
