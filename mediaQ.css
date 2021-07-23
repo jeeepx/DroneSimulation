@@ -62,7 +62,7 @@
         font-size: 7px;
     }
 }
-@media only screen and (max-width: 1025px) and (orientation:landscape) {
+@media only screen and (max-width: 1200px) and (orientation:landscape) {
     html {
         font-size: 12px;
     }
