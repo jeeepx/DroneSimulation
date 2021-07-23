@@ -1,3 +1,11 @@
+@media only screen and (max-width: 1220px) {
+
+    .carousel {
+        width: 85%;
+        height: 85%;
+    }
+}
+
 @media only screen and (max-width: 1025px) and (orientation:portrait) {
     html {
         font-size: 17px;
@@ -21,7 +29,7 @@
     }
     .carousel {
         width: 96%;
-        height: 85%;
+        height: 90%;
         border: 1rem #caf1ff solid;
     }
     .carousel-control-prev {
@@ -56,5 +64,9 @@
         height: max-content;
         border: 1.5rem #caf1ff solid;
     }
+   
 }
+
+
+
 

@@ -1,48 +1,43 @@
-
 @media only screen and (max-width: 1025px) and (orientation:portrait) {
-    
-    .carousel {
-        width: 80%;
-        height: 85%;
-        border: 2.5rem #caf1ff solid;
-    }
-    .comp-quote{
+
+    .comp-quote {
         margin: 5% auto;
     }
-    .img-module{
+
+    .img-module {
         position: relative;
-       margin: 5% auto;
+        margin: 5% auto;
     }
-    .next-module{
+
+    .next-module {
         margin: 5% auto;
     }
 }
+
 @media only screen and (max-width: 1220px) {
-    
-    .carousel {
-        width: 85%;
-        height: max-content;
-    }
-    .comp-quote{
+
+    .comp-quote {
         margin: 5% auto;
     }
-    .img-module{
+
+    .img-module {
         position: relative;
-       margin: 5% auto;
+        margin: 5% auto;
     }
-    .next-module{
+
+    .next-module {
         margin: 5% auto;
     }
 }
+
 @media only screen and (max-width: 1025px) and (orientation:landscape) {
-    
-    .carousel {
-        height: max-content;
-    }
-    .comp-first{
+
+
+    .comp-first {
         position: relative;
     }
-    .img-module{
+
+    .img-module {
         position: relative;
         margin: 5% auto;
 
