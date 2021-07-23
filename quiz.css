@@ -15,6 +15,9 @@ body {
 .selected-nav {
     color: rgba(0, 0, 0, 0.85) !important;
 }
+.container{
+    position: relative;
+}
 
 .outer-box {
     position: relative;
