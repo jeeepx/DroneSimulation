@@ -4,118 +4,103 @@ body {
     height: 100%;
     padding: 0;
     margin: 0;
-    font-size: 16px;
+    font-size: 13.5px;
 }
-
-
-.selected-nav {
-    color: rgba(0, 0, 0, 0.85) !important;
-}
-
-.content {
-    font-size: 1rem;
-    padding: 3% 3%;
-}
-
 .navbar-custom {
     background-color: #95cdf7;
 }
-
+.selected-nav {
+    color: rgba(0, 0, 0, 0.85) !important;
+}
+.below-nav{
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
 .outer-box {
-    position: relative;
-    width: 80%;
-    height: 80%;
-    padding: 0 3%;
-    margin: 3.5% auto;
-    background-color: #caf1ff
-}
-
-.inner-box {
-    position: relative;
-    background-color: #95cdf7;
-    margin: 7% auto;
-    padding: 3% 3%;
-    text-align: center;
-}
-
-.topic-box,
-.btn {
-    position: relative;
-    font-size: 1.05rem;
-}
-
-.topic-box {
-    margin: 3% auto;
-}
-
-.explore {
     position: absolute;
     width: 80%;
-    bottom: 3%;
-    padding: 4% 3%;
+    height: 80%;
+    background-color: #caf1ff;
+    border-radius: 2.5%;
+    margin: 4% auto;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.img{
+    position: relative;
+    border-radius: 10%;
+    border: 0.3rem solid #caf1ff;
+    width: 11rem;
+    height: 11rem;
+  
+}
+.img,.topic-box,.explore{
     margin-left: auto;
     margin-right: auto;
     left: 0;
     right: 0;
+}
+
+.inner-box {
     text-align: center;
+    position: relative;
+    background-color: #95cdf7;
+    margin: 4% auto;
+    padding: 3% 3%;
+    text-align: center;
+    border-radius: 2.5%;
+    border: 0.5rem solid #95cdf7;
+}
+
+.topic-box {
+    position: relative;
+    font-size: 1rem;
+}
+
+.explore {
+    position: absolute;
+    width: max-content;
+    bottom: 3%;
+    padding: 1.5% 3%;
+    font-size: 0.8rem;
+    background-color: #fff1c3;
+    border-color: #fff1c3;
 }
 
 .explore:hover {
-    background-color: #FFDF6B;
-    border: #FFDF6B;
-}
-
-.img {
-    width: 10rem;
-    height: 10rem;
-    margin: 3% 3%;
-    /* border: 1px pink solid; */
-}
-
-
-.a {
-    background-color: #caf1ff;
-}
-
-.btn {
-    background-color: #fff1c3;
-    border-color: #fff1c3;
-    margin: 2% auto;
+    background-color: black ;
+    border: #fff1c3 0.5rem solid ;
 }
 
 
 @media only screen and (max-width: 1024px) {
     html {
-        font-size: 17px;
+        font-size: 11px;
     }
     .outer-box{
-        margin: 2% auto;
-        padding: 1% 0%;
+        width: 70%;
         height: max-content;
         
-    }
+    } 
     .inner-box{
         width: 85%;
-        height: max-content;
-        padding: 3% 2%;
-        margin:2.5% auto;
+        padding: 1.5% 2%;
+        margin:4.5% auto;
     }
     .img{
-        width: 30%;
-        height: 45%;
-        border-radius: 10%;
-        border: 0.25rem solid #fff1c3;
-        margin:3% auto;
+        width: 7rem;
+        height: 7rem;
     }
     .topic-box{
-       margin:1% auto; 
+       margin:2% auto; 
     }
     .explore{
         position: relative;
         width: max-content;
         padding: 1.5% 2%;
         margin: 1% auto;
-    }
+    } 
 }
 @media only screen  and (max-width: 834px) {
     html {
