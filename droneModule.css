@@ -49,6 +49,7 @@ body {
     padding: 3% 3%;
     border-radius: 2.5%;
     border: 0.5rem solid #95cdf7;
+    text-align: center;
 }
 
 .topic-box {
