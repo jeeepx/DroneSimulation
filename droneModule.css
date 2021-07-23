@@ -36,10 +36,10 @@ body {
   
 }
 .img,.topic-box,.explore{
-    margin-left: auto;
-    margin-right: auto;
-    left: 0;
-    right: 0;
+
+    left: 50%;
+    transform: translateX(-50%);
+
 }
 
 .inner-box {
