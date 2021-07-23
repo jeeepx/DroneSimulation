@@ -1,0 +1,59 @@
+@media only screen and (max-width: 1025px) and (orientation:portrait) {
+    html {
+        font-size: 17px;
+    }
+    .carousel {
+        width: 80%;
+        height: 85%;
+        border: 2.5rem #caf1ff solid;
+    }
+}
+@media only screen and (max-width: 800px) {
+    html {
+        font-size: 13px;
+    }
+}
+@media only screen and (max-width: 450px) {
+    html {
+        font-size: 10px;
+        overflow: hidden;
+    }
+    .carousel {
+        width: 96%;
+        height: 85%;
+        border: 1rem #caf1ff solid;
+    }
+    .carousel-control-prev {
+        margin-left: -3rem;
+    }
+    
+    .carousel-control-next {
+        margin-right: -3rem;
+    }
+}
+@media only screen and (max-width: 420px) {
+    html {
+        font-size: 9.25px;
+    }
+}
+@media only screen and (max-width: 400px) {
+    html {
+        font-size: 8px;
+    }
+}
+@media only screen and (max-width: 360px) {
+    html {
+        font-size: 7px;
+    }
+}
+@media only screen and (max-width: 1025px) and (orientation:landscape) {
+    html {
+        font-size: 12px;
+    }
+    .carousel {
+        width: 85%;
+        height: max-content;
+        border: 1.5rem #caf1ff solid;
+    }
+}
+

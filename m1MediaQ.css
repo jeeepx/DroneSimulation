@@ -1,0 +1,32 @@
+@media only screen and (max-width: 1025px) and (orientation:portrait) {
+    
+    .carousel {
+        width: 80%;
+        height: 85%;
+        border: 2.5rem #caf1ff solid;
+    }
+    .comp-quote{
+        margin: 5% auto;
+    }
+    .img-module{
+        position: relative;
+       margin: 5% auto;
+    }
+    .next-module{
+        margin: 5% auto;
+    }
+}
+@media only screen and (max-width: 1025px) and (orientation:landscape) {
+    
+    .carousel {
+        height: max-content;
+    }
+    .comp-first{
+        position: relative;
+    }
+    .img-module{
+        position: relative;
+        margin: 5% auto;
+
+    }
+}

@@ -35,7 +35,7 @@ body {
 
 }
 .carousel {
-    border: 4rem #caf1ff solid;
+    border: 2rem #caf1ff solid;
     width: 70%;
     height: 90%;
     margin: 1.5% auto;
@@ -72,7 +72,7 @@ body {
     background-color: #fff1c3;
     padding: 1% 2%;
     font-size: 1rem;
-    margin: 2% 0% 5%;
+    margin: 3% 0% 3%;
     width: max-content;
     margin-left: auto; 
     margin-right: 0;
@@ -108,11 +108,32 @@ body {
 .next-ch{
     color:black;
     background-color: #caf1ff ;
-    border: #fff1c3 0.5rem solid ;
-    
+    border: #fff1c3 0.5rem solid ;    
+}
+a{
+    text-decoration: none;
 }
 .next-ch:hover{
     color:white;
     background-color: black ;
     border: #fff1c3 0.5rem solid ;
+}
+.comp-quote {
+    position: relative;
+    text-align: center;
+    margin: 2% 0;
+    font-size: 0.9rem;
+
+}
+.comp-first,
+.comp-sec {
+    font-size: 1rem;
+    padding: 2% 3%;
+    background-color: #fff1c3;
+    border: 0.5rem #caf1ff solid;
+    /* border-radius: 10%; */
+
+}
+.comp-long {
+    font-size: 0.9rem;
 }

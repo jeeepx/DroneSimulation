@@ -8,9 +8,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-        <link rel="stylesheet" href="commonModule.css">
-
+    <link rel="stylesheet" href="commonModule.css">
     <link rel="stylesheet" href="carouselM1.css">
+    <link rel="stylesheet" href="mediaQ.css">
+    <link rel="stylesheet" href="m1MediaQ.css">
+
     <title>DroneViz</title>
 </head>
 
@@ -42,11 +44,16 @@
         </div>
     </nav>
     <div class="below-nav">
-        <a class="top-nav" href="droneModule.html">
-            <i class="fas fa-home fa-2x"></i>
-        </a>
-        <div class="lessons top-nav">
-            <strong>CW/CCW</strong> &nbsp; &nbsp; &nbsp; &nbsp; Flight Mech &nbsp; &nbsp; &nbsp; &nbsp; Drone Components
+        <div class="lesson-con">
+            <a class="top-nav" href="droneModule.html">
+                <i class="fas fa-home fa-2x"></i>
+            </a>
+            <div class="lessons top-nav">
+                <a href="carouselM1.html" class="link-dark lesson"><strong>Physics Concept</strong></a>
+                &nbsp; &nbsp; &nbsp; &nbsp; <a href="carouselM2.html" class="link-dark lesson">Flight Dynamics</a>
+                &nbsp; &nbsp; &nbsp; &nbsp;<a href="carouselM3.html" class="link-dark lesson"> Drone
+                    Components</a>
+            </div>
         </div>
 
         <div id="module1" class="carousel slide" data-interval="false">
@@ -61,56 +68,103 @@
                     <div class="topic-box">
                         Newton's Third Law of Motion
                     </div>
-                    <img src="./img/ActionReaction.jpg" class=" img-module" alt="...">
-                    <div class="info ">
-                        <strong>What is Newton's Third Law?</strong> <br>
+                    <div class="comp-quote "><i>Time for Action - Reaction Force Pair! </i> <br>
+                    </div>
+                    <div class="row">
 
-                        Newton's third law states that for every action, there is an equal and opposite reaction.One
-                        easy example for you to visualize this is when you are walking: your foot exerts a force on the
-                        ground and the ground, in return, exerts an equal and opposite direction force on your feet,
-                        allowing you to move forward.
-                    </div>
-                    <div class="quote first-quote"><i>Time for Action - Reaction Force Pair! </i> <br>
-                    </div>
-                    <div class="real-life"><strong> Relation to Drone:</strong> <br> The rotating drone's propellers
-                        push the air downward. According to Newton's Third Law of Motion, there is an equal and opposite
-                        reaction - an upward force, <strong>lift</strong>. 
+                        <div class="comp-first col-xl-4 ">
+                            <strong>What is Newton's Third Law?</strong> <br>
+
+                            Newton's third law states that for every action, there is an equal and opposite reaction.One
+                            easy example for you to visualize this is when you are walking: your foot exerts a force on
+                            the
+                            ground and the ground, in return, exerts an equal and opposite direction force on your feet,
+                            allowing you to move forward.
+                        </div>
+
+                        <div class="img-cont col-xl-4"><img src="./img/actionRN.jpg" class=" img-module "
+                                alt="..."></div>
+
+
+                        <div class="comp-first
+                        col-xl-4"><strong> Relation to Drone:</strong> <br> The rotating drone's propellers
+                            push the air downward. According to Newton's Third Law of Motion, there is an equal and
+                            opposite
+                            reaction - an upward force, <strong>lift</strong>.
+                        </div>
                     </div>
                     <div class="next-module">Next: More about Lift</div>
                 </div>
-                <div class="carousel-item ">
+                <div class="carousel-item">
                     <div class="topic-box">
                         Lift
                     </div>
-                    <img src="./img/Lift.jpg" class=" img-module" alt="...">
-                    <div class="info ">
-                        <strong>What is Lift ?</strong> <br>
+                    <div class="comp-quote "><i>What enable quadcopters to take off?</i> <br>
+                    </div>
+                    <div class="row">
 
-                        Lift is an upward force that acts against gravity. It is created by a solid object moving through a fluid. To help you visualize this, lift is the force that acts against the weight of an aircraft and enable the airplane to take off.
+                        <div class="comp-first col-xl-4 ">
+                            <strong>What is Lift ?</strong> <br>
+
+                            Lift is an upward force that acts against gravity. It is created by a solid object moving
+                            through a fluid. To help you visualize this, lift is the force that acts against the weight
+                            of
+                            an aircraft and enable the airplane to take off.
+                        </div>
+
+                        <div class="img-cont col-xl-4"><img src="./img/liftN.png" class="img-module " alt="..."></div>
+
+
+                        <div class="comp-first
+                        col-xl-4"><strong> Relation to Drone:</strong> <br> If the magnitude of
+                            this
+                            force is
+                            greater than the weight of the drone, then the drone starts to ascend.If the magnitude of
+                            lift
+                            is equal to the weight of the drone, the net force is zero and so the the drone hovers with
+                            no
+                            vertical movement..
+                        </div>
                     </div>
-                    <div class="quote "><i>What enable quadcopters to take off? 
-                            </i> <br>
-                    </div>
-                    <div class="real-life"><strong>Relation to Drone</strong> <br>If the magnitude of this force is greater than the weight of the drone, then the drone starts to ascend.If the magnitude of lift is equal to the weight of the drone, the net force is zero and so the the drone hovers with no vertical movement.   </div>
                     <div class="next-module">Next: But what's stopping the drone from spinning ?</div>
                 </div>
-                <div class="carousel-item">
+                <div class="carousel-item ">
                     <div class="topic-box">
                         Torque
                     </div>
-                    <img src="./img/torque.jpg" class=" img-module" alt="...">
-                    <div class="info ">
-                        <strong>How is torque generated ?</strong> <br>
+                    <div class="comp-quote "><i>Equal torque acting in opposite direction cancels each other out.</i>
+                        <br>
+                    </div>
+                    <div class="row">
 
-                        If a force is applied to an object in such a way that makes it rotates, or stops rotates, a torque is generated. Real life example of torque is when you open a door, or when you are opening a bottle cap. In drone, torque is produced as each propeller rotates.
+                        <div class="comp-first col-xl-4 comp-long">
+                            <strong>How is torque generated ?</strong> <br>
+
+
+                            If a force is applied to an object in such a way that makes it rotates, or stops rotates, a
+                            torque is generated. Real life example of torque is when you open a door, or when you are
+                            opening a bottle cap. In drone, torque is produced as each propeller rotates.
+                        </div>
+
+                        <div class="img-cont col-xl-4"><img src="./img/torqueN.png" class=" img-module " alt="..."></div>
+
+
+                        <div class="comp-first
+                        col-xl-4 comp-long"><strong> Relation to Drone:</strong> <br> As there is always an
+                            equal and opposite force, the drone will rotate in the opposing direction of the propellers'
+                            rotation direction if all of the drone' propeller rotate in the same direction. To prevent
+                            the
+                            drone from rotating, we make the drones' diagonal propeller pair (1,4) rotate clockwise,
+                            while
+                            the other diagonal pair rotate counter-clockwise. This way the net torque is equal to zero,
+                            and
+                            the drone has no rotaional movement.
+                        </div>
                     </div>
-                    <div class="quote "><i>Equal torque acting in opposite direction cancels each other out.
-                </i> <br>
-                    </div>
-                    <div class="real-life long-text"><strong>Relation to drone:</strong> <br>  As there is always an equal and opposite force, the drone will rotate in the opposing direction of the propellers' rotation direction if all of the drone' propeller rotate in the same direction. To prevent the drone from rotating, we make the drones' diagonal propeller pair (1,4) rotate clockwise, while the other diagonal pair rotate counter-clockwise. This way the net torque is equal to zero, and the drone has no rotaional movement.</div>
                     <a href="carouselM2.html">
-                        <div class="next-module next-ch hvr-sweep-to-right">Next: Ch.2 - Flight Dynamics</div>
+                        <div class="next-module next-ch">Next: Ch.2 - Flight Dynamics</div>
                     </a>
+
                 </div>
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#module1" data-bs-slide="prev">

@@ -1,12 +1,4 @@
 
-.comp-quote {
-    position: relative;
-    text-align: center;
-    margin: 2% 0;
-    font-size: 0.9rem;
-
-}
-
 .wrapper {
     margin: 0 0 3%;
 }
@@ -20,9 +12,6 @@
 
 }
 
-.img-cont {
-    position: relative;
-}
 
 .img-first,
 .img-sec {
@@ -55,53 +44,4 @@
     border: #caf1ff;
 }
 
-
-@media only screen and (max-width: 1025px) and (orientation:portrait) {
-    html {
-        font-size: 17px;
-    }
-    .carousel {
-        width: 80%;
-        height: 85%;
-        border: 2.5rem #caf1ff solid;
-    }
-}
-@media only screen and (max-width: 800px) {
-    html {
-        font-size: 13px;
-    }
-}
-@media only screen and (max-width: 450px) {
-    html {
-        font-size: 10px;
-        overflow: hidden;
-    }
-    .carousel {
-        width: 96%;
-        height: 85%;
-        border: 1rem #caf1ff solid;
-    }
-    .carousel-control-prev {
-        margin-left: -3rem;
-    }
-    
-    .carousel-control-next {
-        margin-right: -3rem;
-    }
-}
-@media only screen and (max-width: 450px) {
-    html {
-        font-size: 9.5px;
-    }
-}
-@media only screen and (max-width: 400px) {
-    html {
-        font-size: 9px;
-    }
-}
-@media only screen and (max-width: 350px) {
-    html {
-        font-size: 7.5px;
-    }
-}
 
