@@ -18,10 +18,10 @@ body {
 
 .outer-box {
     position: relative;
-    width: 80%;
+    width: 85%;
     height: max-content;
     background-color: #caf1ff;
-    padding: 3% 5%;
+    padding: 3% 10%;
     margin: 5% auto;
 }
 
@@ -30,6 +30,8 @@ body {
     background-color: #fff1c3;
     padding: 4% 5%;
     margin: 2% 0%;
+    border: 0.2rem #95cdf7 solid;
+
 }
 
 .img-question {
@@ -53,7 +55,7 @@ body {
 }
 .choice-text{
     text-align: center;
-    font-size: 1.25rem;
+    font-size: 1rem;
 
 }
 .correct {
@@ -150,20 +152,20 @@ body {
 
 @media only screen and (min-width: 830px) {
     html {
-        font-size: 16.5px;
+        font-size: 16px;
     }
 }
 
 @media only screen and (min-width: 1024px) {
     html {
-        font-size: 21.5px;
+        font-size: 18px;
     }
 
 }
 
 @media only screen and (min-width: 1026px) {
     html {
-        font-size: 20px;
+        font-size: 19px;
     }
 
     .img-choice {
@@ -204,6 +206,6 @@ body {
 
 @media only screen and (min-width: 1920px) {
     html {
-        font-size:28px;
+        font-size:25px;
     }
 }

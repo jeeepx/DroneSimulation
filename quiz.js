@@ -201,7 +201,7 @@ const question = [{
     {
         question: 'What is the most reasonable speed for each propeller to make the drone rotate clockwise ? Assume the weight of the drone is 4N and speed 100% is the fastest propeller speed.',
         answer: [{
-                text: '1. Front Left, Rear Right: 37% ; Front Right, Rear Left: 61% ',
+                text: 'Front Left, Rear Right: 37% ; Front Right, Rear Left: 61% ',
                 correct: false
             },
             {
