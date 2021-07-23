@@ -6,19 +6,26 @@
     }
 }
 
+
 @media only screen and (max-width: 1025px) and (orientation:portrait) {
     html {
         font-size: 17px;
     }
     .carousel {
-        width: 80%;
+        width: 85%;
         height: 85%;
         border: 2.5rem #caf1ff solid;
     }
 }
+@media only screen and (max-width: 900px) and (orientation:portrait) {
+    html {
+        font-size: 13.5px;
+    }
+   
+}
 @media only screen and (max-width: 800px) {
     html {
-        font-size: 13px;
+        font-size: 12px;
     }
 }
 
