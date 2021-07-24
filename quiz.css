@@ -28,7 +28,7 @@ body {
     /* top:50%;
     left: 50%;
     transform: translate(-50%,-58%); */
-    margin: 4% auto;
+    margin: 13% auto;
     border-radius: 15px;
 }
 
@@ -168,6 +168,10 @@ body {
     .sub-next{
         left: 85%;
     }
+    .outer-box{
+        margin: 10% auto;
+
+    }
 }
 
 @media only screen and (min-width: 830px) {
@@ -180,7 +184,9 @@ body {
     html {
         font-size: 18px;
     }
-
+    .outer-box{
+        margin: 5% auto;
+    }
 }
 
 @media only screen and (min-width: 1026px) {
