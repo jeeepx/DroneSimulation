@@ -23,7 +23,7 @@ body {
     min-height: 70%;
     background-color: #caf1ff;
     border-radius: 2.5%;
-    margin: 4% auto;
+    margin: 9vh auto;
     left: 50%;
     transform: translateX(-50%);
 }
@@ -145,22 +145,21 @@ body {
     html {
         font-size: 7 px;
     }
+    .explore{
+        font-size: 0.65;
+    }
    
 }
 @media only screen  and (max-width: 390px) {
     html {
         font-size: 6.5 px;
     }
+    
    
 }
-@media only screen  and (max-width: 335px) {
+@media only screen  and (max-width: 350px) {
     html {
         font-size: 5.5 px;
-    }
-}
-@media only screen  and (max-width: 300px) {
-    html {
-        font-size: 3 px;
     }
     .img{
         float: none;
@@ -172,4 +171,10 @@ body {
     .read-time{
         display: none;
     }
+}
+@media only screen  and (max-width: 300px) {
+    html {
+        font-size: 3 px;
+    }
+   
 }
