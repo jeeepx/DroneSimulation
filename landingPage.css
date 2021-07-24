@@ -6,17 +6,21 @@ body {
     margin: 0;
     font-size: 13.5px;
 }
+
 .navbar-custom {
     background-color: #95cdf7;
 }
+
 .selected-nav {
     color: rgba(0, 0, 0, 0.85) !important;
 }
-.below-nav{
+
+.below-nav {
     position: relative;
     width: 100%;
     height: 100%;
 }
+
 .outer-box {
     position: absolute;
     width: 80%;
@@ -27,15 +31,19 @@ body {
     left: 50%;
     transform: translateX(-50%);
 }
-.img{
+
+.img {
     position: relative;
     border-radius: 10%;
     border: 0.3rem solid #caf1ff;
     width: 11rem;
     height: 11rem;
-  
+
 }
-.img,.topic-box,.explore{
+
+.img,
+.topic-box,
+.explore {
     margin-left: auto;
     margin-right: auto;
     left: 0;
@@ -59,12 +67,14 @@ body {
     margin-top: 10%;
     margin-bottom: 20%;
 }
-.more-info{
+
+.more-info {
     font-weight: 350;
     text-align: left;
 
 }
-.read-time{
+
+.read-time {
     font-weight: 300;
 }
 
@@ -72,67 +82,73 @@ body {
     position: absolute;
     width: max-content;
     bottom: 3%;
-    padding: 3.5% 4%;
     font-size: 0.9rem;
     font-weight: 400;
     color: #000000;
-    border:#000000 0.15rem solid;
+    border: #000000 0.15rem solid;
     /* background-color: #fff1c3 ; */
 
 }
 
 .explore:hover {
-    color:white;
-    background-color: black ;
+    color: white;
+    background-color: black;
     /* border: #fff1c3 0.25rem solid ; */
 }
 
-@media only screen  and (max-width: 974px) {
+@media only screen and (max-width: 974px) {
     html {
         font-size: 14px;
     }
-    .img{
-        width:8.5rem;
+
+    .img {
+        width: 8.5rem;
         height: 8.5rem;
     }
-    .explore{
+
+    .explore {
         font-size: 0.7rem;
     }
 }
 
-@media only screen  and (max-width: 834px) {
+@media only screen and (max-width: 834px) {
     html {
         font-size: 13px;
     }
-    .img{
-        width:8.5rem;
+
+    .img {
+        width: 8.5rem;
         height: 8.5rem;
     }
-    
+
 }
-@media only screen  and (max-width: 768px) {
+
+@media only screen and (max-width: 768px) {
     html {
         font-size: 12px;
     }
-    .outer-box{
+
+    .outer-box {
         height: max-content;
     }
-    .inner-box{
+
+    .inner-box {
         width: 90%;
         position: relative;
     }
-   .img{
-       float: left;
-       top:50%;
-       transform: translateY(-50%);
-   }
-    .topic-box{
+
+    .img {
+        float: left;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .topic-box {
         text-align: center;
         margin: 2% 3%;
     }
-    
-   
-     .right {
+
+    .right {
         position: relative;
         text-align: center;
         width: 65%;
@@ -140,52 +156,91 @@ body {
         float: right;
     }
 
+
     .explore {
         font-size: 0.8rem;
         position: relative;
         margin: auto;
     }
-    
+
 }
-@media only screen  and (max-width: 455px) {
+
+@media only screen and (max-width: 455px) {
     html {
         font-size: 7 px;
     }
-    .explore{
-        font-size: 0.65rem;
+   
+
+    .img {
+        top:0;
+        transform: none;
     }
+
+    .read-time {
+        display: none;
+    }
+
+    .explore {
+        font-size: 0.65rem;
+        position: relative;
+        margin: auto;
+    }
+
+    .inner-box {
+        height: max-content;
+    }
+
     .right {
         width: 55%;
     }
-   
+
+
+
+    .more-info {
+        font-size: 0.9rem;
+    }
+
 }
-@media only screen  and (max-width: 390px) {
+
+@media only screen and (max-width: 390px) {
     html {
         font-size: 6.5 px;
     }
-    
+
+
 }
-@media only screen  and (max-width: 350px) {
+
+@media only screen and (max-width: 360px) {
     html {
         font-size: 5.5 px;
     }
-    .img{
+
+    .img {
         float: none;
     }
-    .explore{
-        margin:0 auto;
+
+    .explore {
+        margin: 0 auto;
     }
-    
-    .read-time{
+
+    .read-time {
         display: none;
     }
+
+    /* .more-info {
+        display: none;
+    } */
+    .right {
+        float: none;
+        width: 100%;
+        text-align: center;
+    }
 }
-@media only screen  and (max-width: 300px) {
+
+@media only screen and (max-width: 300px) {
     html {
         font-size: 3 px;
     }
-    /* .more-info{
-        display: none;
-     } */
-   
+
+
 }
