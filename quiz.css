@@ -24,10 +24,10 @@ body {
     width: 85%;
     height: max-content;
     background-color: #caf1ff;
-    padding: 5% 10%;
+    padding: 5% 5% 2%;
     /* top:50%;
     left: 50%;
-    transform: translate(-50%,-50%); */
+    transform: translate(-50%,-58%); */
     margin: 4% auto;
     border-radius: 15px;
 }
@@ -67,8 +67,6 @@ body {
 }
 .selected{
     background-color: #fff1c3;
-    border: black 0.2rem solid;
-
 }
 .choice-text{
     text-align: center;
@@ -96,6 +94,7 @@ body {
     border: #95cdf7;
     left: 78%;
     border-radius: 15px;
+    margin-top: 1.5%;
 
 }
 
@@ -195,9 +194,6 @@ body {
         margin: 1% auto;
     }
 
-    .img-left {
-        margin-right: 2%;
-    }
 
     .choice-container {
         position: relative;
@@ -205,7 +201,6 @@ body {
 
     .outer-box {
         height: max-content;
-        padding: 2% 2% 1% 2%;
     }
 
     .question {
