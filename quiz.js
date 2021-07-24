@@ -48,6 +48,7 @@ function shuffle(array) { //shuffle array stackover flow
 document.addEventListener('click', (event) => {
     if (!(event.target).classList.contains('keep')) {
         console.log(selectedChoice);
+        choices[selectedChoice-1].classList.remove("selected");
         selectedChoice = 0;
     }
 });
@@ -101,6 +102,7 @@ function resetStates() {
     submit.classList.remove("hide");
     choices[selectedChoice - 1].classList.remove("wrong");
     choices[selectedChoice - 1].classList.remove("correct");
+    choices[selectedChoice - 1].classList.remove("selected");
     choices[correctChoice].classList.remove("correct");
     selectedChoice = 0;
     answerSuccess = 0;
@@ -108,10 +110,16 @@ function resetStates() {
 }
 
 function storedSelected(event) {
+    let oldChoice = selectedChoice;
     selectedChoice = parseInt(event.target.id);
     if (selectedChoice !== 1 || selectedChoice !== 2 || selectedChoice !== 3 || selectedChoice !== 4) {
         console.log(event.target)
         selectedChoice = (event.target).closest("button").id;
+        console.log('oldChoice'+oldChoice)
+        if(oldChoice!==selectedChoice && oldChoice!==0){
+            choices[oldChoice-1].classList.remove("selected");
+        }
+        choices[selectedChoice-1].classList.add("selected");
     }
     console.log(selectedChoice);
 }
