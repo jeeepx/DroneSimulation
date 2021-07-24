@@ -24,16 +24,22 @@ body {
     width: 85%;
     height: max-content;
     background-color: #caf1ff;
-    padding: 3% 10%;
-    margin: 5% auto;
+    padding: 5% 10%;
+    /* top:50%;
+    left: 50%;
+    transform: translate(-50%,-50%); */
+    margin: 7% auto;
+    border-radius: 15px;
 }
 
 .question {
     font-size: 1.1rem;
     background-color: #fff1c3;
     padding: 4% 5%;
-    margin: 2% 0%;
+    margin: 2% auto;
     border: 0.2rem #95cdf7 solid;
+    border-radius: 15px;
+
 
 }
 
@@ -54,6 +60,8 @@ body {
     border: 0.2rem #95cdf7 solid;
     margin: 2% auto;
     text-align: center;
+    border-radius: 15px;
+
 
 }
 .choice-text{
@@ -81,6 +89,8 @@ body {
     background-color: #95cdf7;
     border: #95cdf7;
     left: 78%;
+    border-radius: 15px;
+
 }
 
 .alert {

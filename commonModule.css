@@ -6,7 +6,9 @@ body {
     margin: 0 auto;
     font-size: 13.5px;
 }
-
+.navbar-brand{
+    padding: 0 25px;
+}
 .navbar-custom {
     background-color: #95cdf7;
 }
