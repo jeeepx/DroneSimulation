@@ -74,9 +74,9 @@ body {
     bottom: 3%;
     padding: 3.5% 4%;
     font-size: 0.9rem;
-    font-weight: 500;
+    font-weight: 400;
     color: #000000;
-    border:#000000 0.25rem solid;
+    border:#000000 0.15rem solid;
     background-color: #fff1c3 ;
 
 }
