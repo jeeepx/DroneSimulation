@@ -77,14 +77,14 @@ body {
     font-weight: 400;
     color: #000000;
     border:#000000 0.15rem solid;
-    background-color: #fff1c3 ;
+    /* background-color: #fff1c3 ; */
 
 }
 
 .explore:hover {
     color:white;
     background-color: black ;
-    border: #fff1c3 0.25rem solid ;
+    /* border: #fff1c3 0.25rem solid ; */
 }
 
 @media only screen  and (max-width: 974px) {

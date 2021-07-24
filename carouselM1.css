@@ -10,8 +10,8 @@
 .img-module{
     width: 18rem;
     height: 18rem;
-    border: 0.3rem #caf1ff solid;
-    border-radius: 10%;
+    border: 0.35rem #caf1ff solid;
+    border-radius: 15px;
     position: absolute;
     top: 0;
     bottom: 0;
