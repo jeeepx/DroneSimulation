@@ -242,5 +242,14 @@ body {
         font-size: 3 px;
     }
 
+}
+@media only screen and (min-height: 900px) {
+  .topic-box{
+      line-height: 2;
+  }
+  .outer-box{
+      height: max-content;
+      min-height: 0;
+  }
 
 }
