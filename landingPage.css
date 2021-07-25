@@ -5,10 +5,23 @@ body {
     padding: 0;
     margin: 0;
     font-size: 13.5px;
+    font-family: 'Poppins', sans-serif;
 }
+/* .brand{
+    height: 100%;
+    width: 100%;
+} */
+.navbar-brand{
+    padding: 0 25px;
+    font-size: 16px;
 
+}
 .navbar-custom {
     background-color: #95cdf7;
+}
+.nav-item{
+    font-size: 16px;
+    padding: 0 18px;
 }
 
 .selected-nav {
@@ -69,13 +82,13 @@ body {
 }
 
 .more-info {
-    font-weight: 350;
+    font-weight: 400;
     text-align: left;
 
 }
 
 .read-time {
-    font-weight: 300;
+    font-weight: 200;
 }
 
 .explore {
@@ -170,7 +183,6 @@ body {
         font-size: 7 px;
     }
    
-
     .img {
         top:0;
         transform: none;
@@ -194,8 +206,6 @@ body {
         width: 55%;
     }
 
-
-
     .more-info {
         font-size: 0.9rem;
     }
@@ -206,8 +216,6 @@ body {
     html {
         font-size: 6.5 px;
     }
-
-
 }
 
 @media only screen and (max-width: 360px) {

@@ -1,13 +1,25 @@
 html,body{
     margin:0;
-   
+    padding: 0;
+    font-size: 13.5px;
+    font-family: 'Poppins', sans-serif;
 }
+.navbar-brand{
+    padding: 0 25px;
+    font-size: 16px;
+
+}
+.navbar-custom {
+    background-color: #95cdf7;
+}
+.nav-item{
+    font-size: 16px;
+    padding: 0 18px;
+}
+
 .selected-nav {
     color: rgba(0, 0, 0, 0.85) !important;
 }
-/* canvas{
-    border: 1px solid black;
-} */
 .wrapper canvas{
     position: absolute;
     top: 0;
@@ -17,11 +29,7 @@ html,body{
 .wrapper{
     position: relative;
 }
-.navbar-custom{
-    background-color:#add3ff
-    ;
-    
-}
+
 #action-background{
     position: absolute;
     z-index: -1;

@@ -1,13 +1,12 @@
-
 .wrapper {
     margin: 0 0 3%;
 }
 
 .comp-first,
 .comp-sec {
-    font-size: 1rem;
+    font-size: 1.05rem;
     padding: 2% 3%;
-    background-color: #fff1c3;
+    /* background-color: #fff1c3; */
     border: 0.5rem #caf1ff solid;
 
 }
@@ -28,7 +27,7 @@
     display: block;
     /* margin-left: auto;
     margin-right: auto; */
-    margin: 3% auto;
+    margin: 2% auto;
     width: 10rem;
     height: 10rem;
     border-radius: 10%;
@@ -45,7 +44,7 @@
     padding: 1.5% 1.5%;
     background-color: #fff1c3;
     border: #fff1c3;
-    margin: 2% auto;
+    margin: 1% auto;
 }
 
 .comp-button:hover {
