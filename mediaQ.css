@@ -17,6 +17,13 @@
         height: 90%;
         border: 1rem #caf1ff solid;
     }
+    .carousel-control-prev {
+        margin-left: -6rem;
+    }
+
+    .carousel-control-next {
+        margin-right: -6rem;
+    }
 }
 
 
