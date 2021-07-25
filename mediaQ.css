@@ -101,21 +101,29 @@
     }
 }
 
+
+
 @media only screen and (max-width: 400px) {
     html {
         font-size: 8.75px;
     }
 }
 
-@media only screen and (max-width: 400px) and (min-height: 754px) {
-    html {
-        font-size: 10.5px;
-    }
-}
+
 
 @media only screen and (max-width: 360px) {
     html {
         font-size: 8px;
+    }
+}
+@media only screen and (max-width: 420px) and (min-height: 754px) {
+    html {
+        font-size: 10.5px;
+    }
+}
+@media only screen and (max-width: 420px) and (min-height: 840px) {
+    html {
+        font-size: 11.75px;
     }
 }
 @media only screen and (max-width: 330px) {
@@ -123,6 +131,7 @@
         font-size: 7.25px;
     }
 }
+
 @media only screen and (max-width: 1200px) and (orientation:landscape) {
     html {
         font-size: 12px;
