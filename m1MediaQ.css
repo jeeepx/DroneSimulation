@@ -25,10 +25,9 @@
         margin: 5% auto;
     }
 
-    .next-module {
-        margin: 5% auto;
-    }
+
 }
+
 
 @media only screen and (max-width: 1025px) and (orientation:landscape) {
 
@@ -41,5 +40,15 @@
         position: relative;
         margin: 5% auto;
 
+    }
+    .next-module {
+        margin: 5% auto;
+    }
+}
+@media only screen and (max-height:770){
+
+    .carousel {
+        width: 90%;
+        height: max-content;
     }
 }
