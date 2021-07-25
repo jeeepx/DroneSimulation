@@ -7,29 +7,31 @@
 }
 
 
-
 @media only screen and (max-width: 1025px) and (orientation:portrait) {
     html {
-        font-size: 16px;
+        font-size: 18px;
     }
 
     .carousel {
         width: 90%;
-        height: max-content;
+        height: 90%;
         border: 1rem #caf1ff solid;
     }
 }
 
+
+
+
 @media only screen and (max-width: 900px) and (orientation:portrait) {
     html {
-        font-size: 13.5px;
+        font-size: 15.5px;
     }
 
 }
 
 @media only screen and (max-width: 800px) {
     html {
-        font-size: 12px;
+        font-size: 13.5px;
     }
 
     .carousel-control-prev-icon,
@@ -38,10 +40,12 @@
         width: 3rem;
 
     }
-    .carousel-control-prev{
+
+    .carousel-control-prev {
         margin-left: -5.5rem;
     }
-    .carousel-control-next{
+
+    .carousel-control-next {
         margin-right: -5.5rem;
     }
 }
@@ -49,11 +53,12 @@
 @media only screen and (max-width: 450px) and (orientation:portrait) {
     html {
         font-size: 10px;
+        overflow: hidden;
     }
 
     .carousel {
         width: 96%;
-        height: max-content;
+        height: 90%;
         border: 1rem #caf1ff solid;
     }
 
@@ -77,6 +82,7 @@
         font-size: 8.75px;
     }
 }
+
 @media only screen and (max-width: 400px) and (min-height: 754px) {
     html {
         font-size: 10.5px;
