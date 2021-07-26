@@ -277,7 +277,7 @@ function arraysEqual(a, b) {
 
 
 function drawActionCircles(speedArray) {
-    console.log(speedArray);
+    // console.log(speedArray);
     c1.clearRect(0, 0, actionCanvas.width, actionCanvas.height);
 
     if (!arraysEqual(speedArray, [50, 50, 50, 50])) {
@@ -371,18 +371,7 @@ function drawCurveArrow() {
     let y1 = actionCanvasBg.height * 0.4;
     let radius = actionCanvasBg.width * 0.08
 
-    // c1.beginPath();
-    // c1.moveTo(10*x,y1+4*radius*0.04);
-    // c1.lineTo(10.25*x,y1);
-    // c1.lineTo(10*x, y1-4*radius*0.04);
-    // c1.lineTo(10*x, y1-4*radius*0.02);
-
-
-    // c1.arc(9 * x, y1, radius, Math.PI * 0.5, Math.PI * 0.25, true);
-    // // c1.y = c1.y-10;
-    // // c1.lineTo(c1.x, c1.y);
-    // c1.stroke();
-
+ 
    
 
     let curveArrow = new Image();
@@ -498,37 +487,43 @@ canvas3.addEventListener('mouseup', function (event) {
     }
 });
 canvas3.addEventListener('dblclick', function (event) {
+
     if (isInLCircle(event)) {
         joyLeft.drawLockedRing(event);
     } else if (isInRCircle(event)) {
         joyRight.drawLockedRing(event);
     }
 })
+let touchCoor; 
 
 canvas3.addEventListener('touchstart', function (event) {
     touched = true;
+    touchCoor = event.touches[0];
 
     let timeNow = new Date().getTime();
 
     let timesince = timeNow - lastTap;
-    console.log('here')
+    console.log('here in touch start')
 
     if ((timesince < 600) && (timesince > 0)) {
         if (isInLCircle(event)) {
             joyLeft.drawLockedRing(event);
             canvas3.classList.add("dont-move");
             canvas2.classList.add("dont-move");
+            console.log('add dont move')
+
         } else if (isInRCircle(event)) {
             joyRight.drawLockedRing(event);
             canvas3.classList.add("dont-move");
             canvas2.classList.add("dont-move");
+            // console.log('add dont move')
         }
 
     } else {
         joyLeft.startDrawing(event);
         joyRight.startDrawing(event);
-        // canvas3.classList.add("dont-move");
-        // canvas2.classList.add("dont-move");
+        canvas3.classList.add("dont-move");
+        canvas2.classList.add("dont-move");
     }
      lastTap = new Date().getTime();
 
@@ -887,10 +882,14 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
     }
     this.calculateCanvasPosition = function (event) {
         if (touched) {
-            this.clickedX = event.touches[0].clientX;
+            this.clickedX = touchCoor.clientX;
+            this.clickedY = touchCoor.clientY;
+
+
+            // this.clickedX = event.touches[0].clientX;
             //console.log('x1: fixed if tou remove cal' + this.clickedX);
 
-            this.clickedY = event.touches[0].clientY;
+            // this.clickedY = event.touches[0].clientY;
             //console.log('y1: fixed if tou' + this.clickedY);
         } else {
             this.clickedX = event.clientX;
@@ -1019,10 +1018,10 @@ function adjustSpeed(calculatedSpeedArray) {
     speedControl3 = calculatedSpeedArray[2] / 500 * 2;
     speedControl4 = calculatedSpeedArray[1] / 500 * 2;
 
-    console.log('sp1: ' + speedControl1);
-    console.log('sp2: ' + speedControl2);
-    console.log('sp3: ' + speedControl3);
-    console.log('sp4: ' + speedControl4);
+    // console.log('sp1: ' + speedControl1);
+    // console.log('sp2: ' + speedControl2);
+    // console.log('sp3: ' + speedControl3);
+    // console.log('sp4: ' + speedControl4);
 
 }
 
