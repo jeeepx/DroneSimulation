@@ -513,7 +513,6 @@ canvas3.addEventListener('touchstart', function (event) {
 
         } else if (isInRCircle(event)) {
             joyRight.drawLockedRing(event);
-            event.preventDefault();
           
             // console.log('add dont move')
         }
