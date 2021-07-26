@@ -225,6 +225,9 @@ function drawCanvasBackground() {
     backView.src = './img/backView1.png';
 
     sideView.onload = function () {
+        let fontSize = Math.floor(0.38 * actionCanvas.width / 35);
+        let fontFillStyle = fontSize + "px Poppins";
+        c0.font = fontFillStyle;
         c0.drawImage(sideView, 6 * x - radius * 0.45, y - radius * 0.5, radius * 0.9, radius * 0.85);
         c0.save();
         c0.translate(6 * x + radius * 0.55, y - radius * 0.15);
@@ -237,6 +240,9 @@ function drawCanvasBackground() {
     sideView.src = './img/sideView.png';
 
     topView.onload = function () {
+        let fontSize = Math.floor(0.38 * actionCanvas.width / 35);
+        let fontFillStyle = fontSize + "px Poppins";
+        c0.font = fontFillStyle;
         c0.drawImage(topView, 9 * x - radius * 0.425, y - radius * 0.45, radius * 0.9, radius * 0.85);
         c0.fillText('FRONT', 9 * x - radius * 0.10, y - radius * 0.35);
 
@@ -517,6 +523,7 @@ canvas3.addEventListener('touchstart', function (event) {
             canvas3.classList.add("dont-move");
             canvas2.classList.add("dont-move");
         }
+
     } else {
         joyLeft.startDrawing(event);
         joyRight.startDrawing(event);
