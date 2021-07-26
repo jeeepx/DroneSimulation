@@ -18,10 +18,7 @@ html,body{
     position: absolute;
     z-index: -1;
 }
-/* #joyStick, #canvas2{
+#joyStick, #canvas2{
     touch-action: none;
-} */
-.dont-move{
-    touch-action: none;
+} 
 
-}

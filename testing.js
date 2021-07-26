@@ -508,22 +508,20 @@ canvas3.addEventListener('touchstart', function (event) {
     if ((timesince < 600) && (timesince > 0)) {
         if (isInLCircle(event)) {
             joyLeft.drawLockedRing(event);
-            canvas3.classList.add("dont-move");
-            canvas2.classList.add("dont-move");
+            //event.preventDefault();
             console.log('add dont move')
 
         } else if (isInRCircle(event)) {
             joyRight.drawLockedRing(event);
-            canvas3.classList.add("dont-move");
-            canvas2.classList.add("dont-move");
+            event.preventDefault();
+          
             // console.log('add dont move')
         }
 
     } else {
         joyLeft.startDrawing(event);
         joyRight.startDrawing(event);
-        canvas3.classList.add("dont-move");
-        canvas2.classList.add("dont-move");
+       
     }
      lastTap = new Date().getTime();
 
@@ -531,15 +529,13 @@ canvas3.addEventListener('touchstart', function (event) {
 canvas3.addEventListener('touchmove', function (event) {
     joyLeft.dragDraw(event);
     joyRight.dragDraw(event);
-    canvas3.classList.add("dont-move");
-    canvas2.classList.add("dont-move");
+   
 });
 canvas3.addEventListener('touchend', function (event) {
     joyLeft.stopDrawing(event);
     joyRight.stopDrawing(event);
     touched = false;
-    canvas3.classList.remove("dont-move");
-    canvas2.classList.remove("dont-move");
+ 
 });
 
 var inited = false;
