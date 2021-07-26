@@ -7,27 +7,6 @@ body {
     font-size: 13.5px;
     font-family: 'Poppins', sans-serif;
 }
-/* .brand{
-    height: 100%;
-    width: 100%;
-} */
-.navbar-brand{
-    padding: 0 25px;
-    font-size: 16px;
-
-}
-.navbar-custom {
-    background-color: #95cdf7;
-}
-.nav-item{
-    font-size: 16px;
-    padding: 0 18px;
-}
-
-.selected-nav {
-    color: rgba(0, 0, 0, 0.85) !important;
-}
-
 .below-nav {
     position: relative;
     width: 100%;

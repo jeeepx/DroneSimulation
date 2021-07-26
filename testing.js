@@ -24,7 +24,6 @@ var box = new THREE.Box3();
 const scene = new THREE.Scene()
 const axesHelper = new THREE.AxesHelper(40);
 scene.background = new THREE.Color(0xcaf1ff);
-//var geometry = new THREE.BoxGeometry(100, 100, 100);
 
 
 loader.load('file-1592658408798.glb', (glb) => {
@@ -162,32 +161,7 @@ function animate1() {
 
 }
 //animate1()
-let flyUpB = false;
 
-// function flyUp() {
-//     if (!flyUpB) {
-//         requestAnimationFrame(flyUp)
-//         if (drone) {
-//             //console.log(drone)
-//             camera.lookAt(drone.position)
-
-//             pivot.position.y += 0.001;
-//         }
-//         renderer.render(scene, camera)
-//     }
-// }
-
-// function rotateL() {
-//     if (!pause) {
-//         requestAnimationFrame(rotateL)
-//         if (drone) {
-//             flyUpB = true;
-//             // camera.lookAt(drone.position)
-//             pivot.rotateY(0.001);
-//         }
-//         renderer.render(scene, camera)
-//     }
-// }
 var pause = false;
 
 function animation3D() {
@@ -234,7 +208,7 @@ function drawCanvasBackground() {
     c0.stroke();
     c0.fill();
 
-    //drawCurveArrow();
+
 
 
     let topView = new Image();
@@ -243,7 +217,7 @@ function drawCanvasBackground() {
 
     backView.onload = function () {
         let fontSize = Math.floor(0.38 * actionCanvas.width / 35);
-        let fontFillStyle = fontSize + "px Helvetica";
+        let fontFillStyle = fontSize + "px Poppins";
         c0.font = fontFillStyle;
         c0.drawImage(backView, 3 * x - radius * 0.35, y - radius * 0.5, radius * 0.9, radius * 0.85);
         c0.fillText('FRONT', 3 * x - radius * 0.1, y - radius * 0.35);
@@ -270,7 +244,7 @@ function drawCanvasBackground() {
     topView.src = './img/topView.png';
 
     let fontSize = Math.floor(0.38 * actionCanvas.width / 25);
-    let fontFillStyle = fontSize + "px Helvetica";
+    let fontFillStyle = fontSize + "px Poppins";
     c0.font = fontFillStyle;
     c0.fillStyle = '#000000';
     c0.fillText('BACK VIEW', 3 * x - radius * 0.5, actionCanvasBg.height * 0.18);
@@ -534,15 +508,20 @@ canvas3.addEventListener('touchstart', function (event) {
     console.log('here')
 
     if ((timesince < 600) && (timesince > 0)) {
-
         if (isInLCircle(event)) {
             joyLeft.drawLockedRing(event);
+            canvas3.classList.add("dont-move");
+            canvas2.classList.add("dont-move");
         } else if (isInRCircle(event)) {
             joyRight.drawLockedRing(event);
+            canvas3.classList.add("dont-move");
+            canvas2.classList.add("dont-move");
         }
     } else {
         joyLeft.startDrawing(event);
         joyRight.startDrawing(event);
+        // canvas3.classList.add("dont-move");
+        // canvas2.classList.add("dont-move");
     }
      lastTap = new Date().getTime();
 
@@ -550,11 +529,15 @@ canvas3.addEventListener('touchstart', function (event) {
 canvas3.addEventListener('touchmove', function (event) {
     joyLeft.dragDraw(event);
     joyRight.dragDraw(event);
+    canvas3.classList.add("dont-move");
+    canvas2.classList.add("dont-move");
 });
 canvas3.addEventListener('touchend', function (event) {
     joyLeft.stopDrawing(event);
     joyRight.stopDrawing(event);
     touched = false;
+    canvas3.classList.remove("dont-move");
+    canvas2.classList.remove("dont-move");
 });
 
 var inited = false;
@@ -1289,7 +1272,7 @@ function drawSpeedBarHelper(ratio, writeNo) {
         c3.stroke();
     } else {
         let fontSize = Math.floor(0.38 * infoArray[0] / 25);
-        let fontFillStyle = fontSize + "px Helvetica";
+        let fontFillStyle = fontSize + "px Poppins";
         //console.log(fontFillStyle);
         c3.font = fontFillStyle;
         c3.fillStyle = '#000000';
@@ -1304,7 +1287,7 @@ function drawSpeedBarHelper(ratio, writeNo) {
 
 function writePercentage(percentage) {
     let fontSize = Math.floor(0.38 * infoArray[0] / 15);
-    let fontFillStyle = fontSize + "px Helvetica";
+    let fontFillStyle = fontSize + "px Poppins";
     c3.font = fontFillStyle;
     c3.fillStyle = '#000000';
 
@@ -1313,7 +1296,7 @@ function writePercentage(percentage) {
     c3.fillText(Math.floor(percentage[2]) + '%', infoArray[0] * 0.17, infoArray[1] * 0.83);
     c3.fillText(Math.floor(percentage[3]) + '%', infoArray[0] * 0.80, infoArray[1] * 0.83);
     fontSize = Math.floor(0.38 * infoArray[0] / 25);
-    fontFillStyle = fontSize + "px Helvetica";
+    fontFillStyle = fontSize + "px Poppins";
     c3.font = fontFillStyle;
 
     c3.fillText('DRONE FRONT', infoArray[0] * 0.425, infoArray[1] * 0.13);
@@ -1349,7 +1332,7 @@ function writeDescription(uiArray) {
     }
 
     let fontSize = Math.floor(0.38 * infoArray[0] / 20);
-    let fontFillStyle = fontSize + "px Helvetica";
+    let fontFillStyle = fontSize + "px Poppins";
     c3.font = fontFillStyle;
     c3.fillStyle = '#000000';
     for (let i = 0; i < outputArray.length; i++) {

@@ -8,22 +8,6 @@ body {
     font-family: 'Poppins', sans-serif;
     /* background-color: #fff1c3; */
 }
-.navbar-brand{
-    padding: 0 25px;
-    font-size: 16px;
-
-}
-.navbar-custom {
-    background-color: #95cdf7;
-}
-.nav-item{
-    font-size: 16px;
-    padding: 0 18px;
-}
-
-.selected-nav {
-    color: rgba(0, 0, 0, 0.85) !important;
-}
 .lesson-con{
     position: relative;
     text-align: center;
