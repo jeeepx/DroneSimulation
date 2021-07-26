@@ -509,11 +509,9 @@ canvas3.addEventListener('touchstart', function (event) {
         if (isInLCircle(event)) {
             joyLeft.drawLockedRing(event);
             //event.preventDefault();
-            console.log('add dont move')
 
         } else if (isInRCircle(event)) {
             joyRight.drawLockedRing(event);
-          
             // console.log('add dont move')
         }
 
@@ -526,6 +524,7 @@ canvas3.addEventListener('touchstart', function (event) {
 
 });
 canvas3.addEventListener('touchmove', function (event) {
+    touchCoor = event.touches[0];
     joyLeft.dragDraw(event);
     joyRight.dragDraw(event);
    
@@ -610,10 +609,10 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
         //console.log('drew Inner Circle Joy');
     }
     this.drawLockedRing = (event) => {
-        console.log('left or not: ' + this.left);
-        console.log(centerXJ + ', before before' + centerYJ);
+        // console.log('left or not: ' + this.left);
+        // console.log(centerXJ + ', before before' + centerYJ);
         this.calculateCanvasPosition(event);
-        console.log(this.centerXJ + ', before' + this.centerYJ);
+        // console.log(this.centerXJ + ', before' + this.centerYJ);
         let calculatedArray = this.mapPosition(this.newCirX, this.newCirY);
         //console.log(calculatedArray);
         if (this.isInBigCircle()) {
