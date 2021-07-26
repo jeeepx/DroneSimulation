@@ -1,5 +1,4 @@
 const actionCanvas = document.getElementById("action");
-console.log(actionCanvas);
 const c1 = actionCanvas.getContext('2d');
 const canvas2 = document.getElementById('canvas2');
 const c = canvas2.getContext('2d');
@@ -294,7 +293,7 @@ function calAngleAction(x, y) {
     if (-0.05 <= x && x <= 0.05 && -0.05 <= y && y <= 0.05) {
         return 500;
     }
-    console.log('deg:' + Math.atan2(y, x) * 180 / Math.PI);
+    // console.log('deg:' + Math.atan2(y, x) * 180 / Math.PI);
     return Math.atan2(y, x)
 }
 
@@ -509,9 +508,13 @@ canvas3.addEventListener('touchstart', function (event) {
         if (isInLCircle(event)) {
             joyLeft.drawLockedRing(event);
             //event.preventDefault();
+            console.log('dbt l')
+
 
         } else if (isInRCircle(event)) {
             joyRight.drawLockedRing(event);
+            console.log('dbt r')
+
             // console.log('add dont move')
         }
 
@@ -532,7 +535,7 @@ canvas3.addEventListener('touchmove', function (event) {
 canvas3.addEventListener('touchend', function (event) {
     joyLeft.stopDrawing(event);
     joyRight.stopDrawing(event);
-    touched = false;
+    // touched = false;
  
 });
 
@@ -623,7 +626,7 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
                 storedLY = calculatedArray[1];
                 storedRX = 0;
                 storedRY = 0;
-                console.log('left ' + holdLeft);
+                console.log('left is hold ' + holdLeft);
             } else if (this.left && holdRight) {
                 holdLeft = true;
                 storedLX = calculatedArray[0];
@@ -752,7 +755,7 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
         storedLLRR.push(storedRX);
         storedLLRR.push(storedRY);
         storedLLRR.push(storedLX);
-        console.log('Ui Array:' + storedLLRR);
+        // console.log('Ui Array:' + storedLLRR);
     }
     this.rearrangedArray = () => {
         let rearrangedArray = [];
@@ -778,7 +781,7 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
                     } else {
                         c3.clearRect(canvas2.width * 0.5, 0, canvas2.width, canvas2.height);
                     }
-                    console.log('in drag');
+                    // console.log('in drag');
 
                     this.drawOuterCircle();
                     this.drawPath();
@@ -790,7 +793,7 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
                         storedLY = calculatedArray[1];
                         storedRX = 0;
                         storedRY = 0;
-                        console.log('left ' + holdLeft);
+                        // console.log('left ' + holdLeft);
                     } else if (this.left && holdRight) {
                         storedLX = calculatedArray[0];
                         storedLY = calculatedArray[1];
@@ -799,7 +802,7 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
                         storedRY = calculatedArray[1];
                         storedLX = 0;
                         storedLY = 0;
-                        console.log('right ' + holdRight);
+                        // console.log('right ' + holdRight);
                     } else {
                         storedRX = calculatedArray[0];
                         storedRY = calculatedArray[1];
@@ -827,6 +830,7 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
 
 
     this.stopDrawing = function (event) {
+        console.log('holdL'+holdLeft)
         if (!holdLeft || !holdRight) {
             if (this.left) {
                 pressedL = false;
@@ -849,7 +853,7 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
             } else if (holdLeft && !holdRight) {
                 storedRX = 0;
                 storedRY = 0;
-                console.log('left ' + holdLeft);
+                // console.log('left ' + holdLeft);
             } else if (!holdLeft && holdRight) {
                 storedLX = 0;
                 storedLY = 0;
@@ -859,7 +863,7 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
                 storedRY = calculatedArray[1];
                 storedLX = 0;
                 storedLY = 0;
-                console.log('right ' + holdRight);
+                // console.log('right ' + holdRight);
             } else {
                 console.log('super weird thing happen');
             }
@@ -912,7 +916,7 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
         //console.log('radius:' + this.radiusJ);
 
         if (calRadius <= this.radiusJ) {
-            console.log("in big");
+            // console.log("in big");
             return true;
         } else {
             //console.log("not in big");
@@ -994,7 +998,7 @@ function JoyStick(centerXJ, centerYJ, radiusJ, left) {
                 scaledResultA.push(result[i][j] * 12.5 + 50);
             }
         }
-        console.log(scaledResultA);
+        // console.log(scaledResultA);
         return scaledResultA;
     }
 
