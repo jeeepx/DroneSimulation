@@ -5,7 +5,7 @@
         height: 85%;
     }
 }
-@media only screen and (min-width: 1200px)  and (max-height: 770px) {
+@media only screen and (min-width: 1150px)  and (max-height: 770px) {
 
     .carousel {
         width: 90%;
