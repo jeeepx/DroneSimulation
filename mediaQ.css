@@ -41,6 +41,7 @@
     html {
         font-size: 14.5px;
     }
+    
 
 }
 
@@ -82,6 +83,16 @@
     .carousel-control-next {
         margin-right: -3rem;
     }
+}
+@media only screen and (max-width: 600px) and (orientation:portrait) {
+    html {
+        font-size: 10.5px;
+    }
+
+    .carousel-item{
+        overflow: auto;
+    }
+    
 }
 
 @media only screen and (max-width: 450px) and (orientation:portrait) {
