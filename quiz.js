@@ -147,7 +147,7 @@ const question = [{
         ]
     },
     {
-        question: 'If the weight of the drone is 10 N, how much lift should each propeller generates to make the drone take off? ',
+        question: 'If the weight of the drone is 10 N, how much lift should each propeller generates to make the drone fly up? ',
         answer: [{
                 text: '2.3 N',
                 correct: false
